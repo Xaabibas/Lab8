@@ -1,13 +1,15 @@
 package commands.abstraction;
 
+import network.Request;
+import network.Response;
+
 /**
  * Интерфейс, отвечающий за исполняемые классы
  */
 public interface Executable {
     /**
-     * Метод выполнения команды
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true, если команда была введена верно, и false в противном случае
+     * @param request - запрос пользователя
+     * @return возвращает ответ
      */
-    boolean execute(String... args);
+    Response execute(Request request);
 }

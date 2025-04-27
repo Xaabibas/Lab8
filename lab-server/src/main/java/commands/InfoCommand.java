@@ -2,49 +2,31 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
-
-/**
- * Класс команды info - справки о коллекции
- */
+import network.Request;
+import network.Response;
 public class InfoCommand extends Command {
-    /**
-     * @param cm - менеджер коллекции
-     */
     public InfoCommand(CollectionManager cm) {
         super(cm);
     }
-
-    /**
-     * @return возвращает описание команды
-     */
     @Override
     public String describe() {
         return "info - вывод информации о коллекции";
     }
-
-    /**
-     * @return возвращает верный формат команды
-     */
     @Override
     public String rightFormat() {
         return "info";
     }
-
-    /**
-     * Выполнение команды
-     *
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true при верном вводе и false - в противном случае
-     */
     @Override
-    public boolean execute(String... args) {
-        if (args.length!=1) {
-            return false;
+    public Response execute(Request request) {
+        if (request.getTokens().length != 1) {
+            return Response.wrongCount();
         }
-        System.out.println("Информация о коллекции:");
-        System.out.println(this.getCm().getCollection().getClass());
-        System.out.println("Дата инициализации: " + this.getCm().getTime()); // дата инициализации
-        System.out.println("Количество элементов в коллекции: " + this.getCm().getCollection().size());
-        return true;
+
+        String answer = "--Информация о коллекции--\n" +
+                this.getCm().getCollection().getClass() + "\n" +
+                "Дата инициализации: " + this.getCm().getTime() + "\n" +
+                "Количество элементов в коллекции: " + this.getCm().getCollection().size();
+
+        return new Response(answer);
     }
 }

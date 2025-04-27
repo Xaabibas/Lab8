@@ -1,0 +1,11 @@
+help
+type
+hello
+sum_of_price
+insert 5
+insert
+update 5
+update -3
+execute_script script
+break
+info

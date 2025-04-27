@@ -2,6 +2,8 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
+import network.Request;
+import network.Response;
 
 /**
  * Класс команды show - вывода всех элементов коллекции в строковом виде
@@ -34,20 +36,26 @@ public class ShowCommand extends Command {
     /**
      * Выполнение команды
      *
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true при верном вводе и false - в противном случае
+     * @param request - запрос пользователя
+     * @return возвращает ответ
      */
     @Override
-    public boolean execute(String... args) {
-        if (args.length != 1) {
-            return false;
+    public Response execute(Request request) {
+        if (request.getTokens().length != 1) {
+            return Response.wrongCount();
         }
         if (this.getCm().getCollection().isEmpty()) {
-            System.out.println("Коллекция пуста");
+            return new Response("Коллекция пуста");
         }
-        for (Long l : this.getCm().getCollection().keySet()) {
-            System.out.println(l + " - " + this.getCm().getCollection().get(l).toString());
+
+        this.getCm().sortByName();
+
+        StringBuilder answer = new StringBuilder();
+
+        for (Long key : this.getCm().getCollection().keySet()) {
+            answer.append(key).append(" - ").append(this.getCm().getCollection().get(key)).append("\n");
         }
-        return true;
+
+        return new Response(answer.toString());
     }
 }

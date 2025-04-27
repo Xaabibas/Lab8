@@ -1,11 +1,13 @@
 package moduls;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  * Класс координат
  */
-public class Coordinates {
+public class Coordinates implements Serializable {
+    final private static long serialVersionUID = 15L;
     /**
      * Координата x, значение поля должно быть больше -626, не может быть null
      */

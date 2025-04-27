@@ -1,9 +1,25 @@
+import network.NetworkManager;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+
 public final class Client {
-    private Client() {
-        throw new UnsupportedOperationException("This is an utility class and can not be instantiated");
+    private final int port;
+
+    public Client(int port) {
+        this.port = port;
     }
 
-    public static void main(String[] args) {
+    public void run() {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            NetworkManager networkManager = new NetworkManager(port, InetAddress.getByName("localhost"));
+            Runner runner = new Runner(scanner, networkManager);
 
+            runner.interactiveMode();
+        } catch (UnknownHostException e) {
+            System.out.println("[ERROR] Неизвестный хост");
+        }
     }
 }

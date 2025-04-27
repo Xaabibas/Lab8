@@ -2,66 +2,48 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
+import managers.CommandManager;
 import moduls.Ticket;
+import network.Request;
+import network.Response;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-/**
- * Класс команды remove_lower_key - удаление всех элементов коллекции, меньших заданного по ключу
- */
 public class RemoveLowerByKeyCommand extends Command {
-    /**
-     * @param cm - менеджер коллекции
-     */
     public RemoveLowerByKeyCommand(CollectionManager cm) {
         super(cm);
     }
-
-    /**
-     * @return возвращает описание команды
-     */
     @Override
     public String describe() {
         return "remove_lower_key - удалить из коллекции все элементы, меньшие чем заданный по ключу";
     }
-
-    /**
-     * @return возвращает верный формат команды
-     */
     @Override
     public String rightFormat() {
         return "remove_lower_key key";
     }
-
-    /**
-     * Выполнение команды
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true при верном вводе и false - в противном случае
-     */
     @Override
-    public boolean execute(String... args) {
-        if (args.length != 2) {
-            return false;
+    public Response execute(Request request) {
+        if (request.getTokens().length != 2) {
+            return Response.wrongCount();
         }
         try {
-            Ticket ticket = this.getCm().getCollection().get(Long.parseLong(args[1]));
+            Ticket ticket = this.getCm().getCollection().get(Long.parseLong(request.getTokens()[1]));
             if (ticket == null) {
-                System.out.println("В коллекции отсутствует элемент с заданным ключом");
-                return true;
+                return new Response("В коллекции отсутствует элемент с заданным ключом");
             }
-            Set<Long> removeSet = new HashSet<>();
-            for (Long key : this.getCm().getCollection().keySet()) {
-                if (ticket.compareTo(this.getCm().getCollection().get(key)) > 0) {
-                    removeSet.add(key);
-                }
-            }
+            Set<Long> removeSet = this.getCm().getCollection().keySet().stream().filter(
+                    l -> this.getCm().getCollection().get(l).compareTo(ticket) < 0
+            ).collect(Collectors.toSet());
+
             for (Long key : removeSet) {
                 this.getCm().getCollection().remove(key);
             }
+            CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
+            return new Response("Младшие элементы были успешно удалены");
         } catch (NumberFormatException e) {
-            System.out.println("Значение key должно быть Long!");
+            return new Response("[ERROR] Key не является числом");
         }
-        return true;
     }
 }

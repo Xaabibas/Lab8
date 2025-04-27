@@ -2,53 +2,33 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
-import managers.Invoker;
-
-/**
- * Класс команды help - вывод справки
- */
+import managers.CommandManager;
+import network.Request;
+import network.Response;
 public class HelpCommand extends Command {
-    private final Invoker invoker;
+    private final CommandManager cm;
 
-    /**
-     * @param cm      - менеджер коллекции
-     * @param invoker - исполнитель, содержит список зарегистрированных команд
-     */
-    public HelpCommand(CollectionManager cm, Invoker invoker) {
-        super(cm);
-        this.invoker = invoker;
+    public HelpCommand(CollectionManager colm, CommandManager cm) {
+        super(colm);
+        this.cm = cm;
     }
-
-    /**
-     * @return возвращает описание команды
-     */
     @Override
     public String describe() {
         return "help - вывод справки по доступным командам";
     }
-
-    /**
-     * @return возвращает верный формат команды
-     */
     @Override
     public String rightFormat() {
         return "help";
     }
-
-    /**
-     * Выполнение команды
-     *
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true при верном вводе и false - в противном случае
-     */
     @Override
-    public boolean execute(String... args) {
-        if (args.length > 1) {
-            return false;
+    public Response execute(Request request) {
+        if (request.getTokens().length > 1) {
+            return Response.wrongCount();
         }
-        for (Command c : invoker.getCommands().values()) {
-            System.out.println(c.describe());
+        StringBuilder answer = new StringBuilder();
+        for (Command c : cm.getCommands().values()) {
+            answer.append(c.describe()).append("\n");
         }
-        return true;
+        return new Response(answer.toString());
     }
 }

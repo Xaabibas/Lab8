@@ -3,65 +3,42 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
+import managers.CommandManager;
 import moduls.Ticket;
-import moduls.enterator.EnterTicket;
+import network.Request;
+import network.Response;
 
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-/**
- * Класс команды remove_lower - удаление из коллекции всех элементов, меньших данного
- */
 public class RemoveLowerCommand extends Command {
-    private final Scanner scanner;
-
-    /**
-     * @param cm      - менеджер коллекции
-     * @param scanner - сканер
-     */
-    public RemoveLowerCommand(CollectionManager cm, Scanner scanner) {
+    public RemoveLowerCommand(CollectionManager cm) {
         super(cm);
-        this.scanner = scanner;
     }
-
-    /**
-     * @return возвращает описание команды
-     */
     @Override
     public String describe() {
         return "remove_lower - удаление из коллекции всех элементов, меньших данного";
     }
-
-    /**
-     * @return возвращает верный формат команды
-     */
     @Override
     public String rightFormat() {
         return "remove_lower {element}";
     }
-
-    /**
-     * Выполнение команды
-     *
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true при верном вводе и false - в противном случае
-     */
     @Override
-    public boolean execute(String... args) {
-        if (args.length!=1) {
-            return false;
+    public Response execute(Request request) {
+        if (request.getTokens().length!=1) {
+            return Response.wrongCount();
         }
-        Ticket ticket = new EnterTicket().enter(scanner);
-        Set<Long> removeSet = new HashSet<>();
-        for (Long key : this.getCm().getCollection().keySet()) {
-            if (ticket.compareTo(this.getCm().getCollection().get(key)) > 0) {
-                removeSet.add(key);
-            }
-        }
+        Ticket ticket = (Ticket) request.getObj();
+        Set<Long> removeSet = this.getCm().getCollection().keySet().stream().filter(
+                l -> this.getCm().getCollection().get(l).compareTo(ticket) < 0
+        ).collect(Collectors.toSet());
+
         for (Long key : removeSet) {
             this.getCm().getCollection().remove(key);
         }
-        return true;
+        CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
+        return new Response("Младшие элементы были успешно удалены");
     }
 }

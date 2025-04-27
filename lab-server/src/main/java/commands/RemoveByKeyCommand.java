@@ -2,51 +2,32 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
-
-/**
- * Класс команды remove_key - удаление элемента коллекции по его ключу
- */
+import managers.CommandManager;
+import network.Request;
+import network.Response;
 public class RemoveByKeyCommand extends Command {
-    /**
-     * @param cm - менеджер коллекции
-     */
     public RemoveByKeyCommand(CollectionManager cm) {
         super(cm);
     }
-
-    /**
-     * @return возвращает описание команды
-     */
     @Override
     public String describe() {
         return "remove_key key - удаление элемента из коллекции по его ключу";
     }
-
-    /**
-     * @return возвращает верный формат команды
-     */
     @Override
     public String rightFormat() {
         return "remove_key key";
     }
-
-    /**
-     * Выполнение команды
-     *
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true при верном вводе и false - в противном случае
-     */
     @Override
-    public boolean execute(String... args) {
-        if (args.length!=2) {
-            return false;
+    public Response execute(Request request) {
+        if (request.getTokens().length!=2) {
+            return Response.wrongCount();
         }
         try {
-            this.getCm().getCollection().remove(Long.parseLong(args[1]));
-            return true;
+            this.getCm().getCollection().remove(Long.parseLong(request.getTokens()[1]));
+            CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + "был успешно удален");
+            return new Response("Элемент успешно удален");
         } catch (NumberFormatException e) {
-            System.out.println("Ошибка! key является Long");
-            return false;
+            return new Response("[ERROR] Key не является числом");
         }
     }
 }

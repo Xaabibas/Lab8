@@ -1,0 +1,77 @@
+{
+  "3": {
+    "name": "aaa",
+    "price": 11003.232,
+    "type": null,
+    "coordinates": {
+      "x": 1.0,
+      "y": 4
+    },
+    "creationDate": "20-04-2025 16:48:06",
+    "person": {
+      "eyeColor": null,
+      "hairColor": null,
+      "nationality": null,
+      "birthday": null
+    }
+  },
+  "4": {
+    "name": "asdf",
+    "price": 123.124,
+    "type": "VIP",
+    "coordinates": {
+      "x": 1.0,
+      "y": 5
+    },
+    "creationDate": "20-04-2025 16:50:09",
+    "person": {
+      "eyeColor": "WHITE",
+      "hairColor": "YELLOW",
+      "nationality": "JAPAN",
+      "birthday": null
+    }
+  },
+  "5": {
+    "name": "naem",
+    "price": 10000.0,
+    "type": "VIP",
+    "coordinates": {
+      "x": 123.0,
+      "y": 51
+    },
+    "creationDate": "20-04-2025 17:00:08",
+    "person": null
+  },
+  "2": {
+    "name": "name",
+    "price": 100000.0,
+    "type": "VIP",
+    "coordinates": {
+      "x": -1.0,
+      "y": -1234
+    },
+    "creationDate": "20-04-2025 16:39:53",
+    "person": {
+      "eyeColor": "WHITE",
+      "hairColor": "RED",
+      "nationality": null,
+      "birthday": null
+    }
+  },
+  "123": {
+    "name": "name",
+    "price": 1000.0,
+    "type": "VIP",
+    "coordinates": {
+      "x": -134.0,
+      "y": 1234
+    },
+    "creationDate": "20-04-2025 23:13:50",
+    "person": {
+      "eyeColor": "ORANGE",
+      "hairColor": "RED",
+      "nationality": "JAPAN",
+      "birthday": null
+    }
+  }
+}

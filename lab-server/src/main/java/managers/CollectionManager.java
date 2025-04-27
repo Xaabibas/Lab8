@@ -4,57 +4,50 @@ import moduls.Ticket;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
-/**
- * Класс управления коллекцией
- */
 public class CollectionManager {
-    /**
-     * Коллекция
-     */
+    public static final Logger logger = Logger.getLogger("CollectionLogger");
     private LinkedHashMap<Long, Ticket> collection;
-    /**
-     * Время создания
-     */
     private final LocalDateTime time;
-
-    /**
-     * Менеджер файла
-     */
     private final FileManager fm;
 
-    /**
-     * Конструктор
-     */
     public CollectionManager() {
         this.fm = new FileManager();
         this.time = LocalDateTime.now();
     }
 
-    /**
-     * @return возвращает значение поля collection
-     */
     public LinkedHashMap<Long, Ticket> getCollection() {
         return collection;
     }
 
-    /**
-     * @param collection - коллекция
-     */
     public void setCollection(LinkedHashMap<Long, Ticket> collection) {
         this.collection = collection;
     }
 
-    /**
-     * @return возвращает значение поля time
-     */
+    public void setCollectionFromFile() {
+        logger.info("Попытка загрузить коллекцию из файла");
+        this.collection = fm.readCollection();
+    }
+
     public LocalDateTime getTime() {
         return time;
     }
 
-    /**
-     * @return возвращает значение поля fm
-     */
+    public void sortByPrice() {
+        this.collection = collection.entrySet().stream().sorted(Map.Entry.comparingByValue(
+                (o1, o2) -> o1.compareTo(o2)
+        )).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+    }
+
+    public void sortByName() {
+        this.collection = collection.entrySet().stream().sorted(Map.Entry.comparingByValue(
+                (o1, o2) -> o1.getName().compareTo(o2.getName())
+        )).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+    }
+
     public FileManager getFm() {
         return fm;
     }

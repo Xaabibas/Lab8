@@ -1,12 +1,14 @@
 package moduls;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * Класс личности
  */
-public class Person {
+public class Person implements Serializable {
+    final private static long serialVersionUID = 15L;
     /**
      * Дата рождения, может быть null
      */

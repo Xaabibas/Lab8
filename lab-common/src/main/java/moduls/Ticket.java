@@ -1,17 +1,19 @@
 package moduls;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 /**
  * Класс билетов
  */
-public class Ticket implements Comparable<Ticket> {
+public class Ticket implements Comparable<Ticket>, Serializable {
+    final private static long serialVersionUID = 15L;
     /**
      * Идентификационный номер, значение поля уникально, больше 0, генерируется автоматически
      */
-    private final long id;
+    private long id;
     /**
      * Имя на билете, не может быть null, строка не может быть пуста
      */
@@ -40,14 +42,13 @@ public class Ticket implements Comparable<Ticket> {
     /**
      * Счетчик билетов для генерации поля id
      */
-    private static long cnt;
+    private static long cnt = 1;
 
     /**
      * Конструктор
      */
     public Ticket() {
-        cnt++;
-        this.id = cnt;
+        this.id = cnt++;
         this.creationDate = LocalDateTime.now();
     }
 
@@ -147,6 +148,14 @@ public class Ticket implements Comparable<Ticket> {
         this.person = person;
     }
 
+
+    /**
+     * Устанавливает значение поля id
+     */
+    public void setId() {
+        this.id = cnt++;
+    }
+
     /**
      * Переопределение метода определения эквивалентности объектов
      *
@@ -189,6 +198,6 @@ public class Ticket implements Comparable<Ticket> {
      */
     @Override
     public int compareTo(Ticket o) {
-        return (int) (this.id - o.id);
+        return (int) (this.price - o.price);
     }
 }

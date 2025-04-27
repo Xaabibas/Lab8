@@ -1,40 +1,44 @@
-import managers.Invoker;
+import managers.*;
+import network.Request;
 
-import commands.*;
-import managers.CollectionManager;
+import network.Response;
 
-import java.util.Scanner;
+import java.io.*;
+import java.net.Socket;
+import java.util.logging.Logger;
 
-public final class Server {
+public final class Server extends Thread {
+    public static final Logger logger = Logger.getLogger("ServerLogger");
+    private final RequestManager requestManager;
+    private final ResponseManager responseManager;
+    private final NetworkManager networkManager;
+    private final CommandManager commandManager;
 
+    public Server(RequestManager requestManager, ResponseManager responseManager,
+                  NetworkManager networkManager, CommandManager commandManager) {
+        this.requestManager = requestManager;
+        this.responseManager = responseManager;
+        this.networkManager = networkManager;
+        this.commandManager = commandManager;
 
-    private Server() {
-        throw new UnsupportedOperationException("This is an utility class and can not be instantiated");
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        CollectionManager cm = new CollectionManager();
+    @Override
+    public void run() {
+        while (true) {
+            try (Socket client = networkManager.connectToClient()) {
+                Request request = requestManager.readRequest(client);
+                logger.info("Запрос от пользователя был успешно получен");
+                Response response = commandManager.processRequest(request); // Обрабатываем запрос, формируем ответ
 
-        Invoker invoker = new Invoker(scanner);
-        invoker.registerCommand("clear", new ClearCommand(cm));
-        invoker.registerCommand("help", new HelpCommand(cm, invoker));
-        invoker.registerCommand("info", new InfoCommand(cm));
-        invoker.registerCommand("show", new ShowCommand(cm));
-        invoker.registerCommand("insert", new InsertCommand(cm, invoker.getScanner()));
-        invoker.registerCommand("update", new UpdateCommand(cm, invoker.getScanner()));
-        invoker.registerCommand("remove_key", new RemoveByKeyCommand(cm));
-        invoker.registerCommand("clear", new ClearCommand(cm));
-        invoker.registerCommand("save", new SaveCommand(cm));
-        invoker.registerCommand("execute_script", new ExecuteScriptCommand(cm, invoker));
-        invoker.registerCommand("exit", new ExitCommand(cm));
-        invoker.registerCommand("remove_greater", new RemoveGreaterCommand(cm, invoker.getScanner()));
-        invoker.registerCommand("remove_lower", new RemoveLowerCommand(cm, invoker.getScanner()));
-        invoker.registerCommand("remove_lower_key", new RemoveLowerByKeyCommand(cm));
-        invoker.registerCommand("sum_of_price", new SumOfPriceCommand(cm));
-        invoker.registerCommand("count_by_type", new CountByTypeCommand(cm));
-        invoker.registerCommand("print_ascending", new PrintAscendingCommand(cm));
+                logger.info("Запрос был успешно обработан, сформирован ответ");
 
-        invoker.interactiveMode();
+                responseManager.sendToClient(response, client);
+            } catch (IOException e) {
+                logger.warning("Соединение с пользователем было потеряно");
+            } catch (NullPointerException e) {
+                logger.warning("Не удалось обработать запрос");
+            }
+        }
     }
 }

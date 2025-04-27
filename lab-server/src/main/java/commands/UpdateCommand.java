@@ -2,63 +2,41 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
-import moduls.enterator.EnterTicket;
-
-import java.util.Scanner;
-
-/**
- * Класс команды update - обновления значения элемента коллекции по id
- */
+import managers.CommandManager;
+import moduls.Ticket;
+import network.Request;
+import network.Response;
 public class UpdateCommand extends Command {
-    private final Scanner scanner;
-
-    /**
-     * @param cm      - менеджер коллекции
-     * @param scanner - сканер
-     */
-    public UpdateCommand(CollectionManager cm, Scanner scanner) {
+    public UpdateCommand(CollectionManager cm) {
         super(cm);
-        this.scanner = scanner;
     }
-
-    /**
-     * @return возвращает описание команды
-     */
     @Override
     public String describe() {
         return "update id {element} - обновить значение элемента коллекции, id которого равен заданному";
     }
-
-    /**
-     * @return возвращает верный формат команды
-     */
     @Override
     public String rightFormat() {
         return "update id";
     }
-
-    /**
-     * Выполнение команды
-     *
-     * @param args - введенная пользователем строка, разбитая на части
-     * @return возвращает true при верном вводе и false - в противном случае
-     */
     @Override
-    public boolean execute(String... args) {
-        if (args.length!=2) {
-            return false;
+    public Response execute(Request request) {
+        if (request.getTokens().length!=2) {
+            return Response.wrongCount();
         }
         try {
-            Long key = Long.parseLong(args[1]);
+            Long key = Long.parseLong(request.getTokens()[1]);
             if (!this.getCm().getCollection().containsKey(key)) {
                 throw new IllegalArgumentException();
             }
-            this.getCm().getCollection().replace(key, new EnterTicket().enter(scanner));
+            Ticket ticket = (Ticket) request.getObj();
+            ticket.setId();
+            this.getCm().getCollection().replace(key, ticket);
+            CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + " был успешно удален");
+            return new Response("Элемент был успешно обновлен");
         } catch (NumberFormatException e) {
-            System.out.println("Ошибка! key является Long!");
+            return new Response("Ошибка! key является Long!");
         } catch (IllegalArgumentException e) {
-            System.out.println("Данное значение не является ключом");
+            return new Response("Нет элемента с данным ключом");
         }
-        return true;
     }
 }
