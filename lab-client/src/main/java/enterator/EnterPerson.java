@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class EnterPerson implements ComplexEnterator<Person> {
     public Person enter(Scanner scanner) {
-        System.out.print("Ведите значения для поля person:");
+        System.out.println("Ведите значения для поля person:");
         return new Person(new EnterLocalDateTime().enter(scanner, new DateValidator()),
                 new EnterEyeColor().enter(scanner, new EyeValidator()),
                 new EnterHairColor().enter(scanner, new HairValidator()),

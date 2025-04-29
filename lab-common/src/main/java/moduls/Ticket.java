@@ -98,6 +98,10 @@ public class Ticket implements Comparable<Ticket>, Serializable {
         this.id = cnt++;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
     
     @Override
     public boolean equals(Object o) {

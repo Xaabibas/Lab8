@@ -33,7 +33,7 @@ public class CountByTypeCommand extends Command {
             ).count();
             return new Response("Количество билетов типа " + type + ": " + cnt);
         } catch (IllegalArgumentException e) {
-            return new Response("Введен неверный тип Ticket");
+            return new Response("[ERROR] Введен неверный тип Ticket");
         }
     }
 }

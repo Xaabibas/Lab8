@@ -28,6 +28,10 @@ public class CollectionManager {
         return collection;
     }
 
+    public void loadCollection() throws SQLException{
+        collection = dbManager.readCollection();
+    }
+
     public void setCollection(LinkedHashMap<Long, Ticket> collection) {
         this.collection = collection;
     }

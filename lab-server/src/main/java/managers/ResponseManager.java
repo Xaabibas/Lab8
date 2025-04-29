@@ -13,7 +13,7 @@ public class ResponseManager {
     public static final Logger logger = Logger.getLogger("ResponseLogger");
 
     public void sendToClient(Response response, Socket client) {
-        logger.info("Попытка отправить ответ пользователю");
+        logger.info("Attempt to connect to user");
         try {
             byte[] data = serialize(response);
 
@@ -23,9 +23,9 @@ public class ResponseManager {
             dataOut.write(data); // Записываем сериализованный объект
 
             dataOut.close();
-            logger.info("Ответ был успешно отправлен");
+            logger.info("Response was successfully sent");
         } catch (IOException e) {
-            logger.warning("Не удалось отправить ответ пользователю");
+            logger.warning("Couldn't sent response");
         }
     }
 

@@ -11,12 +11,12 @@ public class RequestManager {
     public static final Logger logger = Logger.getLogger("RequestLogger");
 
     public Request readRequest(Socket client) {
-        logger.info("Начало обработки запроса");
+        logger.info("Beginning of processing a request");
         try {
             ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
             return (Request) ois.readObject();
         } catch (IOException | ClassNotFoundException e) {
-            logger.warning("Соединение с пользователем было потеряно");
+            logger.warning("Connection was lost");
             return null;
         }
     }

@@ -1,6 +1,7 @@
 import commands.*;
 import managers.*;
 
+import java.sql.SQLException;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -12,24 +13,30 @@ public class Main {
         dbManager.connect();
 
         CollectionManager collectionManager = new CollectionManager(dbManager);
-
         try {
-            logger.info("Попытка загрузить коллекцию с помощью аргумента");
-            if (args.length == 0) {
-                throw new IndexOutOfBoundsException();
-            }
-            collectionManager.getFm().registerFileByEnv(args[0]);
-            collectionManager.setCollectionFromFile();
-
-            if (collectionManager.getCollection() == null) {
-                logger.severe("Невозможно извлечь коллекцию из переданного файла");
-                System.exit(0);
-            }
-
-        } catch (IndexOutOfBoundsException e) {
-            logger.severe("Не была передана переменная окружения");
-            System.exit(0);
+            collectionManager.loadCollection();
+        } catch (SQLException e) {
+            logger.severe("Could not to load collection");
+            System.exit(1);
         }
+
+//        try {
+//            logger.info("Попытка загрузить коллекцию с помощью аргумента");
+//            if (args.length == 0) {
+//                throw new IndexOutOfBoundsException();
+//            }
+//            collectionManager.getFm().registerFileByEnv(args[0]);
+//            collectionManager.setCollectionFromFile();
+//
+//            if (collectionManager.getCollection() == null) {
+//                logger.severe("Невозможно извлечь коллекцию из переданного файла");
+//                System.exit(0);
+//            }
+//
+//        } catch (IndexOutOfBoundsException e) {
+//            logger.severe("Не была передана переменная окружения");
+//            System.exit(0);
+//        }
 
         NetworkManager networkManager = new NetworkManager(46789);
         CommandManager clientCommandManager = new CommandManager();

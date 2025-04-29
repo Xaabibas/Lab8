@@ -1,10 +1,16 @@
 package managers;
 
-import moduls.Ticket;
+import moduls.*;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -28,6 +34,39 @@ public class DataBaseManager {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public LinkedHashMap<Long, Ticket> readCollection() throws SQLException{
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM tickets;");
+        ResultSet result = statement.executeQuery();
+
+        LinkedHashMap<Long, Ticket> collection = new LinkedHashMap<>();
+
+        while (result.next()) {
+            DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd HH:mm:ss").
+            appendPattern("[.SSSSSSSSS][.SSSSSSS][.SSSSSS][.SSSSS][.SSS][.SS][.S]").toFormatter();
+            Ticket ticket = new Ticket();
+            ticket.setName(result.getString("name"));
+            ticket.setId(result.getLong("id"));
+            ticket.setCoordinates(new Coordinates(
+                    result.getFloat("x"),
+                    result.getLong("y")
+            ));
+            ticket.setCreationDate(
+                LocalDateTime.parse(result.getTimestamp("creation").toString(), formatter)
+            );
+            ticket.setPrice(result.getFloat("price"));
+            ticket.setType(result.getString("type") == null ? null : TicketType.valueOf(result.getString("type")));
+            ticket.setPerson(new Person(
+                    result.getTimestamp("birthday") == null ? null : LocalDateTime.parse(result.getTimestamp("birthday").toString(), formatter),
+                    result.getString("eye") == null ? null : EyeColor.valueOf(result.getString("eye")),
+                    result.getString("hair") == null ? null : HairColor.valueOf(result.getString("hair")),
+                    result.getString("country") == null ? null : Country.valueOf(result.getString("country"))
+            ));
+            Long key = result.getLong("key");
+            collection.put(key, ticket);
+        }
+        return collection;
     }
 
     public boolean clear() {
