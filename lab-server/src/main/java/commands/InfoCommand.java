@@ -4,21 +4,25 @@ import commands.abstraction.Command;
 import managers.CollectionManager;
 import network.Request;
 import network.Response;
+
 public class InfoCommand extends Command {
     public InfoCommand(CollectionManager cm) {
         super(cm);
     }
+
     @Override
     public String describe() {
         return "info - вывод информации о коллекции";
     }
+
     @Override
     public String rightFormat() {
         return "info";
     }
+
     @Override
     public Response execute(Request request) {
-        if (request.getTokens().length != 1) {
+        if (request.getTokens().length!=1) {
             return Response.wrongCount();
         }
 

@@ -5,6 +5,7 @@ import managers.CollectionManager;
 import managers.CommandManager;
 import network.Request;
 import network.Response;
+
 public class HelpCommand extends Command {
     private final CommandManager cm;
 
@@ -12,14 +13,17 @@ public class HelpCommand extends Command {
         super(colm);
         this.cm = cm;
     }
+
     @Override
     public String describe() {
         return "help - вывод справки по доступным командам";
     }
+
     @Override
     public String rightFormat() {
         return "help";
     }
+
     @Override
     public Response execute(Request request) {
         if (request.getTokens().length > 1) {

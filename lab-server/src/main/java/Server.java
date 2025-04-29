@@ -28,16 +28,16 @@ public final class Server extends Thread {
         while (true) {
             try (Socket client = networkManager.connectToClient()) {
                 Request request = requestManager.readRequest(client);
-                logger.info("Запрос от пользователя был успешно получен");
+                logger.info("The request from the user was successfully received");
                 Response response = commandManager.processRequest(request); // Обрабатываем запрос, формируем ответ
 
-                logger.info("Запрос был успешно обработан, сформирован ответ");
+                logger.info("The request was successfully processed and a response was generated");
 
                 responseManager.sendToClient(response, client);
             } catch (IOException e) {
-                logger.warning("Соединение с пользователем было потеряно");
+                logger.warning("The connection to the user has been lost");
             } catch (NullPointerException e) {
-                logger.warning("Не удалось обработать запрос");
+                logger.warning("Couldn't process the request");
             }
         }
     }

@@ -8,7 +8,10 @@ public class Main {
     public static final Logger logger = Logger.getLogger("MainLogger");
 
     public static void main(String[] args) {
-        CollectionManager collectionManager = new CollectionManager();
+        DataBaseManager dbManager = new DataBaseManager();
+        dbManager.connect();
+
+        CollectionManager collectionManager = new CollectionManager(dbManager);
 
         try {
             logger.info("Попытка загрузить коллекцию с помощью аргумента");

@@ -15,19 +15,19 @@ public class NetworkManager {
             this.host = new InetSocketAddress(port);
             this.server = new ServerSocket(port);
         } catch (IOException e) {
-            logger.info("Не удалось открыть сокет");
+            logger.info("Couldn't open socket");
             System.exit(0);
         }
     }
 
     public Socket connectToClient() {
         try {
-            logger.info("Попытка подключения к клиенту");
+            logger.info("Attempt to connect to the client");
             Socket clientSocket = server.accept();
-            logger.info("Успешное подключение к клиенту");
+            logger.info("Successful connection to the client");
             return clientSocket;
         } catch (IOException e) {
-            logger.warning("Не удалось подключиться к клиенту");
+            logger.warning("Couldn't connect to the client");
         }
         return null;
     }

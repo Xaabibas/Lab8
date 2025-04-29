@@ -6,19 +6,23 @@ import moduls.Ticket;
 import network.Request;
 import network.Response;
 
-import java.util.Scanner;
+import java.sql.SQLException;
+
 public class InsertCommand extends Command {
     public InsertCommand(CollectionManager cm) {
         super(cm);
     }
+
     @Override
     public String describe() {
         return "insert key {element} - добавить новый элемент по заданному ключу";
     }
+
     @Override
     public String rightFormat() {
         return "insert key";
     }
+
     @Override
     public Response execute(Request request) {
         if (request.getTokens().length!=2) {
@@ -29,15 +33,15 @@ public class InsertCommand extends Command {
             if (this.getCm().getCollection().containsKey(key)) {
                 throw new IllegalArgumentException();
             }
-            Ticket ticket = (Ticket) request.getObj();
-            ticket.setId();
-            this.getCm().getCollection().put(key, ticket);
+            this.getCm().insert(key, (Ticket) request.getObj());
+            CollectionManager.logger.info("A new item has been added to the collection");
+            return new Response("Элемент был успешно добавлен в коллекцию");
         } catch (NumberFormatException e) {
             return new Response("[ERROR] Key не является числом");
         } catch (IllegalArgumentException e) {
-            return  new Response("[ERROR] Данное значение уже является ключом");
+            return new Response("[ERROR] Данное значение уже является ключом");
+        } catch (SQLException e) {
+            return  new Response("[ERROR] Не удалось добавить элемент в коллекцию");
         }
-        CollectionManager.logger.info("В коллекцию был добавлен новый элемент");
-        return new Response("Элемент успешно добавлен в коллекцию");
     }
 }

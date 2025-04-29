@@ -7,6 +7,7 @@ import moduls.Ticket;
 import network.Request;
 import network.Response;
 
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,13 +38,14 @@ public class RemoveLowerByKeyCommand extends Command {
                     l -> this.getCm().getCollection().get(l).compareTo(ticket) < 0
             ).collect(Collectors.toSet());
 
-            for (Long key : removeSet) {
-                this.getCm().getCollection().remove(key);
-            }
+            this.getCm().removeByKeySet(removeSet);
+
             CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
             return new Response("Младшие элементы были успешно удалены");
         } catch (NumberFormatException e) {
             return new Response("[ERROR] Key не является числом");
+        } catch (SQLException e) {
+            return new Response("[ERROR] Не удалось удалить меньшие элементы");
         }
     }
 }

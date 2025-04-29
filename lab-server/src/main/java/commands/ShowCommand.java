@@ -5,40 +5,20 @@ import managers.CollectionManager;
 import network.Request;
 import network.Response;
 
-/**
- * Класс команды show - вывода всех элементов коллекции в строковом виде
- */
-public class ShowCommand extends Command {
+import java.util.stream.Collectors;
 
-    /**
-     * @param cm - менеджер команд
-     */
+public class ShowCommand extends Command {
     public ShowCommand(CollectionManager cm) {
         super(cm);
     }
-
-    /**
-     * @return возвращает описание команды
-     */
     @Override
     public String describe() {
         return "show - вывод всех элементов коллекции в строковом виде";
     }
-
-    /**
-     * @return возвращает верный формат команды
-     */
     @Override
     public String rightFormat() {
         return "show";
     }
-
-    /**
-     * Выполнение команды
-     *
-     * @param request - запрос пользователя
-     * @return возвращает ответ
-     */
     @Override
     public Response execute(Request request) {
         if (request.getTokens().length != 1) {
@@ -50,12 +30,10 @@ public class ShowCommand extends Command {
 
         this.getCm().sortByName();
 
-        StringBuilder answer = new StringBuilder();
+        String answer = this.getCm().getCollection().keySet().stream().map(
+                k -> k + " - " + this.getCm().getCollection().get(k).toString() + "\n"
+        ).collect(Collectors.joining());
 
-        for (Long key : this.getCm().getCollection().keySet()) {
-            answer.append(key).append(" - ").append(this.getCm().getCollection().get(key)).append("\n");
-        }
-
-        return new Response(answer.toString());
+        return new Response(answer);
     }
 }

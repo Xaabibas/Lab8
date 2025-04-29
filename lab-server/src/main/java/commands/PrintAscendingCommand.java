@@ -5,18 +5,23 @@ import managers.CollectionManager;
 import network.Request;
 import network.Response;
 
+import java.util.stream.Collectors;
+
 public class PrintAscendingCommand extends Command {
     public PrintAscendingCommand(CollectionManager cm) {
         super(cm);
     }
+
     @Override
     public String describe() {
         return "print_ascending - вывод элементов коллекции по возрастанию ";
     }
+
     @Override
     public String rightFormat() {
         return "print_ascending";
     }
+
     @Override
     public Response execute(Request request) {
         if (request.getTokens().length!=1) {
@@ -24,10 +29,9 @@ public class PrintAscendingCommand extends Command {
         }
         this.getCm().sortByPrice();
 
-        StringBuilder answer = new StringBuilder();
-        for (Long key : this.getCm().getCollection().keySet()) {
-            answer.append(key).append(" - ").append(this.getCm().getCollection().get(key).toString()).append("\n");
-        }
-        return new Response(answer.toString());
+        String answer = this.getCm().getCollection().keySet().stream().map(
+                k -> k + " - " + this.getCm().getCollection().get(k).toString() + "\n"
+        ).collect(Collectors.joining());
+        return new Response(answer);
     }
 }

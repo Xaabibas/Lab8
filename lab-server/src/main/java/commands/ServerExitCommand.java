@@ -7,9 +7,6 @@ import network.Response;
 
 
 public class ServerExitCommand extends Command {
-    /**
-     * @param cm - менеджер коллекции
-     */
     public ServerExitCommand(CollectionManager cm) {
         super(cm);
     }

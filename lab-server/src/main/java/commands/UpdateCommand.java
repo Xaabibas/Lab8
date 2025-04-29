@@ -6,18 +6,24 @@ import managers.CommandManager;
 import moduls.Ticket;
 import network.Request;
 import network.Response;
+
+import java.sql.SQLException;
+
 public class UpdateCommand extends Command {
     public UpdateCommand(CollectionManager cm) {
         super(cm);
     }
+
     @Override
     public String describe() {
         return "update id {element} - обновить значение элемента коллекции, id которого равен заданному";
     }
+
     @Override
     public String rightFormat() {
         return "update id";
     }
+
     @Override
     public Response execute(Request request) {
         if (request.getTokens().length!=2) {
@@ -28,15 +34,16 @@ public class UpdateCommand extends Command {
             if (!this.getCm().getCollection().containsKey(key)) {
                 throw new IllegalArgumentException();
             }
-            Ticket ticket = (Ticket) request.getObj();
-            ticket.setId();
-            this.getCm().getCollection().replace(key, ticket);
+
+            this.getCm().update(key, (Ticket) request.getObj());
             CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + " был успешно удален");
             return new Response("Элемент был успешно обновлен");
         } catch (NumberFormatException e) {
-            return new Response("Ошибка! key является Long!");
+            return new Response("[ERROR] key является Long!");
         } catch (IllegalArgumentException e) {
-            return new Response("Нет элемента с данным ключом");
+            return new Response("[ERROR] Нет элемента с данным ключом");
+        } catch (SQLException e) {
+            return new Response("[ERROR] Не удалось обновить значение данного элемента");
         }
     }
 }

@@ -2,25 +2,28 @@ package commands;
 
 import commands.abstraction.Command;
 import managers.CollectionManager;
-import moduls.Ticket;
 import moduls.TicketType;
 import network.Request;
 import network.Response;
+
 public class CountByTypeCommand extends Command {
     public CountByTypeCommand(CollectionManager cm) {
         super(cm);
     }
+
     @Override
     public String describe() {
         return "count_by_type type - вывод количества элементов, значение поля type которых равно заданному";
     }
+
     @Override
     public String rightFormat() {
         return "count_by_type type";
     }
+
     @Override
     public Response execute(Request request) {
-        if (request.getTokens().length != 2) {
+        if (request.getTokens().length!=2) {
             return Response.wrongCount();
         }
         try {
