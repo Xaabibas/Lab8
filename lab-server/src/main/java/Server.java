@@ -32,22 +32,13 @@ public final class Server extends Thread {
             try {
                 Socket client = networkManager.connectToClient();
                 readPool.submit(() -> {
-                    Request request;
-                    Response response;
-
-                    request = requestManager.readRequest(client);
+                    Request request = requestManager.readRequest(client);
                     logger.info("The request from the user was successfully received");
 
-                    response = commandManager.processRequest(request); // Обрабатываем запрос, формируем ответ
+                    Response response = commandManager.processRequest(request); // Обрабатываем запрос, формируем ответ
                     logger.info("The request was successfully processed and a response was generated");
 
                     responseManager.sendToClient(response, client);
-
-                    try {
-                        client.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
                 });
             } catch (NullPointerException e) {
                 logger.warning("Couldn't process the request");

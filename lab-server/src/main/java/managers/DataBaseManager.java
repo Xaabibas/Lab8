@@ -48,7 +48,7 @@ public class DataBaseManager {
     }
 
     public ConcurrentHashMap<Long, Ticket> readCollection() throws SQLException{
-        PreparedStatement statement = connection.prepareStatement("SELECT * FROM tickets;");
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM tickets");
         ResultSet result = statement.executeQuery();
 
         ConcurrentHashMap<Long, Ticket> collection = new ConcurrentHashMap<>();
@@ -83,7 +83,7 @@ public class DataBaseManager {
     public List<Long> clear(String user) throws SQLException{
         PreparedStatement selectStatement = connection.prepareStatement(
                 "SELECT key FROM tickets " +
-                        "WHERE client = ?;"
+                        "WHERE client = ?"
         );
         selectStatement.setString(1, user);
         ResultSet set = selectStatement.executeQuery();
@@ -95,7 +95,7 @@ public class DataBaseManager {
 
         PreparedStatement clearStatement = connection.prepareStatement(
                 "DELETE FROM tickets " +
-                        "WHERE client = ?;"
+                        "WHERE client = ?"
         );
         clearStatement.setString(1, user);
         clearStatement.execute();
@@ -108,7 +108,7 @@ public class DataBaseManager {
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO tickets " +
                 "(key, name, x, y, price, type, birthday, eye, hair, country, creation, client) VALUES " +
-                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
         statement.setLong(1, key);
         statement.setString(2, ticket.getName());
@@ -144,7 +144,7 @@ public class DataBaseManager {
                         "country = ?, " +
                         "creation = ? " +
                             "WHERE key = ? AND " +
-                                "client = ?;"
+                                "client = ?"
         );
 
         statement.setLong(11, key);
@@ -171,7 +171,7 @@ public class DataBaseManager {
         PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM tickets *" +
                         "WHERE key = ? AND " +
-                        "client = ?;"
+                        "client = ?"
         );
 
         statement.setLong(1, key);
@@ -192,7 +192,7 @@ public class DataBaseManager {
     public void register(String user, String password) throws SQLException{
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO users (name, password) VALUES " +
-                        "(?, ?);"
+                        "(?, ?)"
         );
 
         statement.setString(1, user);
@@ -207,7 +207,7 @@ public class DataBaseManager {
         }
         PreparedStatement statement = connection.prepareStatement(
                 "SELECT password FROM users " +
-                        "WHERE name = ?;"
+                        "WHERE name = ?"
         );
         statement.setString(1, user);
 
