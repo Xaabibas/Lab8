@@ -29,9 +29,18 @@ public class RemoveByKeyCommand extends Command {
             return Response.wrongCount();
         }
         try {
-            this.getCm().removeByKey(Long.parseLong(request.getTokens()[1]));
-            CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + "был успешно удален");
-            return new Response("Элемент успешно удален");
+            if (!this.getCm().getDbManager().checkUserPassword(request.getUser(), request.getPassword())) {
+                return Response.wrongPassword();
+            }
+            Long key = Long.parseLong(request.getTokens()[1]);
+            if (!this.getCm().getCollection().containsKey(key)) {
+                return new Response("[ERROR] В коллекции нет элемента с таким ключом");
+            }
+            if (this.getCm().removeByKey(key, request.getUser())){
+                CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + "был успешно удален");
+                return new Response("Элемент успешно удален");
+            }
+            return new Response("[ERROR] Не достаточно прав для взаимодействия с данным элементом");
         } catch (NumberFormatException e) {
             return new Response("[ERROR] Key не является числом");
         } catch (SQLException e) {

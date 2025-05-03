@@ -5,6 +5,8 @@ import network.Response;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public final class Server extends Thread {
@@ -13,6 +15,7 @@ public final class Server extends Thread {
     private final ResponseManager responseManager;
     private final NetworkManager networkManager;
     private final CommandManager commandManager;
+    private final ExecutorService readPool = Executors.newCachedThreadPool();
 
     public Server(RequestManager requestManager, ResponseManager responseManager,
                   NetworkManager networkManager, CommandManager commandManager) {
@@ -26,16 +29,26 @@ public final class Server extends Thread {
     @Override
     public void run() {
         while (true) {
-            try (Socket client = networkManager.connectToClient()) {
-                Request request = requestManager.readRequest(client);
-                logger.info("The request from the user was successfully received");
-                Response response = commandManager.processRequest(request); // Обрабатываем запрос, формируем ответ
+            try {
+                Socket client = networkManager.connectToClient();
+                readPool.submit(() -> {
+                    Request request;
+                    Response response;
 
-                logger.info("The request was successfully processed and a response was generated");
+                    request = requestManager.readRequest(client);
+                    logger.info("The request from the user was successfully received");
 
-                responseManager.sendToClient(response, client);
-            } catch (IOException e) {
-                logger.warning("The connection to the user has been lost");
+                    response = commandManager.processRequest(request); // Обрабатываем запрос, формируем ответ
+                    logger.info("The request was successfully processed and a response was generated");
+
+                    responseManager.sendToClient(response, client);
+
+                    try {
+                        client.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
             } catch (NullPointerException e) {
                 logger.warning("Couldn't process the request");
             }

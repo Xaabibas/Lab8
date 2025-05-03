@@ -32,11 +32,16 @@ public class RemoveGreaterCommand extends Command {
             return Response.wrongCount();
         }
         try {
+            if (!this.getCm().getDbManager().checkUserPassword(request.getUser(), request.getPassword())) {
+                return Response.wrongPassword();
+            }
             Ticket ticket = (Ticket) request.getObj();
 
-            Set<Long> removeSet = this.getCm().getCollection().keySet().stream().filter(l -> this.getCm().getCollection().get(l).compareTo(ticket) > 0).collect(Collectors.toSet());
+            Set<Long> removeSet = this.getCm().getCollection().keySet().stream().filter(
+                    l -> this.getCm().getCollection().get(l).compareTo(ticket) > 0
+            ).collect(Collectors.toSet());
 
-            this.getCm().removeByKeySet(removeSet);
+            this.getCm().removeByKeySet(removeSet, request.getUser());
 
             CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
             return new Response("Большие элементы были успешно удалены");

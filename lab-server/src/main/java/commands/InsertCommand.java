@@ -29,11 +29,14 @@ public class InsertCommand extends Command {
             return Response.wrongCount();
         }
         try {
+            if (!this.getCm().getDbManager().checkUserPassword(request.getUser(), request.getPassword())) {
+                return Response.wrongPassword();
+            }
             Long key = Long.parseLong(request.getTokens()[1]);
             if (this.getCm().getCollection().containsKey(key)) {
                 throw new IllegalArgumentException();
             }
-            this.getCm().insert(key, (Ticket) request.getObj());
+            this.getCm().insert(key, (Ticket) request.getObj(), request.getUser());
             CollectionManager.logger.info("A new item has been added to the collection");
             return new Response("Элемент был успешно добавлен в коллекцию");
         } catch (NumberFormatException e) {

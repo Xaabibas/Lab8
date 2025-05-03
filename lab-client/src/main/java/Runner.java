@@ -1,3 +1,5 @@
+import enterator.PasswordEnterator;
+import enterator.UserEnterator;
 import network.NetworkManager;
 import enterator.EnterTicket;
 import moduls.Ticket;
@@ -10,6 +12,8 @@ import java.util.Scanner;
 public class Runner {
     private final Scanner scanner;
     private final NetworkManager networkManager;
+    private String client = null;
+    private String passw = null;
 
     public Runner(Scanner scanner, NetworkManager networkManager) {
         this.scanner = scanner;
@@ -37,29 +41,56 @@ public class Runner {
     }
 
     private void send(String commandName, String line) throws IOException {
-        Request request;
+        Request request = new Request();
+        request.setUser(client);
+        request.setPassword(passw);
 
         if (commandName.equals("insert") || commandName.equals("update") ||
                 commandName.equals("remove_greater") || commandName.equals("remove_lower")) {
             Ticket ticket = new EnterTicket().enter(scanner);
 
-            request = new Request(commandName, line, ticket);
-
+            request.setObj(ticket);
+            request.setCommandName(commandName);
+            request.setTokens(line);
 
             networkManager.sendAndReceive(request);
         } else if (commandName.equals("exit")) {
-            request = new Request(commandName, line);
+            request.setCommandName(commandName);
+            request.setTokens(line);
+
             networkManager.sendAndReceive(request);
             System.out.println("Работа клиентского приложения завершена");
             System.exit(0);
         } else if (commandName.equals("execute_script")) {
             executeScript(line);
-        } else {
-            request = new Request(commandName, line);
+        } else  if (commandName.equals("register") || commandName.equals("login")) {
+            String name = new UserEnterator().enter(scanner);
+            String password = new PasswordEnterator().enter(scanner);
+
+            request.setCommandName(commandName);
+            request.setTokens(line);
+            request.setUser(name);
+            request.setPassword(password);
+
+            client = name;
+            passw = password;
 
             networkManager.sendAndReceive(request);
-        }
+        } else if (commandName.equals("logout")) {
+            request.setCommandName(commandName);
+            request.setTokens(line);
+            client = null;
+            passw = null;
+
+            networkManager.sendAndReceive(request);
+        } else {
+                request.setCommandName(commandName);
+                request.setTokens(line);
+
+                networkManager.sendAndReceive(request);
+            }
     }
+
 
     private void executeScript(String line) throws IOException {
         String[] tokens = line.split(" ");

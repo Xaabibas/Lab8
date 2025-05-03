@@ -4,21 +4,30 @@ import moduls.*;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.LinkedHashMap;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 public class DataBaseManager {
     public final Logger logger = Logger.getLogger("DBLogger");
     private Connection connection;
+    private final MessageDigest md;
+    private final String salt = "3Hge&3";
 
+    public DataBaseManager() {
+        try {
+            this.md = MessageDigest.getInstance("SHA-1");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public void connect() {
         try {
@@ -30,17 +39,19 @@ public class DataBaseManager {
             connection = DriverManager.getConnection(url, info);
             logger.info("Successful connection to DB");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.severe("Config file haven't been found");
+            System.exit(1);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            logger.severe("Couldn't connect to DB");
+            System.exit(1);
         }
     }
 
-    public LinkedHashMap<Long, Ticket> readCollection() throws SQLException{
+    public ConcurrentHashMap<Long, Ticket> readCollection() throws SQLException{
         PreparedStatement statement = connection.prepareStatement("SELECT * FROM tickets;");
         ResultSet result = statement.executeQuery();
 
-        LinkedHashMap<Long, Ticket> collection = new LinkedHashMap<>();
+        ConcurrentHashMap<Long, Ticket> collection = new ConcurrentHashMap<>();
 
         while (result.next()) {
             DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd HH:mm:ss").
@@ -69,22 +80,35 @@ public class DataBaseManager {
         return collection;
     }
 
-    public boolean clear() {
-        try {
-            Statement statement = connection.createStatement();
-            statement.execute("TRUNCATE TABLE tickets;");
-            return true;
-        } catch (SQLException e) {
-            return false;
+    public List<Long> clear(String user) throws SQLException{
+        PreparedStatement selectStatement = connection.prepareStatement(
+                "SELECT key FROM tickets " +
+                        "WHERE client = ?;"
+        );
+        selectStatement.setString(1, user);
+        ResultSet set = selectStatement.executeQuery();
+
+        List<Long> removeSet = new ArrayList<>();
+        while (set.next()) {
+            removeSet.add(set.getLong("key"));
         }
+
+        PreparedStatement clearStatement = connection.prepareStatement(
+                "DELETE FROM tickets " +
+                        "WHERE client = ?;"
+        );
+        clearStatement.setString(1, user);
+        clearStatement.execute();
+
+        return removeSet;
     }
 
-    public void insert(Long key, Ticket ticket) throws SQLException {
+    public void insert(Long key, Ticket ticket, String user) throws SQLException {
 
         PreparedStatement statement = connection.prepareStatement(
                 "INSERT INTO tickets " +
-                "(key, name, x, y, price, type, birthday, eye, hair, country, creation) VALUES " +
-                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+                "(key, name, x, y, price, type, birthday, eye, hair, country, creation, client) VALUES " +
+                "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
 
         statement.setLong(1, key);
         statement.setString(2, ticket.getName());
@@ -102,10 +126,11 @@ public class DataBaseManager {
         String country = ticket.getPerson().getNationality() == null ? null : ticket.getPerson().getNationality().toString();
         statement.setString(10, country);
         statement.setTimestamp(11, Timestamp.valueOf(ticket.getCreationDate()));
+        statement.setString(12, user);
         statement.execute();
     }
 
-    public void update(Long key, Ticket ticket) throws SQLException {
+    public boolean update(Long key, String user, Ticket ticket) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
                 "UPDATE tickets " +
                         "SET name = ?, " +
@@ -118,7 +143,8 @@ public class DataBaseManager {
                         "hair = ?, " +
                         "country = ?, " +
                         "creation = ? " +
-                            "WHERE key = ?;"
+                            "WHERE key = ? AND " +
+                                "client = ?;"
         );
 
         statement.setLong(11, key);
@@ -137,22 +163,60 @@ public class DataBaseManager {
         String country = ticket.getPerson().getNationality() == null ? null : ticket.getPerson().getNationality().toString();
         statement.setString(9, country);
         statement.setTimestamp(10, Timestamp.valueOf(ticket.getCreationDate()));
-        statement.execute();
+        statement.setString(12, user);
+        return statement.executeUpdate() > 0;
     }
 
-    public void removeByKey(Long key) throws SQLException{
+    public boolean removeByKey(Long key, String user) throws SQLException{
         PreparedStatement statement = connection.prepareStatement(
                 "DELETE FROM tickets *" +
-                        "WHERE key = ?;"
+                        "WHERE key = ? AND " +
+                        "client = ?;"
         );
 
         statement.setLong(1, key);
+        statement.setString(2, user);
+        return statement.executeUpdate() > 0;
+    }
+
+    public List<Long> removeByKeySet(Set<Long> removeSet, String user) throws SQLException{
+        List<Long> removeList = new ArrayList<>();
+        for (Long key : removeSet) {
+            if (removeByKey(key, user)){
+                removeList.add(key);
+            }
+        }
+        return removeList;
+    }
+
+    public void register(String user, String password) throws SQLException{
+        PreparedStatement statement = connection.prepareStatement(
+                "INSERT INTO users (name, password) VALUES " +
+                        "(?, ?);"
+        );
+
+        statement.setString(1, user);
+        statement.setBytes(2, md.digest((password + salt).getBytes(StandardCharsets.UTF_8)));
+
         statement.execute();
     }
 
-    public void removeByKeySet(Set<Long> removeSet) throws SQLException{
-        for (Long key : removeSet) {
-            removeByKey(key);
+    public boolean checkUserPassword(String user, String password) throws SQLException{
+        if (user == null) {
+            return false;
         }
+        PreparedStatement statement = connection.prepareStatement(
+                "SELECT password FROM users " +
+                        "WHERE name = ?;"
+        );
+        statement.setString(1, user);
+
+        ResultSet set = statement.executeQuery();
+
+        if (set.next()) {
+            byte[] bytes = set.getBytes("password");
+            return Arrays.equals(bytes, md.digest((password + salt).getBytes(StandardCharsets.UTF_8)));
+        }
+        return false;
     }
 }

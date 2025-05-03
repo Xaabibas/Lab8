@@ -30,14 +30,19 @@ public class UpdateCommand extends Command {
             return Response.wrongCount();
         }
         try {
+            if (!this.getCm().getDbManager().checkUserPassword(request.getUser(), request.getPassword())) {
+                return Response.wrongPassword();
+            }
             Long key = Long.parseLong(request.getTokens()[1]);
             if (!this.getCm().getCollection().containsKey(key)) {
                 throw new IllegalArgumentException();
             }
 
-            this.getCm().update(key, (Ticket) request.getObj());
-            CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + " был успешно удален");
-            return new Response("Элемент был успешно обновлен");
+            if (this.getCm().update(key, request.getUser(), (Ticket) request.getObj())) {
+                CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + " был успешно удален");
+                return new Response("Элемент был успешно обновлен");
+            }
+            return new Response("[ERROR] Не достаточно прав для изменения элемента");
         } catch (NumberFormatException e) {
             return new Response("[ERROR] key является Long!");
         } catch (IllegalArgumentException e) {

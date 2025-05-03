@@ -36,6 +36,11 @@ INSERT INTO types VALUES
     ('BUDGETARY'),
     ('CHEAP');
 
+CREATE TABLE IF NOT EXISTS users (
+    name varchar(50) PRIMARY KEY,
+    password bytea NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS tickets (
     key bigint PRIMARY KEY,
     id serial,
@@ -47,8 +52,9 @@ CREATE TABLE IF NOT EXISTS tickets (
     birthday timestamp,
     eye varchar(10) REFERENCES eyeColors,
     hair varchar(10) REFERENCES hairColors,
-    country varchar(10) REFERENCES countries,
-    creation timestamp
+    country varchar(15) REFERENCES countries,
+    creation timestamp,
+    client varchar(50) REFERENCES users
 );
 
 ALTER TABLE tickets

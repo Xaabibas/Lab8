@@ -30,6 +30,12 @@ public class RemoveLowerByKeyCommand extends Command {
             return Response.wrongCount();
         }
         try {
+            if (!this.getCm().getDbManager().checkUserPassword(request.getUser(), request.getPassword())) {
+                return Response.wrongPassword();
+            }
+            if (this.getCm().getDbManager().checkUserPassword(request.getUser(), request.getPassword())) {
+                return Response.wrongPassword();
+            }
             Ticket ticket = this.getCm().getCollection().get(Long.parseLong(request.getTokens()[1]));
             if (ticket == null) {
                 return new Response("В коллекции отсутствует элемент с заданным ключом");
@@ -38,7 +44,7 @@ public class RemoveLowerByKeyCommand extends Command {
                     l -> this.getCm().getCollection().get(l).compareTo(ticket) < 0
             ).collect(Collectors.toSet());
 
-            this.getCm().removeByKeySet(removeSet);
+            this.getCm().removeByKeySet(removeSet, request.getUser());
 
             CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
             return new Response("Младшие элементы были успешно удалены");

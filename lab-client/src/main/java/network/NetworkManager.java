@@ -49,7 +49,7 @@ public class NetworkManager {
 
             Response response = (Response) deserialize(bufToRead.array());
 
-            if (!(response == null)) {
+            if (response != null) {
                 System.out.println(response.getAnswer());
             }
         } catch (IOException e) {

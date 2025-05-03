@@ -20,24 +20,6 @@ public class Main {
             System.exit(1);
         }
 
-//        try {
-//            logger.info("Попытка загрузить коллекцию с помощью аргумента");
-//            if (args.length == 0) {
-//                throw new IndexOutOfBoundsException();
-//            }
-//            collectionManager.getFm().registerFileByEnv(args[0]);
-//            collectionManager.setCollectionFromFile();
-//
-//            if (collectionManager.getCollection() == null) {
-//                logger.severe("Невозможно извлечь коллекцию из переданного файла");
-//                System.exit(0);
-//            }
-//
-//        } catch (IndexOutOfBoundsException e) {
-//            logger.severe("Не была передана переменная окружения");
-//            System.exit(0);
-//        }
-
         NetworkManager networkManager = new NetworkManager(46789);
         CommandManager clientCommandManager = new CommandManager();
         RequestManager requestManager = new RequestManager();
@@ -57,10 +39,12 @@ public class Main {
         clientCommandManager.registerCommand("sum_of_price", new SumOfPriceCommand(collectionManager));
         clientCommandManager.registerCommand("update", new UpdateCommand(collectionManager));
         clientCommandManager.registerCommand("exit", new ExitCommand(collectionManager));
+        clientCommandManager.registerCommand("register", new RegisterCommand(collectionManager));
+        clientCommandManager.registerCommand("login", new LoginCommand(collectionManager));
+        clientCommandManager.registerCommand("logout", new LogoutCommand(collectionManager));
 
         CommandManager serverCommandManager = new CommandManager();
 
-        serverCommandManager.registerCommand("save", new SaveCommand(collectionManager));
         serverCommandManager.registerCommand("exit", new ServerExitCommand(collectionManager));
         serverCommandManager.registerCommand("help", new HelpCommand(collectionManager, serverCommandManager));
 
