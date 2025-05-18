@@ -10,7 +10,6 @@ public class Main {
 
     public static void main(String[] args) {
         DataBaseManager dbManager = new DataBaseManager();
-        dbManager.connect();
 
         CollectionManager collectionManager = new CollectionManager(dbManager);
         try {

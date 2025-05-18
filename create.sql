@@ -1,41 +1,5 @@
 BEGIN;
 
-CREATE TABLE IF NOT EXISTS eyeColors (
-    color varchar(10) PRIMARY KEY
-);
-INSERT INTO eyeColors VALUES
-    ('BLACK'),
-    ('YELLOW'),
-    ('ORANGE'),
-    ('WHITE'),
-    ('BROWN');
-
-CREATE TABLE IF NOT EXISTS hairColors (
-    color varchar(10) PRIMARY KEY
-);
-INSERT INTO hairColors VALUES
-    ('RED'),
-    ('YELLOW'),
-    ('WHITE'),
-    ('BROWN');
-
-CREATE TABLE IF NOT EXISTS countries (
-    county varchar(15) PRIMARY KEY
-);
-INSERT INTO countries VALUES
-    ('CHINA'),
-    ('SOUTH_KOREA'),
-    ('JAPAN');
-
-CREATE TABLE IF NOT EXISTS types (
-    type varchar(10) PRIMARY KEY
-);
-INSERT INTO types VALUES
-    ('VIP'),
-    ('USUAL'),
-    ('BUDGETARY'),
-    ('CHEAP');
-
 CREATE TABLE IF NOT EXISTS users (
     name varchar(50) PRIMARY KEY,
     password bytea NOT NULL
@@ -48,11 +12,11 @@ CREATE TABLE IF NOT EXISTS tickets (
     x float NOT NULL,
     y bigint NOT NULL,
     price float NOT NULL,
-    type varchar(10) REFERENCES types,
+    type varchar(10),
     birthday timestamp,
-    eye varchar(10) REFERENCES eyeColors,
-    hair varchar(10) REFERENCES hairColors,
-    country varchar(15) REFERENCES countries,
+    eye varchar(10),
+    hair varchar(10),
+    country varchar(15),
     creation timestamp,
     client varchar(50) REFERENCES users
 );
@@ -61,6 +25,14 @@ ALTER TABLE tickets
     ADD CONSTRAINT xy_check
         CHECK (x > -626),
     ADD CONSTRAINT price_check
-        CHECK (price > 0);
+        CHECK (price > 0),
+    ADD CONSTRAINT eye_check
+        CHECK (eye IN ('BLACK', 'YELLOW', 'ORANGE', 'WHITE', 'BROWN')),
+    ADD CONSTRAINT hair_check
+        CHECK (hair IN ('RED', 'YELLOW', 'WHITE', 'BROWN')),
+    ADD CONSTRAINT type_check
+        CHECK (type IN ('VIP', 'USUAL', 'BUDGETARY', 'CHEAP')),
+    ADD CONSTRAINT country_check
+        CHECK (country IN ('CHINA', 'SOUTH_KOREA', 'JAPAN'));
 
 COMMIT;

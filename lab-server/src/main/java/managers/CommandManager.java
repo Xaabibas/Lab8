@@ -18,33 +18,19 @@ public class CommandManager {
         this.commands = new HashMap<>();
     }
 
-    public synchronized Response processRequest(Request request) {
-        AtomicReference<Response> response = new AtomicReference<>(new Response());
-        Runnable runnable = () -> {
-            synchronized (lock) {
-                logger.info("Beginning of request processing");
-                try {
-                    Command command = commands.get(request.getCommandName()); // Получаем команду
-
-                    response.set(command.execute(request)); // Формируем ответ
-                    logger.info("The request was successfully processed and a response was generated");
-                } catch (NullPointerException e) {
-                    logger.info("An unregistered command was transferred");
-                    response.set(new Response("[ERROR] Такая команда не зарегистрирована. Для справки введите help"));
-                }
-                lock.notify();
-            }
-        };
-        new Thread(runnable).start();
-
-        synchronized (lock) {
-            try {
-                lock.wait();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+    public Response processRequest(Request request) {
+        Response response;
+        logger.info("Beginning of request processing");
+        try {
+            Command command = commands.get(request.getCommandName()); // Получаем команду
+            logger.info("The command was got");
+            response = command.execute(request); // Формируем ответ
+            logger.info("The request was successfully processed and a response was generated");
+        } catch (NullPointerException e) {
+            logger.info("An unregistered command was transferred");
+            response = new Response("[ERROR] Такая команда не зарегистрирована. Для справки введите help");
         }
-        return response.get();
+        return response;
     }
 
     public void registerCommand(String commandName, Command command) {

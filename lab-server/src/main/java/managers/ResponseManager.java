@@ -13,26 +13,24 @@ public class ResponseManager {
     public static final Logger logger = Logger.getLogger("ResponseLogger");
 
     public void sendToClient(Response response, Socket client) {
-        Runnable runnable = () -> {
-                logger.info("Attempt to connect to user");
-                try {
-                    byte[] data = serialize(response);
 
-                    DataOutputStream dataOut = new DataOutputStream(client.getOutputStream());
+        logger.info("Attempt to connect to user");
+        try {
+            byte[] data = serialize(response);
 
-                    dataOut.writeInt(data.length); // Записываем длину сообщения
-                    dataOut.write(data); // Записываем сериализованный объект
+            DataOutputStream dataOut = new DataOutputStream(client.getOutputStream());
 
-                    dataOut.close();
-                    logger.info("Response was successfully sent");
-                    client.close();
+            dataOut.writeInt(data.length); // Записываем длину сообщения
+            dataOut.write(data); // Записываем сериализованный объект
 
-                } catch (IOException e) {
-                    logger.warning("Couldn't sent response");
-                }
-        };
+            dataOut.close();
+            logger.info("Response was successfully sent");
+            client.close();
 
-        new Thread(runnable).start();
+        } catch (IOException e) {
+            logger.warning("Couldn't sent response");
+        }
+
     }
 
     private byte[] serialize(Object o) throws IOException {

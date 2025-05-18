@@ -58,14 +58,14 @@ public class CollectionManager {
         return dbManager;
     }
 
-    public void clear(String user) throws SQLException{
+    public void clear(String user) throws SQLException {
         List<Long> removeSet = dbManager.clear(user);
         for (Long key : removeSet) {
             collection.remove(key);
         }
     }
 
-    public void insert(Long key, Ticket ticket, String user) throws SQLException{
+    public void insert(Long key, Ticket ticket, String user) throws SQLException {
         dbManager.insert(key, ticket, user);
         collection.put(key, ticket);
     }
