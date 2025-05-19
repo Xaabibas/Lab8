@@ -34,6 +34,7 @@ public final class Server extends Thread {
             while (true) {
                 if (!requestQueue.isEmpty()) {
                     Request request = requestQueue.poll();
+                    Socket client = clientQueue.poll();
                     AtomicReference<Response> response = new AtomicReference<>(new Response());
 
                     Thread processThread = new Thread(() -> {
@@ -45,7 +46,7 @@ public final class Server extends Thread {
                     Thread sendThread = new Thread(() -> {
                         try {
                             processThread.join();
-                            responseManager.sendToClient(response.get(), clientQueue.poll());
+                            responseManager.sendToClient(response.get(), client);
                             logger.info("Response was sent");
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
