@@ -27,9 +27,9 @@ public class DataBaseManager {
         Connection connection;
         try {
             logger.info("Try to connect to DB");
-            String url = "jdbc:postgresql://pg:5432/studs";
+            String url = "jdbc:postgresql://localhost:5432/studs";
             Properties info = new Properties();
-            info.load(new FileReader("db.cfg"));
+            info.load(new FileReader("/Users/sergey/Desktop/GitHub/Lab8/db.cfg"));
 
             connection = DriverManager.getConnection(url, info);
             logger.info("Successful connection to DB");
@@ -39,6 +39,7 @@ public class DataBaseManager {
             System.exit(1);
         } catch (SQLException e) {
             logger.severe("Couldn't connect to DB");
+            e.printStackTrace();
             System.exit(1);
         }
         return null;
