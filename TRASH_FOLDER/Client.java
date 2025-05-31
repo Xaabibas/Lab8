@@ -5,13 +5,16 @@ import java.util.Scanner;
 import ProcessEngine.ProcessRun;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 
-public class Main {
+public final class Client {
+    private final int port;
+    private final String host;
 
-    protected static final int port = 46789;
-    protected static final String host = "localhost";
+    public Client(int port, String host) {
+        this.port = port;
+        this.host = host;
+    }
 
-    public static void main(String[] args) {
-
+    public void run() {
         Scanner scanner = new Scanner(System.in);
         try {
             NetworkManager networkManager = new NetworkManager(port, InetAddress.getByName(host));
