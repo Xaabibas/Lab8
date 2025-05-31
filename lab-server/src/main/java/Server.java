@@ -1,5 +1,5 @@
 import managers.*;
-import network.Package;
+import network.Pack;
 import network.Request;
 
 import network.Response;
@@ -16,7 +16,7 @@ public final class Server extends Thread {
     private final NetworkManager networkManager;
     private final CommandManager commandManager;
     private final ExecutorService pool = Executors.newCachedThreadPool();
-    private final ConcurrentLinkedQueue<Package> queue = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<Pack> queue = new ConcurrentLinkedQueue<>();
 
     public Server(RequestManager requestManager, ResponseManager responseManager,
                   NetworkManager networkManager, CommandManager commandManager) {
@@ -31,7 +31,7 @@ public final class Server extends Thread {
         new Thread(() -> {
             while (true) {
                 if (!queue.isEmpty()) {
-                    Package pack = queue.poll();
+                    Pack pack = queue.poll();
                     Request request = pack.getRequest();
                     Socket client = pack.getClient();
 
@@ -60,7 +60,7 @@ public final class Server extends Thread {
 
             pool.submit(() -> {
                 Request request = requestManager.readRequest(client);
-                queue.add(new Package(request, client));
+                queue.add(new Pack(request, client));
             });
         }
     }
