@@ -43,7 +43,6 @@ public class RemoveLowerCommand extends Command {
 
             this.getCm().removeByKeySet(removeSet, request.getUser());
 
-            CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
             return new Response("Младшие элементы были успешно удалены");
         } catch (SQLException e) {
             return new Response("[ERROR] Не удалось удалить меньшие элементы");

@@ -4,7 +4,7 @@ import java.io.Console;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class PasswordEnterator implements ComplexEnterator<String> {
+public class EnterPassword implements ComplexEnterator<String> {
     @Override
     public String enter(Scanner scanner) {
         String password = "";

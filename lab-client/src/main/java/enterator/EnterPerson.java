@@ -1,10 +1,10 @@
 package enterator;
 
 import moduls.Person;
-import validator.moduls.CountryValidator;
 import validator.moduls.DateValidator;
 import validator.moduls.EyeValidator;
 import validator.moduls.HairValidator;
+import validator.moduls.CountryValidator;
 
 
 import java.util.Scanner;

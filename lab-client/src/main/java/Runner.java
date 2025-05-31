@@ -1,5 +1,5 @@
-import enterator.PasswordEnterator;
-import enterator.UserEnterator;
+import enterator.EnterPassword;
+import enterator.EnterUser;
 import network.NetworkManager;
 import enterator.EnterTicket;
 import moduls.Ticket;
@@ -64,8 +64,8 @@ public class Runner {
         } else if (commandName.equals("execute_script")) {
             executeScript(line);
         } else  if (commandName.equals("register") || commandName.equals("login")) {
-            String name = new UserEnterator().enter(scanner);
-            String password = new PasswordEnterator().enter(scanner);
+            String name = new EnterUser().enter(scanner);
+            String password = new EnterPassword().enter(scanner);
 
             request.setCommandName(commandName);
             request.setTokens(line);

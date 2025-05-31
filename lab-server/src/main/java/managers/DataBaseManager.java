@@ -27,7 +27,7 @@ public class DataBaseManager {
         Connection connection;
         try {
             logger.info("Try to connect to DB");
-            String url = "jdbc:postgresql://pg:5432/studs";
+            String url = "jdbc:postgresql://localhost:5432/studs";
             Properties info = new Properties();
             info.load(new FileReader("db.cfg"));
 
@@ -61,7 +61,10 @@ public class DataBaseManager {
                 ticket.setCreationDate(LocalDateTime.parse(result.getTimestamp("creation").toString(), formatter));
                 ticket.setPrice(result.getFloat("price"));
                 ticket.setType(result.getString("type") == null ? null : TicketType.valueOf(result.getString("type")));
-                ticket.setPerson(new Person(result.getTimestamp("birthday") == null ? null : LocalDateTime.parse(result.getTimestamp("birthday").toString(), formatter), result.getString("eye") == null ? null : EyeColor.valueOf(result.getString("eye")), result.getString("hair") == null ? null : HairColor.valueOf(result.getString("hair")), result.getString("country") == null ? null : Country.valueOf(result.getString("country"))));
+                ticket.setPerson(new Person(result.getTimestamp("birthday") == null ? null : LocalDateTime.parse(result.getTimestamp("birthday").toString(), formatter),
+                        result.getString("eye") == null ? null : EyeColor.valueOf(result.getString("eye")),
+                        result.getString("hair") == null ? null : HairColor.valueOf(result.getString("hair")),
+                        result.getString("country") == null ? null : Country.valueOf(result.getString("country"))));
                 Long key = result.getLong("key");
                 collection.put(key, ticket);
             }

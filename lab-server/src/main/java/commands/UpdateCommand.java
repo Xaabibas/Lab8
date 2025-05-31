@@ -39,7 +39,6 @@ public class UpdateCommand extends Command {
             }
 
             if (this.getCm().update(key, request.getUser(), (Ticket) request.getObj())) {
-                CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + " был успешно удален");
                 return new Response("Элемент был успешно обновлен");
             }
             return new Response("[ERROR] Не достаточно прав для изменения элемента");

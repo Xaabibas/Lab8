@@ -33,7 +33,6 @@ public class ClearCommand extends Command {
                 return Response.wrongPassword();
             }
             this.getCm().clear(request.getUser());
-            CommandManager.logger.info("The collection was successfully cleared");
             return new Response("Коллекция успешно очищена");
         } catch (SQLException e) {
             return new Response("Не удалось очистить коллекцию");

@@ -1,4 +1,5 @@
 import managers.*;
+import network.Package;
 import network.Request;
 
 import network.Response;
@@ -8,17 +9,14 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
 
 public final class Server extends Thread {
-    public static final Logger logger = Logger.getLogger("ServerLogger");
     private final RequestManager requestManager;
     private final ResponseManager responseManager;
     private final NetworkManager networkManager;
     private final CommandManager commandManager;
     private final ExecutorService pool = Executors.newCachedThreadPool();
-    private final ConcurrentLinkedQueue<Request> requestQueue = new ConcurrentLinkedQueue<>();
-    private final ConcurrentLinkedQueue<Socket> clientQueue = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<Package> queue = new ConcurrentLinkedQueue<>();
 
     public Server(RequestManager requestManager, ResponseManager responseManager,
                   NetworkManager networkManager, CommandManager commandManager) {
@@ -32,14 +30,15 @@ public final class Server extends Thread {
     public void run() {
         new Thread(() -> {
             while (true) {
-                if (!requestQueue.isEmpty()) {
-                    Request request = requestQueue.poll();
-                    Socket client = clientQueue.poll();
+                if (!queue.isEmpty()) {
+                    Package pack = queue.poll();
+                    Request request = pack.getRequest();
+                    Socket client = pack.getClient();
+
                     AtomicReference<Response> response = new AtomicReference<>(new Response());
 
                     Thread processThread = new Thread(() -> {
                         response.set(commandManager.processRequest(request));
-                        logger.info("Request was processed");
                     });
                     processThread.start();
 
@@ -47,7 +46,6 @@ public final class Server extends Thread {
                         try {
                             processThread.join();
                             responseManager.sendToClient(response.get(), client);
-                            logger.info("Response was sent");
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
                         }
@@ -62,8 +60,7 @@ public final class Server extends Thread {
 
             pool.submit(() -> {
                 Request request = requestManager.readRequest(client);
-                requestQueue.add(request);
-                clientQueue.add(client);
+                queue.add(new Package(request, client));
             });
         }
     }

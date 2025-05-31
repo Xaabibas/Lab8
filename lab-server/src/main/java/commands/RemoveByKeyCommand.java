@@ -37,7 +37,6 @@ public class RemoveByKeyCommand extends Command {
                 return new Response("[ERROR] В коллекции нет элемента с таким ключом");
             }
             if (this.getCm().removeByKey(key, request.getUser())){
-                CommandManager.logger.info("Элемент с ключом " + request.getTokens()[1] + "был успешно удален");
                 return new Response("Элемент успешно удален");
             }
             return new Response("[ERROR] Не достаточно прав для взаимодействия с данным элементом");

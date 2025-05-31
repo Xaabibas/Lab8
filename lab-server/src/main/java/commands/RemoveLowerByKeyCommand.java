@@ -42,7 +42,6 @@ public class RemoveLowerByKeyCommand extends Command {
 
             this.getCm().removeByKeySet(removeSet, request.getUser());
 
-            CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
             return new Response("Младшие элементы были успешно удалены");
         } catch (NumberFormatException e) {
             return new Response("[ERROR] Key не является числом");

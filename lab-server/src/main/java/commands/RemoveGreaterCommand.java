@@ -43,7 +43,6 @@ public class RemoveGreaterCommand extends Command {
 
             this.getCm().removeByKeySet(removeSet, request.getUser());
 
-            CommandManager.logger.info("Было удалено " + removeSet.size() + " элементов");
             return new Response("Большие элементы были успешно удалены");
         } catch (SQLException e) {
             return new Response("[ERROR] Не удалось удалить большие элементы");

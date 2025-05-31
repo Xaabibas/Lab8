@@ -2,7 +2,7 @@ package enterator;
 
 import java.util.Scanner;
 
-public class UserEnterator implements ComplexEnterator<String> {
+public class EnterUser implements ComplexEnterator<String> {
     @Override
     public String enter(Scanner scanner) {
         String name = "";
