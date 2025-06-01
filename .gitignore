@@ -5,5 +5,3 @@
 *.iml
 .idea
 *.jar
-.vscode/settings.json
-db.cfg

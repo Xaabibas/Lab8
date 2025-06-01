@@ -2,7 +2,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import ProcessEngine.GraphicCore.SignWindow.StartWindow;
+import ProcessEngine.GraphicCore.StartWindow;
 import ProcessEngine.ProcessRun;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import javafx.application.Application;

@@ -1,4 +1,4 @@
-package ProcessEngine.GraphicCore.SignWindow;
+package ProcessEngine.GraphicCore;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
