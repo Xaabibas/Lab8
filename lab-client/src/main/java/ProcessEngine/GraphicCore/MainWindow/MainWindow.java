@@ -1,11 +1,14 @@
 package ProcessEngine.GraphicCore.MainWindow;
 
+import ProcessEngine.ProcessCore.validatorModule.Validator;
+import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -16,6 +19,12 @@ public class MainWindow {
     private static class ButtonFactory {
         protected static Button getCommandButton(String name) {
             Button button = new Button(name);
+            button.setPrefWidth(150);
+
+            return button;
+        }
+        protected static Button getCommitButton() {
+            Button button = new Button("Commit");
             button.setPrefWidth(150);
 
             return button;
@@ -32,7 +41,37 @@ public class MainWindow {
 
             return box;
         }
+
+        protected static VBox getPopUpBox(Node... es) {
+            VBox box = new VBox();
+            box.setBackground(new Background(new BackgroundFill(Color.KHAKI, new CornerRadii(5), Insets.EMPTY)));
+            box.setAlignment(Pos.CENTER);
+            box.getChildren().addAll(es);
+
+            return box;
+        }
     }
+
+    private static class TextFieldFactory {
+        protected static TextField getFieldWithValidator(String text, Validator validator) {
+            TextField field = new TextField();
+            field.setPromptText(text);
+            field.setPrefWidth(180);
+
+            field.focusedProperty().addListener(
+                    (arg0, oldValue, newValue) -> {
+                        if (!newValue) {
+                            if (!validator.validate(field.getText())) {
+                                field.setText("");
+                            }
+                        }
+                    }
+            );
+
+            return field;
+        }
+    }
+
     public void window(Stage stage) {
         BorderPane root = new BorderPane();
 
@@ -62,6 +101,17 @@ public class MainWindow {
 
         Button update = ButtonFactory.getCommandButton("update"); // Написать setOnAction
         Button insert = ButtonFactory.getCommandButton("insert"); // Написать setOnAction
+        insert.setOnAction(
+                new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        Stage stage = insertWindow();
+
+                        stage.show();
+                    }
+                }
+        );
+
         HBox first = BoxFactory.getBoxWithButtons(update, insert);
 
         Button removeGreater = ButtonFactory.getCommandButton("remove greater"); // Написать setOnAction
@@ -113,4 +163,41 @@ public class MainWindow {
 
         return upLine;
     }
+
+    private Stage insertWindow() {
+        Stage stage = new Stage();
+
+        Label mainLabel = new Label("Insert your data");
+        TextField key = TextFieldFactory.getFieldWithValidator("key", (line) -> {
+            try {
+                Long.parseLong(line);
+                return true;
+            } catch (IllegalArgumentException e) {
+                return false;
+            }
+        });
+        TextField name = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
+        TextField x = TextFieldFactory.getFieldWithValidator("x", new XValidator());
+        TextField y = TextFieldFactory.getFieldWithValidator("y", new YValidator());
+        TextField price = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        TextField type = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
+        Label personData = new Label("Person Data");
+        TextField birthday = TextFieldFactory.getFieldWithValidator("birthday", new TypeValidator());
+        TextField country = TextFieldFactory.getFieldWithValidator("country", new TypeValidator());
+        TextField eye = TextFieldFactory.getFieldWithValidator("eye color", new TypeValidator());
+        TextField hair = TextFieldFactory.getFieldWithValidator("hair color", new TypeValidator());
+
+        Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
+
+        VBox box = BoxFactory.getPopUpBox();
+        box.setSpacing(1);
+        box.getChildren().addAll(mainLabel, key, name, x, y, price, type, personData, birthday, country, eye, hair, commit);
+        Scene scene = new Scene(box, 500, 600);
+
+        stage.setScene(scene);
+
+        return stage;
+    }
+
+
 }

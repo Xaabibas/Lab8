@@ -2,6 +2,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import ProcessEngine.GraphicCore.MainWindow.MainWindow;
 import ProcessEngine.GraphicCore.StartWindow;
 import ProcessEngine.ProcessRun;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
@@ -28,7 +29,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        new StartWindow().registerWindow(stage);
+        new MainWindow().window(stage);
     }
 
     @Override
