@@ -2,8 +2,6 @@ package ProcessEngine.GraphicCore.MainWindow;
 
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,6 +11,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.security.Key;
 
 public class MainWindow {
 
@@ -28,6 +28,16 @@ public class MainWindow {
             button.setPrefWidth(150);
 
             return button;
+        }
+    }
+
+    private static class LabelFactory {
+        protected static Label getMainLabel(String name) {
+            Label label = new Label(name);
+            label.setFont(new Font(20));
+            label.setTextFill(Color.ORANGERED);
+
+            return label;
         }
     }
 
@@ -47,6 +57,7 @@ public class MainWindow {
             box.setBackground(new Background(new BackgroundFill(Color.KHAKI, new CornerRadii(5), Insets.EMPTY)));
             box.setAlignment(Pos.CENTER);
             box.getChildren().addAll(es);
+            box.setSpacing(10);
 
             return box;
         }
@@ -100,32 +111,78 @@ public class MainWindow {
         commands.setPadding(new Insets(30, 30, 30, 30));
 
         Button update = ButtonFactory.getCommandButton("update"); // Написать setOnAction
+        update.setOnAction(
+                event -> {
+                    Stage stage = updateWindow();
+
+                    stage.show();
+                }
+        );
         Button insert = ButtonFactory.getCommandButton("insert"); // Написать setOnAction
         insert.setOnAction(
-                new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        Stage stage = insertWindow();
+                event -> {
+                    Stage stage = insertWindow();
 
-                        stage.show();
-                    }
+                    stage.show();
                 }
         );
 
         HBox first = BoxFactory.getBoxWithButtons(update, insert);
 
         Button removeGreater = ButtonFactory.getCommandButton("remove greater"); // Написать setOnAction
+        removeGreater.setOnAction(
+                event -> {
+                    Stage stage = removeGreaterWindow();
+
+                    stage.show();
+                }
+        );
         Button removeLower = ButtonFactory.getCommandButton("remove lower"); // Написать setOnAction
+        removeLower.setOnAction(
+                event -> {
+                    Stage stage = removeLowerWindow();
+
+                    stage.show();
+                }
+        );
         HBox second = BoxFactory.getBoxWithButtons(removeGreater, removeLower);
         second.setPadding(new Insets(17, 0, 0, 0));
 
         Button removeLowerKey = ButtonFactory.getCommandButton("remove lower by key"); // Написать setOnAction
+        removeLowerKey.setOnAction(
+                event -> {
+                    Stage stage = removeLowerKeyWindow();
+
+                    stage.show();
+                }
+        );
         Button removeKey = ButtonFactory.getCommandButton("remove by key"); // Написать setOnAction
+        removeKey.setOnAction(
+                event -> {
+                    Stage stage = removeKeyWindow();
+
+                    stage.show();
+                }
+        );
         HBox third = BoxFactory.getBoxWithButtons(removeLowerKey, removeKey);
         third.setPadding(new Insets(0, 0, 17, 0));
 
         Button sum = ButtonFactory.getCommandButton("sum of price"); // Написать setOnAction
+        sum.setOnAction(
+                event -> {
+                    Stage stage = sumWindow();
+
+                    stage.show();
+                }
+        );
         Button count = ButtonFactory.getCommandButton("count by type"); // Написать setOnAction
+        count.setOnAction(
+                event -> {
+                    Stage stage = countWindow();
+
+                    stage.show();
+                }
+        );
         HBox fourth = BoxFactory.getBoxWithButtons(sum, count);
 
         Button printAscending = ButtonFactory.getCommandButton("print ascending"); // Написать setOnAction
@@ -164,24 +221,38 @@ public class MainWindow {
         return upLine;
     }
 
+    private Stage updateWindow() {
+        Stage stage = new Stage();
+        Label mainLabel = LabelFactory.getMainLabel("Update");
+        TextField key = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
+        Button commit = ButtonFactory.getCommitButton(); // Надо проверить валидность ключа и перейти к обновлению данных
+        commit.setOnAction(
+                event -> {
+                    Stage subStage = insertWindow();
+
+                    subStage.show();
+                }
+        );
+        VBox box = BoxFactory.getPopUpBox(mainLabel, key, commit);
+
+        stage.setScene(new Scene(box, 500, 600));
+
+        return stage;
+    }
+
     private Stage insertWindow() {
         Stage stage = new Stage();
 
-        Label mainLabel = new Label("Insert your data");
-        TextField key = TextFieldFactory.getFieldWithValidator("key", (line) -> {
-            try {
-                Long.parseLong(line);
-                return true;
-            } catch (IllegalArgumentException e) {
-                return false;
-            }
-        });
+        Label mainLabel = LabelFactory.getMainLabel("Insert your data");
+        TextField key = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
         TextField name = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
         TextField x = TextFieldFactory.getFieldWithValidator("x", new XValidator());
         TextField y = TextFieldFactory.getFieldWithValidator("y", new YValidator());
         TextField price = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
         TextField type = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
         Label personData = new Label("Person Data");
+        personData.setFont(new Font(16));
+        personData.setTextFill(Color.ORANGERED);
         TextField birthday = TextFieldFactory.getFieldWithValidator("birthday", new TypeValidator());
         TextField country = TextFieldFactory.getFieldWithValidator("country", new TypeValidator());
         TextField eye = TextFieldFactory.getFieldWithValidator("eye color", new TypeValidator());
@@ -190,7 +261,6 @@ public class MainWindow {
         Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
 
         VBox box = BoxFactory.getPopUpBox();
-        box.setSpacing(1);
         box.getChildren().addAll(mainLabel, key, name, x, y, price, type, personData, birthday, country, eye, hair, commit);
         Scene scene = new Scene(box, 500, 600);
 
@@ -199,5 +269,80 @@ public class MainWindow {
         return stage;
     }
 
+    private Stage removeGreaterWindow() {
+        Stage stage = new Stage();
+        Label mainLabel = LabelFactory.getMainLabel("Insert price"); // Сравнение идет по цене
+        TextField price = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
 
+        VBox box = BoxFactory.getPopUpBox(mainLabel, price, commit);
+        Scene scene = new Scene(box, 300, 400);
+        stage.setScene(scene);
+
+        return stage;
+    }
+
+    private Stage removeLowerWindow() {
+        Stage stage = new Stage();
+        Label mainLabel = LabelFactory.getMainLabel("Insert price"); // Сравнение идет по цене
+        TextField price = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
+
+        VBox box = BoxFactory.getPopUpBox(mainLabel, price, commit);
+        Scene scene = new Scene(box, 300, 400);
+        stage.setScene(scene);
+
+        return stage;
+    }
+
+    private Stage removeLowerKeyWindow() {
+        Stage stage = new Stage();
+        Label mainLabel = LabelFactory.getMainLabel("Insert Key");
+        TextField key = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
+        Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
+
+        VBox box = BoxFactory.getPopUpBox(mainLabel, key, commit);
+        Scene scene = new Scene(box, 300, 400);
+        stage.setScene(scene);
+
+        return stage;
+    }
+
+    private Stage removeKeyWindow() {
+        Stage stage = new Stage();
+        Label mainLabel = LabelFactory.getMainLabel("Insert Key");
+        TextField key = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
+        Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
+
+        VBox box = BoxFactory.getPopUpBox(mainLabel, key, commit);
+        Scene scene = new Scene(box, 300, 400);
+        stage.setScene(scene);
+
+        return stage;
+    }
+
+    private Stage sumWindow() {
+        Stage stage = new Stage();
+        // Необходимо сделать запрос/подсчет и вывести
+        Label mainLabel = LabelFactory.getMainLabel("Sum of price");
+
+        VBox box = BoxFactory.getPopUpBox(mainLabel);
+
+        stage.setScene(new Scene(box, 500, 600));
+
+        return stage;
+    }
+
+    private Stage countWindow() {
+        Stage stage = new Stage();
+        Label mainLabel = LabelFactory.getMainLabel("Count by type");
+        TextField type = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
+        Button count = ButtonFactory.getCommitButton(); // Написать setOnAction
+        count.setTooltip(new Tooltip("Enter the type of ticket you want to count"));
+        count.setText("Count!");
+        // Необходимо сделать запрос/подсчет и вывести
+        VBox box = BoxFactory.getPopUpBox(mainLabel, type, count);
+        stage.setScene(new Scene(box, 500, 400));
+        return stage;
+    }
 }
