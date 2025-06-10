@@ -13,4 +13,9 @@ public class YValidator implements Validator {
         }
         return false;
     }
+
+    @Override
+    public String message() {
+        return "Значение поля должно быть числом типа Long. Не может быть null";
+    }
 }

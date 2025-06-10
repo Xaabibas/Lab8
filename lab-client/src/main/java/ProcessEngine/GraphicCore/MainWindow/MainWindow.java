@@ -11,8 +11,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-import java.security.Key;
+import javafx.util.Duration;
 
 public class MainWindow {
 
@@ -35,7 +34,15 @@ public class MainWindow {
         protected static Label getMainLabel(String name) {
             Label label = new Label(name);
             label.setFont(new Font(20));
-            label.setTextFill(Color.ORANGERED);
+            label.setTextFill(Color.FORESTGREEN);
+
+            return label;
+        }
+
+        protected static Label fetUsualLabel(String name) {
+            Label label = new Label(name);
+            label.setFont(new Font(16));
+            label.setTextFill(Color.FORESTGREEN);
 
             return label;
         }
@@ -54,10 +61,11 @@ public class MainWindow {
 
         protected static VBox getPopUpBox(Node... es) {
             VBox box = new VBox();
-            box.setBackground(new Background(new BackgroundFill(Color.KHAKI, new CornerRadii(5), Insets.EMPTY)));
+            box.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, new CornerRadii(5), Insets.EMPTY)));
             box.setAlignment(Pos.CENTER);
             box.getChildren().addAll(es);
             box.setSpacing(10);
+            box.setPadding(new Insets(40, 30, 40,30));
 
             return box;
         }
@@ -68,6 +76,10 @@ public class MainWindow {
             TextField field = new TextField();
             field.setPromptText(text);
             field.setPrefWidth(180);
+            Tooltip tooltip = new Tooltip(validator.message());
+            tooltip.setFont(new Font(10));
+            tooltip.setShowDelay(new Duration(2));
+            field.setTooltip(tooltip);
 
             field.focusedProperty().addListener(
                     (arg0, oldValue, newValue) -> {
@@ -250,13 +262,11 @@ public class MainWindow {
         TextField y = TextFieldFactory.getFieldWithValidator("y", new YValidator());
         TextField price = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
         TextField type = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
-        Label personData = new Label("Person Data");
-        personData.setFont(new Font(16));
-        personData.setTextFill(Color.ORANGERED);
-        TextField birthday = TextFieldFactory.getFieldWithValidator("birthday", new TypeValidator());
-        TextField country = TextFieldFactory.getFieldWithValidator("country", new TypeValidator());
-        TextField eye = TextFieldFactory.getFieldWithValidator("eye color", new TypeValidator());
-        TextField hair = TextFieldFactory.getFieldWithValidator("hair color", new TypeValidator());
+        Label personData = LabelFactory.fetUsualLabel("Person Data");
+        TextField birthday = TextFieldFactory.getFieldWithValidator("birthday", new DateValidator());
+        TextField country = TextFieldFactory.getFieldWithValidator("country", new CountryValidator());
+        TextField eye = TextFieldFactory.getFieldWithValidator("eye color", new EyeValidator());
+        TextField hair = TextFieldFactory.getFieldWithValidator("hair color", new HairValidator());
 
         Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
 

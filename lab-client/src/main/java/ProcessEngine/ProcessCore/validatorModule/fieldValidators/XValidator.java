@@ -18,4 +18,9 @@ public class XValidator implements Validator {
         }
         return false;
     }
+
+    @Override
+    public String message() {
+        return "Значение поля должно быть числом типа Float, большее -626. Не может быть null";
+    }
 }

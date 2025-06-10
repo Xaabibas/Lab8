@@ -10,4 +10,8 @@ public class NameValidator implements Validator {
         }
         return !line.isEmpty();
     }
+    @Override
+    public String message() {
+        return "Значение поля не может быть null или пустой строкой";
+    }
 }

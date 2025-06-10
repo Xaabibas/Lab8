@@ -1,7 +1,10 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
 import ProcessEngine.ProcessCore.validatorModule.Validator;
+import moduls.Country;
 import moduls.TicketType;
+
+import java.util.Arrays;
 
 public class TypeValidator implements Validator {
     @Override
@@ -17,5 +20,14 @@ public class TypeValidator implements Validator {
             System.out.println("[ERROR] Значение поля введено неверно");
         }
         return false;
+    }
+
+    @Override
+    public String message() {
+        StringBuilder message = new StringBuilder();
+        message.append("Корректные значения: ");
+        Arrays.stream(TicketType.values()).forEach(a -> message.append(a.toString()).append(" "));
+        message.append(". Может быть null");
+        return message.toString();
     }
 }

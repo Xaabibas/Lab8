@@ -41,4 +41,9 @@ public class DateValidator implements Validator {
         }
         return false;
     }
+
+    @Override
+    public String message() {
+        return "Дата в формате year; month; day; hour; minute; second. Может быть null";
+    }
 }

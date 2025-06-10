@@ -18,4 +18,8 @@ public class PriceValidator implements Validator {
         }
         return false;
     }
+    @Override
+    public String message() {
+        return "Значение поля должно быть положительное числом типа Float. Не может быть null";
+    }
 }

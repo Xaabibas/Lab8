@@ -1,7 +1,10 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
 import ProcessEngine.ProcessCore.validatorModule.Validator;
+import moduls.Country;
 import moduls.HairColor;
+
+import java.util.Arrays;
 
 public class HairValidator implements Validator {
     @Override
@@ -17,5 +20,14 @@ public class HairValidator implements Validator {
             System.out.println("[ERROR] Введите корректное значение");
         }
         return false;
+    }
+
+    @Override
+    public String message() {
+        StringBuilder message = new StringBuilder();
+        message.append("Корректные значения: ");
+        Arrays.stream(HairColor.values()).forEach(a -> message.append(a.toString()).append(" "));
+        message.append(". Может быть null");
+        return message.toString();
     }
 }
