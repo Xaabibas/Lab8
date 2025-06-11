@@ -1,15 +1,12 @@
+import ProcessEngine.GraphicCore.GraphicRun;
+import ProcessEngine.ProcessCore.ProcessRun;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-import ProcessEngine.GraphicCore.MainWindow.MainWindow;
-import ProcessEngine.GraphicCore.StartWindow;
-import ProcessEngine.ProcessRun;
-import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import javafx.application.Application;
-import javafx.stage.Stage;
-
-public class Main extends Application {
+public class Main {
 
     protected static final int port = 46789;
     protected static final String host = "localhost";
@@ -19,21 +16,20 @@ public class Main extends Application {
             Scanner scanner = new Scanner(System.in);
             NetworkManager networkManager = new NetworkManager(port, InetAddress.getByName(host));
             ProcessRun runner = new ProcessRun(scanner, networkManager);
+            
             new Thread(runner::interactiveMode).start();
+
+            startGraphicWindow();
+            
+
         } catch (UnknownHostException e) {
             System.out.println("[ERROR] Неизвестный хост");
             System.exit(1);
         }
-        Application.launch();
     }
 
-    @Override
-    public void start(Stage stage) throws Exception {
-        new MainWindow().window(stage);
+    private static void startGraphicWindow() {
+       GraphicRun.main();
     }
 
-    @Override
-    public void stop() throws Exception {
-        System.exit(0);
-    }
 }
