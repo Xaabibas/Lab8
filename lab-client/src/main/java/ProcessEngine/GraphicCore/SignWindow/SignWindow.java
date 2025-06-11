@@ -1,53 +1,27 @@
 package ProcessEngine.GraphicCore.SignWindow;
 
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
-import ProcessEngine.GraphicCore.SignWindow.SignInWindow.SignInWindow;
+import ProcessEngine.DataCore.AuthCheck;
 
 import javafx.stage.Stage;
 
 public class SignWindow {
 
-    Stage stage;
-    protected AuthCheck authCheckData = new AuthCheck(false);
+    protected Stage stage;
+    protected AuthCheck authCheckData;
     
-    public SignWindow(Stage stage) {
+    public SignWindow(Stage stage, AuthCheck authCheckData) {
         this.stage = stage;
+        this.authCheckData = authCheckData;
     }
 
     public void getAuth() {
-        SignUpWindow.signUpWindow(stage);
-        // while (!authCheckData.getAuthSuccess()) {
-
-        // }
+        SignUpWindow.signUpWindow(stage, authCheckData);
+        System.out.println(">> Запущено окно авторизации");
     }
 
-    public class AuthCheck {
-        private boolean authSuccess;
-        private String login;
-        private String password;
-
-        public AuthCheck(boolean authSuccess) {
-            this.authSuccess = authSuccess;
-        }
-
-
-        protected void setLogin(String login, String password) {
-            this.login = login;
-            this.password = password;
-        }
-
-
-        protected boolean getAuthSuccess() {
-            return authSuccess;
-        }
-
-        protected String getLogin() {
-            return login;
-        }
-
-        protected String getPassword() {
-            return password;
-        }
+    public static boolean checkAuthInfo(String login, String password) {
+        return true;
     }
 
 }

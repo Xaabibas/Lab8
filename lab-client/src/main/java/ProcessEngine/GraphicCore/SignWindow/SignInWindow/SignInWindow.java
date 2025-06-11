@@ -1,6 +1,8 @@
 package ProcessEngine.GraphicCore.SignWindow.SignInWindow;
 
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
+import ProcessEngine.GraphicCore.SignWindow.SignWindow;
+import ProcessEngine.DataCore.AuthCheck;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,7 +26,7 @@ import javafx.stage.Stage;
 
 public class SignInWindow {
     
-    public static void signInWindow(Stage stage) {
+    public static void signInWindow(Stage stage, AuthCheck authCheckData) {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
         box.setBackground(Background.EMPTY);
@@ -41,28 +43,36 @@ public class SignInWindow {
         innerBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(30), Insets.EMPTY)));
         innerBox.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(30), new BorderWidths(3.0))));
 
-        TextField nameField = new TextField();
-        nameField.setFont(new Font(12));
-        nameField.setPrefColumnCount(30);
-        nameField.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, new CornerRadii(5), Insets.EMPTY)));
-        nameField.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(1))));
+        TextField loginField = new TextField();
+        loginField.setFont(new Font(12));
+        loginField.setPrefColumnCount(30);
+        loginField.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, new CornerRadii(5), Insets.EMPTY)));
+        loginField.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(1))));
 
         TextField passwordField = new PasswordField();
         passwordField.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(5), new BorderWidths(1))));
         passwordField.setBackground(new Background(new BackgroundFill(Color.GREENYELLOW, new CornerRadii(5), Insets.EMPTY)));
         passwordField.setFont(new Font(12));
 
-        Label mainLabel = new Label("Log in!");
+        continueButton.setOnAction(actionEvent -> {
+            String login = loginField.getText();
+            String password = passwordField.getText();
+
+            boolean checkAuthResult = SignWindow.checkAuthInfo(login, password);
+            authCheckData.setAuthSeccess(checkAuthResult);
+        });
+
+        Label mainLabel = new Label("Sign in!");
         mainLabel.setFont(new Font(50));
         mainLabel.setTextFill(Color.GREEN);
 
         Hyperlink button = new Hyperlink("Sign up!");
-        button.setOnAction(actionEvent -> SignUpWindow.signUpWindow(stage));
+        button.setOnAction(actionEvent -> SignUpWindow.signUpWindow(stage, authCheckData));
 
         Label lowLabel = new Label("Yet haven't account?");
         lowLabel.setTextFill(Color.GREEN);
 
-        innerBox.getChildren().addAll(mainLabel, nameField, passwordField, continueButton, lowLabel, button);
+        innerBox.getChildren().addAll(mainLabel, loginField, passwordField, continueButton, lowLabel, button);
         box.getChildren().add(innerBox);
 
         Scene scene = new Scene(box, 600, 500);
