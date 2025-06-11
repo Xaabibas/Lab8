@@ -58,8 +58,16 @@ public class SignInWindow {
             String login = loginField.getText();
             String password = passwordField.getText();
 
-            boolean checkAuthResult = SignWindow.checkAuthInfo(login, password);
-            authCheckData.setAuthSeccess(checkAuthResult);
+            if ((!login.isEmpty()) && (!password.isEmpty())) {
+                boolean checkAuthResult = SignWindow.checkAuthInfo(login, password);
+
+                if (!checkAuthResult) {
+                    // неверный пароль -> какое то визуальнок действие
+                } else {
+                    authCheckData.setAuthSeccess(checkAuthResult);
+                    authCheckData.setLoginPassword(login, password);
+                }
+            }
         });
 
         Label mainLabel = new Label("Sign in!");

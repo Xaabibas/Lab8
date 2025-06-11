@@ -13,7 +13,7 @@ public class AuthCheck {
         this.authSuccess = authSuccess;
     }
 
-    public void setLogin(String login, String password) {
+    public void setLoginPassword(String login, String password) {
         this.login = login;
         this.password = password;
     }

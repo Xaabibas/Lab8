@@ -45,7 +45,7 @@ public class GraphicRun extends Application  {
 
     protected void runMainWindow() {
         System.out.println(">> Запущено главное окно");
-        new MainWindow().window(stage);
+        new MainWindow(authCheckData.getLogin()).window(stage);
         // вся остальная логика и запуск главного окна
     }
 

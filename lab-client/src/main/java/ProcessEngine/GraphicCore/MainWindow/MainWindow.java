@@ -2,6 +2,7 @@ package ProcessEngine.GraphicCore.MainWindow;
 
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -12,25 +13,40 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.text.FontWeight;
+import javafx.application.Platform;
 
 public class MainWindow {
 
+    protected String login;
+
+    public MainWindow(String login) {
+        this.login = login;
+    }
+
+    // ### ### ### //
     private static class ButtonFactory {
+
         protected static Button getCommandButton(String name) {
             Button button = new Button(name);
             button.setPrefWidth(150);
 
             return button;
         }
+
         protected static Button getCommitButton() {
             Button button = new Button("Commit");
             button.setPrefWidth(150);
 
             return button;
         }
-    }
 
+    }
+   // ### ### ### //
+
+    // ### ### ### //
     private static class LabelFactory {
+
         protected static Label getMainLabel(String name) {
             Label label = new Label(name);
             label.setFont(new Font(20));
@@ -46,9 +62,13 @@ public class MainWindow {
 
             return label;
         }
-    }
 
+    }
+    // ### ### ### //
+
+    // ### ### ### //
     private static class BoxFactory {
+
         protected static HBox getBoxWithButtons(Button... buttons) {
             HBox box = new HBox();
             box.setSpacing(17);
@@ -69,9 +89,13 @@ public class MainWindow {
 
             return box;
         }
-    }
 
+    }
+    // ### ### ### //
+
+    // ### ### ### //
     private static class TextFieldFactory {
+
         protected static TextField getFieldWithValidator(String text, Validator validator) {
             TextField field = new TextField();
             field.setPromptText(text);
@@ -93,7 +117,9 @@ public class MainWindow {
 
             return field;
         }
+
     }
+    // ### ### ### //
 
     public void window(Stage stage) {
         BorderPane root = new BorderPane();
@@ -222,11 +248,16 @@ public class MainWindow {
 
         Button language = new Button("language"); // setOnAction? Возможность смены языка / или выбирать язык сначала и потом его просто отображать
         language.setFont(new Font(14));
-        Label name = new Label("name"); // Как-то отображать имя
-        name.setFont(new Font(14));
+        Label name = new Label(login);
+        name.setFont(Font.font("System", FontWeight.BOLD, 15));
+        name.setTextFill(Color.GREEN);
         Hyperlink logOut = new Hyperlink("log out"); // setOnAction Выход в стартовое окно
         logOut.setTextFill(Color.RED);
-        logOut.setFont(new Font(14));
+        logOut.setFont(Font.font("System", FontWeight.BOLD, 16));
+        logOut.setOnAction(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
 
         upLine.getChildren().addAll(language, name, logOut);
 
