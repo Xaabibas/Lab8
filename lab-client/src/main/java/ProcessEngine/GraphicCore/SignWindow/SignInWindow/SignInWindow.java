@@ -59,7 +59,7 @@ public class SignInWindow {
             String password = passwordField.getText();
 
             if ((!login.isEmpty()) && (!password.isEmpty())) {
-                boolean checkAuthResult = SignWindow.checkAuthInfo(login, password);
+                boolean checkAuthResult = SignWindow.checkAuthInfo(login, password, "login");
 
                 if (!checkAuthResult) {
                     // неверный пароль -> какое то визуальнок действие

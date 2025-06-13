@@ -19,8 +19,7 @@ public class Main {
             
             new Thread(runner::interactiveMode).start();
 
-            startGraphicWindow();
-            
+            startGraphicWindow(networkManager);
 
         } catch (UnknownHostException e) {
             System.out.println("[ERROR] Неизвестный хост");
@@ -28,8 +27,8 @@ public class Main {
         }
     }
 
-    private static void startGraphicWindow() {
-       GraphicRun.main();
+    private static void startGraphicWindow(NetworkManager networkManager) {
+       GraphicRun.main(networkManager);
     }
 
 }

@@ -1,18 +1,23 @@
 package ProcessEngine.GraphicCore.SignWindow;
 
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.DataCore.AuthCheck;
+import network.Request;
 
 import javafx.stage.Stage;
+import java.util.Arrays;
 
 public class SignWindow {
 
     protected Stage stage;
     protected AuthCheck authCheckData;
+    protected static NetworkManager netManager;
     
-    public SignWindow(Stage stage, AuthCheck authCheckData) {
+    public SignWindow(Stage stage, AuthCheck authCheckData, NetworkManager networkManager) {
         this.stage = stage;
         this.authCheckData = authCheckData;
+        netManager = networkManager;
     }
 
     public void getAuth() {
@@ -20,8 +25,24 @@ public class SignWindow {
         System.out.println(">> Запущено окно авторизации");
     }
 
-    public static boolean checkAuthInfo(String login, String password) {
-        return true;
+    public static boolean checkAuthInfo(String login, String password, String typeRequestLogPass) {
+        Request requestPack = new Request();
+        requestPack.setUser(login);
+        requestPack.setPassword(Arrays.toString(password
+            .chars()
+            .mapToObj(c -> String.valueOf((char) c))
+            .toArray(String[]::new))
+        );
+        requestPack.setCommandName(typeRequestLogPass);
+        requestPack.setTokens(typeRequestLogPass);
+
+        String networkResponse = netManager.sendAndReceive(requestPack);
+
+        if ((networkResponse.trim().equals("Успешная авторизация")) || (networkResponse.trim().equals("Успешная регистрация"))) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

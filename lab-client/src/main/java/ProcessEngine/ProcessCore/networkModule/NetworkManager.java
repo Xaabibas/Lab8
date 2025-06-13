@@ -28,11 +28,11 @@ public class NetworkManager {
         return null;
     }
 
-    public void sendAndReceive(Request request) {
+    public String sendAndReceive(Request request) {
         try (SocketChannel channel = connectToServer()) {
             byte[] objBytes = serialize(request);
             if (objBytes == null) {
-                return;
+                return null;
             }
             ByteBuffer bufToSend = ByteBuffer.wrap(objBytes);
             channel.write(bufToSend);
@@ -49,10 +49,12 @@ public class NetworkManager {
             Response response = (Response) deserialize(bufToRead.array());
 
             if (response != null) {
-                System.out.println(response.getAnswer());
+                return response.getAnswer();
             }
+            return null;
         } catch (IOException e) {
             System.out.println("[ERROR] Не удалось установить соединение с сервером");
+            return null;
         }
 
     }

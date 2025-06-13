@@ -53,12 +53,15 @@ public class ProcessRun {
             request.setCommandName(commandName);
             request.setTokens(line);
 
-            networkManager.sendAndReceive(request);
+            String networkResponse = networkManager.sendAndReceive(request);
+            System.out.println(networkResponse);
         } else if (commandName.equals("exit")) {
             request.setCommandName(commandName);
             request.setTokens(line);
 
-            networkManager.sendAndReceive(request);
+            String networkResponse = networkManager.sendAndReceive(request);
+            System.out.println(networkResponse);
+
             System.out.println("Работа клиентского приложения завершена");
             System.exit(0);
         } else if (commandName.equals("execute_script")) {
@@ -72,23 +75,26 @@ public class ProcessRun {
             request.setTokens(line);
             request.setUser(name);
             request.setPassword(password);
-
+            System.out.println(name + " " + password + " " + line + " " + commandName + "\n");
             client = name;
             passw = password;
 
-            networkManager.sendAndReceive(request);
+            String networkResponse = networkManager.sendAndReceive(request);
+            System.out.println(networkResponse);
         } else if (commandName.equals("logout")) {
             request.setCommandName(commandName);
             request.setTokens(line);
             client = null;
             passw = null;
 
-            networkManager.sendAndReceive(request);
+            String networkResponse = networkManager.sendAndReceive(request);
+            System.out.println(networkResponse);
         } else {
-                request.setCommandName(commandName);
-                request.setTokens(line);
+            request.setCommandName(commandName);
+            request.setTokens(line);
 
-                networkManager.sendAndReceive(request);
+            String networkResponse = networkManager.sendAndReceive(request);
+            System.out.println(networkResponse);
         }
     }
 

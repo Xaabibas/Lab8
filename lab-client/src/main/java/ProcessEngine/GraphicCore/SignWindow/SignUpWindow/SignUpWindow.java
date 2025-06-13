@@ -39,11 +39,6 @@ public class SignUpWindow {
         continueButton.setTextFill(Color.GREEN);
         continueButton.setFont(new Font(15));
         continueButton.setPadding(new Insets(8));
-        continueButton.setOnAction(event -> {
-
-            
-            
-        });
 
         VBox innerBox = new VBox(10);
         innerBox.setAlignment(Pos.CENTER);
@@ -67,7 +62,7 @@ public class SignUpWindow {
             String password = passwordField.getText();
 
             if ((!login.isEmpty()) && (!password.isEmpty())) {
-                boolean checkAuthResult = SignWindow.checkAuthInfo(login, password);
+                boolean checkAuthResult = SignWindow.checkAuthInfo(login, password, "register");
                 
                 if (!checkAuthResult) {
                     // неверный пароль -> какое то визуальнок действие
