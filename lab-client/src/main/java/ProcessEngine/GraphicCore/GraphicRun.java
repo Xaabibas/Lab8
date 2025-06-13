@@ -22,7 +22,7 @@ public class GraphicRun extends Application  {
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
-        
+
         SignWindow startSignWindow = new SignWindow(stage, authCheckData, netManager);
         startSignWindow.getAuth();
 
@@ -47,7 +47,7 @@ public class GraphicRun extends Application  {
 
     protected void runMainWindow() {
         System.out.println(">> Запущено главное окно");
-        new MainWindow(authCheckData.getLogin()).window(stage);
+        new MainWindow(authCheckData.getLogin(), authCheckData.getPassword(), netManager).window(stage);
     }
 
 }

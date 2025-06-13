@@ -2,6 +2,8 @@ package ProcessEngine.GraphicCore.MainWindow;
 
 import ProcessEngine.GraphicCore.MainWindow.ControlPanel.ControlPanel;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import ProcessEngine.DataCore.DataRun;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,12 +16,19 @@ import javafx.stage.Stage;
 import javafx.scene.text.FontWeight;
 import javafx.application.Platform;
 
+import java.util.Arrays;
+import java.util.Vector;
+
 public class MainWindow {
 
     protected String login;
+    protected String password;
+    protected NetworkManager networkManager;
 
-    public MainWindow(String login) {
+    public MainWindow(String login, String password, NetworkManager networkManager) {
         this.login = login;
+        this.password = password;
+        this.networkManager = networkManager;
     }    
 
     public void window(Stage stage) {
@@ -27,11 +36,16 @@ public class MainWindow {
 
         root.setBackground(new Background(new BackgroundFill(Color.MINTCREAM, new CornerRadii(5), Insets.EMPTY)));
 
-        ControlPanel controlPanel = new ControlPanel();
+        ControlPanel controlPanel = new ControlPanel(); // панель кнопок
 
-        HBox upLine = upLine();
+        HBox upLine = upLine(); // верхняя панель
 
-        DataSheet dataSheet = new DataSheet();
+        DataSheet dataSheet = new DataSheet(); // таблица с данными
+        DataRun newDataRun = new DataRun(networkManager);
+        Vector<String[]> arr = newDataRun.collectionDataRun(login, password);
+        for (String[] w : arr) {
+            System.out.println(Arrays.toString(w));
+        }
 
         root.setTop(upLine);
         root.setLeft(controlPanel.getCommands());
@@ -52,10 +66,12 @@ public class MainWindow {
 
         Button language = new Button("language"); // setOnAction -> Возможность смены языка (выезжающим списком)
         language.setFont(new Font(14));
+
         Label name = new Label(login);
         name.setFont(Font.font("System", FontWeight.BOLD, 15));
         name.setTextFill(Color.GREEN);
-        Hyperlink logOut = new Hyperlink("log out"); // setOnAction Выход в стартовое окно
+
+        Hyperlink logOut = new Hyperlink("log out"); // setOnAction Выход в стартовое окно (не то сделал, потом переделаю)
         logOut.setTextFill(Color.RED);
         logOut.setFont(Font.font("System", FontWeight.BOLD, 16));
         logOut.setOnAction(event -> {
