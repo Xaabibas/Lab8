@@ -7,11 +7,13 @@ import java.util.Vector;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.concurrent.Task;
 
 public class DataRun {
 
     protected NetworkManager networkManager;
-
+    protected Vector<String[]> collectionVectorData = new Vector<String[]>();
+ 
     public DataRun(NetworkManager networkManager) {
         this.networkManager = networkManager;
     }
@@ -30,7 +32,7 @@ public class DataRun {
         collectionRequest.setTokens("show");
 
         String networkresponse = networkManager.sendAndReceive(collectionRequest);
-        System.out.println(networkresponse);
+
         Pattern wordPattern = Pattern.compile("(\\d+\\s*-\\s*Ticket\\{([^\\}]*\\}[^\\}]*\\}))");
         Matcher wordMatcher = wordPattern.matcher(networkresponse);
 
@@ -67,6 +69,35 @@ public class DataRun {
             .replace(" -", ",")
             .replace("Ticket", "")
             .split(", ");
+    }
+
+    public synchronized void asyncAutoUpdateCollectionData(String login, String password) {
+        Task<Void> asyncUpdateCollectionDataTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                Thread.sleep(3000);
+                collectionVectorData = collectionDataRun(login, password);
+                return null;
+            }
+        };
+
+        asyncUpdateCollectionDataTask.setOnSucceeded(event -> {
+            System.out.println("# AsyncCollectionUpdate завершился успешно");
+            asyncAutoUpdateCollectionData(login, password);
+        });
+
+        asyncUpdateCollectionDataTask.setOnFailed(event -> {
+            System.out.println("# AsyncCollectionUpdate завершился с ошибкой. Повторный запуск");
+            asyncAutoUpdateCollectionData(login, password);
+        });
+
+        Thread newThread = new Thread(asyncUpdateCollectionDataTask);
+        newThread.setDaemon(true);
+        newThread.start();
+    }
+
+    protected synchronized Vector<String[]> getCollectionData() {
+        return collectionVectorData;
     }
 
 }

@@ -3,6 +3,7 @@ package ProcessEngine.GraphicCore.MainWindow;
 import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.ControlPanel.ControlPanel;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
+import ProcessEngine.GraphicCore.MainWindow.VisualizationArea.VisualizationArea;
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.DataCore.AuthCheck;
@@ -17,19 +18,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.text.FontWeight;
-import java.util.Arrays;
-import java.util.Vector;
 
 public class MainWindow {
 
     protected AuthCheck authCheckData;
     protected NetworkManager networkManager;
     protected Stage stage;
+    protected DataRun dataRun;
 
     public MainWindow(AuthCheck authCheckData, NetworkManager networkManager, Stage stage) {
         this.authCheckData = authCheckData;
         this.networkManager = networkManager;
         this.stage = stage;
+        dataRun = new DataRun(networkManager);
+        dataRun.asyncAutoUpdateCollectionData(authCheckData.getLogin(), authCheckData.getPassword());
     }    
 
     public void window() {
@@ -41,12 +43,9 @@ public class MainWindow {
 
         HBox upLine = upLine(); // верхняя панель
 
-        DataSheet dataSheet = new DataSheet(); // таблица с данными
-        // DataRun newDataRun = new DataRun(networkManager);
-        // Vector<String[]> arr = newDataRun.collectionDataRun(authCheckData.getLogin(), authCheckData.getPassword());
-        // for (String[] w : arr) {
-        //     System.out.println(Arrays.toString(w));
-        // }
+        DataSheet dataSheet = new DataSheet(dataRun); // таблица с данными
+
+        VisualizationArea visualizationArea = new VisualizationArea(dataRun); // область визуализации
 
         root.setTop(upLine);
         root.setLeft(controlPanel.getCommands());
@@ -76,11 +75,9 @@ public class MainWindow {
         logOut.setTextFill(Color.RED);
         logOut.setFont(Font.font("System", FontWeight.BOLD, 16));
         logOut.setOnAction(event -> {
-
             authCheckData.setAuthSeccess(false);
             new Thread(GraphicRun.runSpecialThreadTask(authCheckData, stage)).start();
             SignUpWindow.signUpWindow(stage, authCheckData);
-
         });
 
         upLine.getChildren().addAll(language, name, logOut);
