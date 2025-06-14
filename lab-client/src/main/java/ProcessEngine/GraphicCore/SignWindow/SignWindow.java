@@ -28,7 +28,11 @@ public class SignWindow {
     public static boolean checkAuthInfo(String login, String password, String typeRequestLogPass) {
         Request requestPack = new Request();
         requestPack.setUser(login);
-        requestPack.setPassword(password);
+        requestPack.setPassword(Arrays.toString(password
+            .chars()
+            .mapToObj(c -> String.valueOf((char) c))
+            .toArray(String[]::new))
+        );
         requestPack.setCommandName(typeRequestLogPass);
         requestPack.setTokens(typeRequestLogPass);
 
