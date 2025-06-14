@@ -2,6 +2,7 @@ package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories;
 
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.text.Font;
@@ -28,6 +29,13 @@ public class TextFieldFactory {
                     }
             );
 
+            return field;
+        }
+
+        public static PasswordField getPasswordField(String text) {
+            PasswordField field = new PasswordField();
+            field.setPromptText(text);
+            field.setPrefWidth(180);
             return field;
         }
 
