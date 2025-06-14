@@ -1,8 +1,11 @@
 package ProcessEngine.GraphicCore.MainWindow;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.ControlPanel.ControlPanel;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
+import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import ProcessEngine.DataCore.AuthCheck;
 import ProcessEngine.DataCore.DataRun;
 
 import javafx.geometry.Insets;
@@ -14,24 +17,22 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.text.FontWeight;
-import javafx.application.Platform;
-
 import java.util.Arrays;
 import java.util.Vector;
 
 public class MainWindow {
 
-    protected String login;
-    protected String password;
+    protected AuthCheck authCheckData;
     protected NetworkManager networkManager;
+    protected Stage stage;
 
-    public MainWindow(String login, String password, NetworkManager networkManager) {
-        this.login = login;
-        this.password = password;
+    public MainWindow(AuthCheck authCheckData, NetworkManager networkManager, Stage stage) {
+        this.authCheckData = authCheckData;
         this.networkManager = networkManager;
+        this.stage = stage;
     }    
 
-    public void window(Stage stage) {
+    public void window() {
         BorderPane root = new BorderPane();
 
         root.setBackground(new Background(new BackgroundFill(Color.MINTCREAM, new CornerRadii(5), Insets.EMPTY)));
@@ -41,11 +42,11 @@ public class MainWindow {
         HBox upLine = upLine(); // верхняя панель
 
         DataSheet dataSheet = new DataSheet(); // таблица с данными
-        DataRun newDataRun = new DataRun(networkManager);
-        Vector<String[]> arr = newDataRun.collectionDataRun(login, password);
-        for (String[] w : arr) {
-            System.out.println(Arrays.toString(w));
-        }
+        // DataRun newDataRun = new DataRun(networkManager);
+        // Vector<String[]> arr = newDataRun.collectionDataRun(authCheckData.getLogin(), authCheckData.getPassword());
+        // for (String[] w : arr) {
+        //     System.out.println(Arrays.toString(w));
+        // }
 
         root.setTop(upLine);
         root.setLeft(controlPanel.getCommands());
@@ -67,22 +68,24 @@ public class MainWindow {
         Button language = new Button("language"); // setOnAction -> Возможность смены языка (выезжающим списком)
         language.setFont(new Font(14));
 
-        Label name = new Label(login);
+        Label name = new Label(authCheckData.getLogin());
         name.setFont(Font.font("System", FontWeight.BOLD, 15));
         name.setTextFill(Color.GREEN);
 
-        Hyperlink logOut = new Hyperlink("log out"); // setOnAction Выход в стартовое окно (не то сделал, потом переделаю)
+        Hyperlink logOut = new Hyperlink("log out"); // setOnAction Выход в стартовое окно
         logOut.setTextFill(Color.RED);
         logOut.setFont(Font.font("System", FontWeight.BOLD, 16));
         logOut.setOnAction(event -> {
-            Platform.exit();
-            System.exit(0);
+
+            authCheckData.setAuthSeccess(false);
+            new Thread(GraphicRun.runSpecialThreadTask(authCheckData, stage)).start();
+            SignUpWindow.signUpWindow(stage, authCheckData);
+
         });
 
         upLine.getChildren().addAll(language, name, logOut);
 
         return upLine;
     }
-
     
 }

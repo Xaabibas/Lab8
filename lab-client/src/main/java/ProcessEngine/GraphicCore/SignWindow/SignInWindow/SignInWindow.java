@@ -4,8 +4,8 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFiel
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.DataCore.AuthCheck;
-
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.NameValidator;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

@@ -4,10 +4,8 @@ public class AuthCheck {
     private boolean authSuccess;
     private String login;
     private String password;
-    
 
     public AuthCheck() {}
-
 
     public void setAuthSeccess(boolean authSuccess) {
         this.authSuccess = authSuccess;
@@ -17,7 +15,6 @@ public class AuthCheck {
         this.login = login;
         this.password = password;
     }
-
 
     public boolean getAuthSuccess() {
         return authSuccess;

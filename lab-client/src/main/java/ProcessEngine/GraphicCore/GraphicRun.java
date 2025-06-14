@@ -5,6 +5,7 @@ import ProcessEngine.GraphicCore.MainWindow.MainWindow;
 import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.concurrent.Task;
 
@@ -26,6 +27,15 @@ public class GraphicRun extends Application  {
         SignWindow startSignWindow = new SignWindow(stage, authCheckData, netManager);
         startSignWindow.getAuth();
 
+        stage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
+
+        new Thread(runSpecialThreadTask(authCheckData, stage)).start();
+    }
+
+    public static Task<Void> runSpecialThreadTask(AuthCheck authCheckData, Stage stage) {
         Task<Void> authTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -39,15 +49,15 @@ public class GraphicRun extends Application  {
 
         authTask.setOnSucceeded(event -> {
             System.out.println(">> Авторизация пройдена");
-            runMainWindow();
+            runMainWindow(authCheckData, stage);
         });
 
-        new Thread(authTask).start();
+        return authTask;
     }
 
-    protected void runMainWindow() {
+    protected static void runMainWindow(AuthCheck authCheckData, Stage stage) {
         System.out.println(">> Запущено главное окно");
-        new MainWindow(authCheckData.getLogin(), authCheckData.getPassword(), netManager).window(stage);
+        new MainWindow(authCheckData, netManager, stage).window();
     }
 
 }

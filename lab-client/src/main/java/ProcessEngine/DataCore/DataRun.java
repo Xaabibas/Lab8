@@ -39,7 +39,7 @@ public class DataRun {
             vectorString.add(replacedFunc(word));
         }
         
-        return vectorString;
+        return vectorString; // [ [key, id, name, Coordinates.x, Coordinates.y, creationDate, price, type, Person.birthday, Person.eyeColor, Person.hairColor, Person.nationality] ]
     }
 
     protected String[] replacedFunc(String word) {

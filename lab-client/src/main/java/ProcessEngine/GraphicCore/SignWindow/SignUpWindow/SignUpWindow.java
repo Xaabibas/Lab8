@@ -4,8 +4,8 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFiel
 import ProcessEngine.GraphicCore.SignWindow.SignInWindow.SignInWindow;
 import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.DataCore.AuthCheck;
-
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.NameValidator;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -23,10 +23,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class SignUpWindow {
 
