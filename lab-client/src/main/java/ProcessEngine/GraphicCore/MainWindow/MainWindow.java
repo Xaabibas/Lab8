@@ -51,7 +51,7 @@ public class MainWindow {
         root.setLeft(controlPanel.getCommands());
         root.setCenter(dataSheet.getDataSheet());
 
-        Scene scene = new Scene(root, 1000, 700);
+        Scene scene = new Scene(root, 1200, 700);
 
         stage.setScene(scene);
         stage.show();

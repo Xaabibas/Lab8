@@ -31,10 +31,10 @@ public class DataRun {
         collectionRequest.setCommandName("show");
         collectionRequest.setTokens("show");
 
-        String networkresponse = networkManager.sendAndReceive(collectionRequest);
+        String networkResponse = networkManager.sendAndReceive(collectionRequest);
 
         Pattern wordPattern = Pattern.compile("(\\d+\\s*-\\s*Ticket\\{([^\\}]*\\}[^\\}]*\\}))");
-        Matcher wordMatcher = wordPattern.matcher(networkresponse);
+        Matcher wordMatcher = wordPattern.matcher(networkResponse);
 
         while (wordMatcher.find()) {
             String word = wordMatcher.group(1);
