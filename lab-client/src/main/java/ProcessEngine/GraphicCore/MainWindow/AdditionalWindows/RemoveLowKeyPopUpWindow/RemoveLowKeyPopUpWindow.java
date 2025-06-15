@@ -11,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class RemoveLowKeyPopUpWindow {
@@ -18,10 +19,33 @@ public class RemoveLowKeyPopUpWindow {
     public static Stage removeLowerKeyWindow() {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Insert Key");
-        TextField key = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
-        Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
+        VBox textBox = BoxFactory.getTextBox();
+        TextField keyField = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
+        textBox.getChildren().add(keyField);
+        Button commit = ButtonFactory.getCommitButton();
+        Label error = new Label("Введите корректное значение key");
+        error.setTextFill(Color.RED);
 
-        VBox box = BoxFactory.getPopUpBox(mainLabel, key, commit);
+        commit.setOnAction(
+                event -> {
+                    try {
+                        long key = Long.parseLong(keyField.getText());
+
+                        // отправить команду remove_lower_key key (вроде)
+
+                        textBox.getChildren().remove(error);
+
+                    } catch (IllegalArgumentException e) {
+                        if (!textBox.getChildren().contains(error)) {
+                            textBox.getChildren().add(error);
+                        }
+                    } catch (Exception e) {
+                        error.setText("Нет элемента с таким key"); // Это надо? Если да, то в try надо будет кидать exception и здесь как раз выводить сообщение
+                    }
+                }
+        );
+
+        VBox box = BoxFactory.getPopUpBox(mainLabel, textBox, commit);
         Scene scene = new Scene(box, 300, 400);
         stage.setScene(scene);
 
