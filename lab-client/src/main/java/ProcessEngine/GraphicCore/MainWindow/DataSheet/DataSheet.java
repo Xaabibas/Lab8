@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.concurrent.Task;
 import javafx.application.Platform;
+import javafx.scene.layout.StackPane;
 import moduls.Country;
 import moduls.EyeColor;
 import moduls.HairColor;
@@ -22,7 +23,7 @@ public class DataSheet {
         this.dataRun = dataRun;
     }
 
-    public TableView<String[]> getDataSheet() {
+    public StackPane getDataSheet() {
         ObservableList<String[]> tickets = FXCollections.observableArrayList(
                 dataRun.getCollectionData()
         );
@@ -79,11 +80,11 @@ public class DataSheet {
 
         startAutoParallelUpdateDataSheet(table);
 
-        return table;
+        return new StackPane(table);
     }
 
     protected void startAutoParallelUpdateDataSheet(TableView<String[]> table) {
-        Task<Void> updateTask = new Task<Void>() {
+        Task<Void> updateTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 while (!isCancelled()) {
@@ -92,9 +93,7 @@ public class DataSheet {
                     ObservableList<String[]> tickets = FXCollections.observableArrayList(
                             dataRun.getCollectionData()
                     );
-                    Platform.runLater(() -> {
-                        table.setItems(tickets);
-                    });
+                    Platform.runLater(() -> table.setItems(tickets));
                     Thread.sleep(3000);
                 }
                 return null;

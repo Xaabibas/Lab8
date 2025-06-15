@@ -25,6 +25,9 @@ public class MainWindow {
     protected NetworkManager networkManager;
     protected Stage stage;
     protected DataRun dataRun;
+    private BorderPane root;
+    DataSheet dataSheet; // таблица с данными
+    VisualizationArea visualizationArea; // область визуализации
 
     public MainWindow(AuthCheck authCheckData, NetworkManager networkManager, Stage stage) {
         this.authCheckData = authCheckData;
@@ -32,24 +35,24 @@ public class MainWindow {
         this.stage = stage;
         dataRun = new DataRun(networkManager);
         dataRun.asyncAutoUpdateCollectionData(authCheckData.getLogin(), authCheckData.getPassword());
+        dataSheet = new DataSheet(dataRun);
+        visualizationArea = new VisualizationArea(dataRun);
     }    
 
     public void window() {
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
 
         root.setBackground(new Background(new BackgroundFill(Color.MINTCREAM, new CornerRadii(5), Insets.EMPTY)));
 
         ControlPanel controlPanel = new ControlPanel(dataRun); // панель кнопок
 
         HBox upLine = upLine(); // верхняя панель
-
-        DataSheet dataSheet = new DataSheet(dataRun); // таблица с данными
-
-        VisualizationArea visualizationArea = new VisualizationArea(dataRun); // область визуализации
+        HBox bottomLine = bottomLine();
 
         root.setTop(upLine);
         root.setLeft(controlPanel.getCommands());
         root.setCenter(dataSheet.getDataSheet());
+        root.setBottom(bottomLine);
 
         Scene scene = new Scene(root, 1200, 700);
 
@@ -83,6 +86,27 @@ public class MainWindow {
         upLine.getChildren().addAll(language, name, logOut);
 
         return upLine;
+    }
+
+    private HBox bottomLine() {
+        Button tableButton = new Button("Table view");
+        tableButton.setOnAction(
+                event -> root.setCenter(dataSheet.getDataSheet())
+        );
+        Button coordButton = new Button("Visualization");
+        coordButton.setOnAction(
+                event -> root.setCenter(visualizationArea.getVisualizationArea())
+        );
+
+
+        HBox bottomLine = new HBox();
+        bottomLine.setSpacing(30);
+        bottomLine.setPadding(new Insets(1, 15, 1, 0));
+        bottomLine.setAlignment(Pos.CENTER_LEFT);
+        bottomLine.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(0), Insets.EMPTY)));
+
+        bottomLine.getChildren().addAll(tableButton, coordButton);
+        return bottomLine;
     }
     
 }
