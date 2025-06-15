@@ -11,13 +11,18 @@ import ProcessEngine.ProcessCore.validatorModule.fieldValidators.PriceValidator;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.TypeValidator;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.XValidator;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.YValidator;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.*;
+import moduls.Coordinates;
+import moduls.Country;
+import moduls.EyeColor;
+import moduls.HairColor;
+import moduls.Person;
+import moduls.Ticket;
+import moduls.TicketType;
+import network.Request;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
-
-import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.*;
-import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.InsertPopUpWindow.InsertPopUpWindow;
-
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,14 +32,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import moduls.Coordinates;
-import moduls.Country;
-import moduls.EyeColor;
-import moduls.HairColor;
-import moduls.Person;
-import moduls.Ticket;
-import moduls.TicketType;
-import network.Request;
 
 public class UpdatePopUpWindow {
 

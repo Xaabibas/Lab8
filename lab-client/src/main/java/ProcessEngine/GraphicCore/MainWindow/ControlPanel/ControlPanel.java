@@ -8,9 +8,9 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowKeyPopUpW
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowPopUpWindow.RemoveLowPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWindow.SumOfPricePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
-import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.DataCore.DataRun;
 
 import javafx.geometry.Insets;
@@ -80,7 +80,7 @@ public class ControlPanel {
 
         Button removeKey = ButtonFactory.getCommandButton("remove by key"); // Написать setOnAction
         removeKey.setOnAction(event -> {
-            Stage stage = RemoveKeyPopUpWindow.removeKeyWindow();
+            Stage stage = RemoveKeyPopUpWindow.removeKeyWindow(networkManager, login, password);
 
             stage.show();
         });
