@@ -34,4 +34,13 @@ public class BoxFactory {
             return box;
         }
 
+        public static VBox getTextBox() {
+            VBox textBox = new VBox();
+            textBox.setSpacing(12);
+            textBox.setAlignment(Pos.CENTER);
+            textBox.setPadding(new Insets(15.0, 10.0, 15.0, 10.0));
+
+            return textBox;
+        }
+
     }

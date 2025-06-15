@@ -22,7 +22,7 @@ public class UpdatePopUpWindow {
                 event -> {
                     Stage subStage = InsertPopUpWindow.insertWindow();
 
-                    subStage.show();
+                    subStage.show(); // скорее всего переделаю
                 }
         );
         VBox box = BoxFactory.getPopUpBox(mainLabel, key, commit);

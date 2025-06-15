@@ -1,5 +1,6 @@
 package ProcessEngine.GraphicCore.SignWindow.SignInWindow;
 
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.GraphicCore.SignWindow.SignWindow;
@@ -46,9 +47,7 @@ public class SignInWindow {
         innerBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(30), Insets.EMPTY)));
         innerBox.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(30), new BorderWidths(3.0))));
 
-        VBox textBox = new VBox();
-        textBox.setSpacing(12);
-        textBox.setPadding(new Insets(15.0, 10.0, 15.0, 10.0));
+        VBox textBox = BoxFactory.getTextBox();
         TextField loginField = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
         TextField passwordField = TextFieldFactory.getPasswordField("password");
         textBox.getChildren().addAll(loginField, passwordField);

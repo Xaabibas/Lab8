@@ -18,12 +18,18 @@ public class RemoveGrPopUpWindow {
     public static Stage removeGreaterWindow() {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Insert price"); // Сравнение идет по цене
-        TextField price = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
         Button commit = ButtonFactory.getCommitButton(); // Написать setOnAction
 
-        VBox box = BoxFactory.getPopUpBox(mainLabel, price, commit);
+        VBox box = BoxFactory.getPopUpBox(mainLabel, priceField, commit);
         Scene scene = new Scene(box, 300, 400);
         stage.setScene(scene);
+
+        commit.setOnAction(
+                event -> {
+
+                }
+        );
 
         return stage;
     }
