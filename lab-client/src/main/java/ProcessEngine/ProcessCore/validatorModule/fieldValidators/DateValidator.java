@@ -1,10 +1,10 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
-import java.time.DateTimeException;
-import java.time.LocalDateTime;
-
 import ProcessEngine.ProcessCore.validatorModule.ValidationException;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
+
+import java.time.DateTimeException;
+import java.time.LocalDateTime;
 
 public class DateValidator implements Validator {
     @Override
@@ -14,7 +14,7 @@ public class DateValidator implements Validator {
                 return true;
             }
 
-            String[] data = line.split("\\s*;\\s*");
+            String[] data = line.split("\\.");
 
             if (data.length != 6) {
                 throw new ValidationException("[ERROR] Введите корректное количество значений");

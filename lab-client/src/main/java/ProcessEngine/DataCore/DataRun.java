@@ -76,13 +76,13 @@ public class DataRun {
             @Override
             protected Void call() throws Exception {
                 collectionVectorData = collectionDataRun(login, password);
-                Thread.sleep(3500);
+                Thread.sleep(1500);
                 return null;
             }
         };
 
         asyncUpdateCollectionDataTask.setOnSucceeded(event -> {
-            System.out.println("# AsyncCollectionUpdate завершился успешно");
+            // System.out.println("# AsyncCollectionUpdate завершился успешно");
             asyncAutoUpdateCollectionData(login, password);
         });
 

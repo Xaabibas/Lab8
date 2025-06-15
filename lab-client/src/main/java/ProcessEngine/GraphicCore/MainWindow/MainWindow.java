@@ -32,14 +32,14 @@ public class MainWindow {
         this.stage = stage;
         dataRun = new DataRun(networkManager);
         dataRun.asyncAutoUpdateCollectionData(authCheckData.getLogin(), authCheckData.getPassword());
-    }    
+    }
 
     public void window() {
         BorderPane root = new BorderPane();
 
         root.setBackground(new Background(new BackgroundFill(Color.MINTCREAM, new CornerRadii(5), Insets.EMPTY)));
 
-        ControlPanel controlPanel = new ControlPanel(dataRun); // панель кнопок
+        ControlPanel controlPanel = new ControlPanel(dataRun, networkManager, authCheckData.getLogin(), authCheckData.getPassword()); // панель кнопок
 
         HBox upLine = upLine(); // верхняя панель
 

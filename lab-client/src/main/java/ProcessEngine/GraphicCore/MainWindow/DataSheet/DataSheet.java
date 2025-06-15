@@ -87,15 +87,11 @@ public class DataSheet {
             @Override
             protected Void call() throws Exception {
                 while (!isCancelled()) {
-                    // запрашиваешь новые данные из dataRun
-                    // че то обновляешь для графических элементов
-                    ObservableList<String[]> tickets = FXCollections.observableArrayList(
-                            dataRun.getCollectionData()
-                    );
+                    ObservableList<String[]> tickets = FXCollections.observableArrayList(dataRun.getCollectionData());
                     Platform.runLater(() -> {
                         table.setItems(tickets);
                     });
-                    Thread.sleep(3000);
+                    Thread.sleep(1000);
                 }
                 return null;
             }

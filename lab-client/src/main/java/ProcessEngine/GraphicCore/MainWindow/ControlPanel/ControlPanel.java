@@ -1,6 +1,5 @@
 package ProcessEngine.GraphicCore.MainWindow.ControlPanel;
 
-
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.CountByTypePopUpWindow.CountByTypePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.InsertPopUpWindow.InsertPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveGrPopUpWindow.RemoveGrPopUpWindow;
@@ -9,6 +8,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowKeyPopUpW
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowPopUpWindow.RemoveLowPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWindow.SumOfPricePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.DataCore.DataRun;
@@ -23,9 +23,15 @@ import javafx.stage.Stage;
 public class ControlPanel {
 
     protected DataRun dataRun;
+    protected NetworkManager networkManager;
+    protected String login;
+    protected String password;
     
-    public ControlPanel(DataRun dataRun) {
+    public ControlPanel(DataRun dataRun, NetworkManager networkManager, String login, String password) {
         this.dataRun = dataRun;
+        this.networkManager = networkManager;
+        this.login = login;
+        this.password = password;
     }
 
     public VBox getCommands() {
@@ -34,23 +40,21 @@ public class ControlPanel {
         commands.setSpacing(17);
         commands.setPadding(new Insets(30, 30, 30, 30));
 
-        Button update = ButtonFactory.getCommandButton("update"); // Написать setOnAction
+        Button update = ButtonFactory.getCommandButton("update");
         update.setOnAction(event -> {
-            Stage stage = UpdatePopUpWindow.updateWindow();
-
+            Stage stage = UpdatePopUpWindow.updateWindow(networkManager, login, password);
             stage.show();
         });
 
-        Button insert = ButtonFactory.getCommandButton("insert"); // Написать setOnAction
+        Button insert = ButtonFactory.getCommandButton("insert");
         insert.setOnAction(event -> {
-            Stage stage = InsertPopUpWindow.insertWindow();
-
+            Stage stage = InsertPopUpWindow.insertWindow(networkManager, login, password);
             stage.show();
         });
 
         HBox first = BoxFactory.getBoxWithButtons(update, insert);
 
-        Button removeGreater = ButtonFactory.getCommandButton("remove greater"); // Написать setOnAction
+        Button removeGreater = ButtonFactory.getCommandButton("remove greater");
         removeGreater.setOnAction(event -> {
             Stage stage = RemoveGrPopUpWindow.removeGreaterWindow();
 

@@ -75,7 +75,7 @@ public class ProcessRun {
             request.setTokens(line);
             request.setUser(name);
             request.setPassword(password);
-            System.out.println(name + " " + password + " " + line + " " + commandName + "\n");
+
             client = name;
             passw = password;
 

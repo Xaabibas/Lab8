@@ -11,7 +11,7 @@ public class EnterLocalDateTime implements SimpleEnterator<LocalDateTime> {
         String[] data;
         int[] date = new int[6];
         while (true) {
-            System.out.print("Введите данные в формате [year; month; day; hour; minute; second] (все значения int," +
+            System.out.print("Введите данные в формате [ year.month.day.hour.minute.second ] (все значения int," +
                     " для присвоения значения null введите пустую строку) > ");
             line = scanner.nextLine();
 
@@ -22,7 +22,7 @@ public class EnterLocalDateTime implements SimpleEnterator<LocalDateTime> {
                 return null;
             }
 
-            data = line.split("\\s*;\\s*");
+            data = line.split("\\.");
             for (int i = 0; i < 6; i++) {
                 if (data[i].isEmpty()) {
                     continue;

@@ -1,12 +1,11 @@
 package ProcessEngine.ProcessCore.enteratorModule;
 
 import moduls.Ticket;
-
-import java.util.Scanner;
-
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.NameValidator;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.PriceValidator;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.TypeValidator;
+
+import java.util.Scanner;
 
 public class EnterTicket implements ComplexEnterator<Ticket> {
     public Ticket enter(Scanner scanner) {
