@@ -120,17 +120,16 @@ public class InsertPopUpWindow {
                         String netAnswer = networkManager.sendAndReceive(insertRequest);
 
                         if (netAnswer.equals("[ERROR] Данное значение уже является ключом")) {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
+                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
                             mainLabel.setTextFill(javafx.scene.paint.Color.RED);
                             mainLabel.setText("Уже существуюет элемент с таким ключом");
                         } else {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 20));
+                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
                             mainLabel.setTextFill(javafx.scene.paint.Color.FORESTGREEN);
                             mainLabel.setText("Insert your data");
                         }
 
                     } catch (Exception e) {
-                        // Наверное стоит подумать какой exception может вылететь, но попозже
                         if (!textBox.getChildren().contains(error)) {
                             textBox.getChildren().add(error);
                         }

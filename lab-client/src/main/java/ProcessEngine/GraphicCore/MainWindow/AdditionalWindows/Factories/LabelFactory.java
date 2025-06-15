@@ -9,7 +9,7 @@ public class LabelFactory {
 
         public static Label getMainLabel(String name) {
             Label label = new Label(name);
-            label.setFont(Font.font("System", FontWeight.BOLD, 20));
+            label.setFont(Font.font("System", FontWeight.BOLD, 19));
             label.setTextFill(Color.FORESTGREEN);
 
             return label;
