@@ -11,6 +11,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWin
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
+import ProcessEngine.DataCore.DataRun;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,8 +21,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ControlPanel {
+
+    protected DataRun dataRun;
     
-    public ControlPanel() {}
+    public ControlPanel(DataRun dataRun) {
+        this.dataRun = dataRun;
+    }
 
     public VBox getCommands() {
         VBox commands = new VBox();
@@ -81,7 +86,7 @@ public class ControlPanel {
 
         Button sum = ButtonFactory.getCommandButton("sum of price"); // Написать setOnAction
         sum.setOnAction(event -> {
-            Stage stage = SumOfPricePopUpWindow.sumWindow();
+            Stage stage = SumOfPricePopUpWindow.sumWindow(dataRun.getCollectionData());
 
             stage.show();
         });

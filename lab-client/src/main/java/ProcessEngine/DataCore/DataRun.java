@@ -75,8 +75,8 @@ public class DataRun {
         Task<Void> asyncUpdateCollectionDataTask = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                Thread.sleep(3000);
                 collectionVectorData = collectionDataRun(login, password);
+                Thread.sleep(3500);
                 return null;
             }
         };
@@ -96,7 +96,7 @@ public class DataRun {
         newThread.start();
     }
 
-    protected synchronized Vector<String[]> getCollectionData() {
+    public synchronized Vector<String[]> getCollectionData() {
         return collectionVectorData;
     }
 
