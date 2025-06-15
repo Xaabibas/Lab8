@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-
 import java.util.Vector;
 
 public class SumOfPricePopUpWindow {
@@ -32,7 +31,7 @@ public class SumOfPricePopUpWindow {
     public static String countSumOfPrice(Vector<String[]> vectorStringCollection) {
         double sumOfPrice = 0;
         for (int i = 0; i < vectorStringCollection.size(); ++i) {
-            sumOfPrice = sumOfPrice + Double.parseDouble(vectorStringCollection.get(i)[6]);
+            sumOfPrice += Double.parseDouble(vectorStringCollection.get(i)[6]);
         }
         return String.valueOf(sumOfPrice);
     }

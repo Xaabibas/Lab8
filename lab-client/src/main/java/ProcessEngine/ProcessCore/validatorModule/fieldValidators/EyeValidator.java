@@ -1,7 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
 import ProcessEngine.ProcessCore.validatorModule.Validator;
-import moduls.Country;
 import moduls.EyeColor;
 
 import java.util.Arrays;

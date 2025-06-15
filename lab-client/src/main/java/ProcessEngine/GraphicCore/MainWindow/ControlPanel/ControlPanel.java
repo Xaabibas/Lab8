@@ -93,7 +93,7 @@ public class ControlPanel {
 
         Button count = ButtonFactory.getCommandButton("count by type"); // Написать setOnAction
         count.setOnAction(event -> {
-            Stage stage = CountByTypePopUpWindow.countWindow();
+            Stage stage = CountByTypePopUpWindow.countWindow(dataRun.getCollectionData());
 
             stage.show();
         });

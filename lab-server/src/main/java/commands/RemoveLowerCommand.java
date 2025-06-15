@@ -1,9 +1,7 @@
 package commands;
 
-
 import commands.abstraction.Command;
 import managers.CollectionManager;
-import managers.CommandManager;
 import moduls.Ticket;
 import network.Request;
 import network.Response;
