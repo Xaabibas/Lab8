@@ -24,7 +24,7 @@ public class CountByTypePopUpWindow {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Count by type");
         TextField type = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
-        Button count = ButtonFactory.getCommitButton(); // Написать setOnAction
+        Button count = ButtonFactory.getCommitButton();
         count.setTooltip(new Tooltip("Enter the type of ticket you want to count"));
         count.setText("Count!");
         count.setOnAction(e -> {

@@ -1,10 +1,8 @@
 package moduls;
 
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
-
 
 public class Ticket implements Comparable<Ticket>, Serializable {
     final private static long serialVersionUID = 15L;
