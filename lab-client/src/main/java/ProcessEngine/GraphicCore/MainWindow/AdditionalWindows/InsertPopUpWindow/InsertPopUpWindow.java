@@ -23,9 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -43,11 +40,12 @@ public class InsertPopUpWindow {
         TextField yField = TextFieldFactory.getFieldWithValidator("y", new YValidator());
         TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
         TextField typeField = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
-        Label personData = LabelFactory.fetUsualLabel("Person Data");
+        Label personData = LabelFactory.getUsualLabel("Person Data");
         TextField birthdayField = TextFieldFactory.getFieldWithValidator("birthday [ year.month.day.hour.minute.second ]", new DateValidator());
         TextField countryField = TextFieldFactory.getFieldWithValidator("country", new CountryValidator());
         TextField eyeField = TextFieldFactory.getFieldWithValidator("eye color", new EyeValidator());
         TextField hairField = TextFieldFactory.getFieldWithValidator("hair color", new HairValidator());
+        Label label = LabelFactory.getErrorLabel("");
 
         textBox.getChildren().addAll(
             keyField, 
@@ -60,12 +58,11 @@ public class InsertPopUpWindow {
             birthdayField, 
             countryField, 
             eyeField, 
-            hairField
+            hairField,
+                label
         );
         Button commit = ButtonFactory.getCommitButton();
 
-        Label error = new Label("Введите корректные данные!");
-        error.setTextFill(Color.RED);
 
         commit.setOnAction(
                 event -> {
@@ -120,19 +117,15 @@ public class InsertPopUpWindow {
                         String netAnswer = networkManager.sendAndReceive(insertRequest);
 
                         if (netAnswer.equals("[ERROR] Данное значение уже является ключом")) {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
-                            mainLabel.setTextFill(javafx.scene.paint.Color.RED);
-                            mainLabel.setText("Уже существуюет элемент с таким ключом");
+                            label.setText("Уже существуюет элемент с таким ключом");
+                            LabelFactory.toErrorLabel(label);
                         } else {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
-                            mainLabel.setTextFill(javafx.scene.paint.Color.FORESTGREEN);
-                            mainLabel.setText("Insert your data");
+                            label.setText("Элемент был успешно добавлен");
+                            LabelFactory.toResultLabel(label);
                         }
-
                     } catch (Exception e) {
-                        if (!textBox.getChildren().contains(error)) {
-                            textBox.getChildren().add(error);
-                        }
+                        label.setText("Введите корректные значения");
+                        LabelFactory.toErrorLabel(label);
                     }
                 }
         );

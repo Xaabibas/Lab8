@@ -25,11 +25,10 @@ public class RemoveKeyPopUpWindow {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Insert Key");
         VBox textBox = BoxFactory.getTextBox();
+        Label label = new Label();
         TextField keyField = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
-        textBox.getChildren().add(keyField);
+        textBox.getChildren().addAll(keyField, label);
         Button commit = ButtonFactory.getCommitButton();
-        Label error = new Label("Введите корректное значение key");
-        error.setTextFill(Color.RED);
 
         commit.setOnAction(
                 event -> {
@@ -48,29 +47,26 @@ public class RemoveKeyPopUpWindow {
                         String netAnswer = networkManager.sendAndReceive(request);
 
                         if (!netAnswer.equals("Элемент успешно удален")) {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
-                            mainLabel.setTextFill(javafx.scene.paint.Color.RED);
-                            mainLabel.setText("В коллекции нет \nэлемента с таким ключом");
+                            label.setText("В коллекции нет \nэлемента с таким ключом");
+                            LabelFactory.toErrorLabel(label);
                         } else {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
-                            mainLabel.setTextFill(javafx.scene.paint.Color.FORESTGREEN);
-                            mainLabel.setText("Insert your data");
+                            label.setText(netAnswer);
+                            LabelFactory.toResultLabel(label);
                         }
 
-                        textBox.getChildren().remove(error);
 
                     } catch (IllegalArgumentException e) {
-                        if (!textBox.getChildren().contains(error)) {
-                            textBox.getChildren().add(error);
-                        }
+                        label.setText("Введите корректное значение key");
+                        LabelFactory.toErrorLabel(label);
                     } catch (Exception e) {
-                        error.setText("Нет элемента с таким key"); // Это надо? Если да, то в try надо будет кидать exception и здесь как раз выводить сообщение
+                        label.setText("Нет элемента с таким key"); // Это надо? Если да, то в try надо будет кидать exception и здесь как раз выводить сообщение
+                        LabelFactory.toErrorLabel(label);
                     }
                 }
         );
 
         VBox box = BoxFactory.getPopUpBox(mainLabel, textBox, commit);
-        Scene scene = new Scene(box, 300, 400);
+        Scene scene = new Scene(box, 600, 400);
         stage.setScene(scene);
 
         return stage;

@@ -92,14 +92,14 @@ public class ControlPanel {
 
         Button sum = ButtonFactory.getCommandButton("sum of price");
         sum.setOnAction(event -> {
-            Stage stage = SumOfPricePopUpWindow.sumWindow(dataRun.getCollectionData());
+            Stage stage = SumOfPricePopUpWindow.sumWindow(networkManager, login, password);
 
             stage.show();
         });
 
         Button count = ButtonFactory.getCommandButton("count by type");
         count.setOnAction(event -> {
-            Stage stage = CountByTypePopUpWindow.countWindow(dataRun.getCollectionData());
+            Stage stage = CountByTypePopUpWindow.countWindow(networkManager, login, password);
 
             stage.show();
         });

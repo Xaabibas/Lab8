@@ -4,6 +4,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFacto
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.TypeValidator;
 
 import javafx.scene.Scene;
@@ -13,45 +14,49 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import network.Request;
 
-import java.util.Vector;
+import java.util.Arrays;
 
 public class CountByTypePopUpWindow {
 
-    public static Stage countWindow(Vector<String[]> vectorStringCollection) {
+    public static Stage countWindow(NetworkManager networkManager, String login, String password) {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Count by type");
         TextField type = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
+        VBox textBox = BoxFactory.getTextBox();
+        textBox.getChildren().add(type);
+        textBox.getChildren().add(new Label());
+
         Button count = ButtonFactory.getCommitButton();
         count.setTooltip(new Tooltip("Enter the type of ticket you want to count"));
         count.setText("Count!");
         count.setOnAction(e -> {
+            textBox.getChildren().remove(1);
             if (type.getText().trim().isEmpty()) {
-                mainLabel.setFont(Font.font("System", FontWeight.BOLD, 30));
-                mainLabel.setTextFill(javafx.scene.paint.Color.RED);
-                mainLabel.setText("Введите корректный Type!");
+                textBox.getChildren().add(LabelFactory.getErrorLabel("Введите корректный Type!"));
             } else {
-                mainLabel.setText("Результат: " + countByType(vectorStringCollection, type.getText().trim()));
-                mainLabel.setFont(Font.font("System", FontWeight.BOLD, 35));
-                mainLabel.setTextFill(javafx.scene.paint.Color.AZURE);
+                textBox.getChildren().add(LabelFactory.getResultLabel(countByType(networkManager, login, password, type.getText().trim())));
             }
         });
-        VBox box = BoxFactory.getPopUpBox(mainLabel, type, count);
+
+        VBox box = BoxFactory.getPopUpBox(mainLabel, textBox, count);
         stage.setScene(new Scene(box, 500, 400));
         return stage;
     }
 
-    public static String countByType(Vector<String[]> vectorStringCollection, String typeString) {
-        int totalCountByType = 0;
-        for (int i = 0; i < vectorStringCollection.size(); ++i) {
-            if (vectorStringCollection.get(i)[7].equals(typeString)) {
-                totalCountByType += 1;
-            }
-        }
+    public static String countByType(NetworkManager networkManager, String login, String password, String type) {
+        Request request = new Request();
+        request.setUser(login);
+        request.setPassword(Arrays.toString(password
+                .chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .toArray(String[]::new))
+        );
+        request.setCommandName("count_by_type");
+        request.setTokens("count_by_type " + type);
 
-        return String.valueOf(totalCountByType);
+        return networkManager.sendAndReceive(request);
     }
 
 }

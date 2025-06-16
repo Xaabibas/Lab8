@@ -46,7 +46,7 @@ public class UpdatePopUpWindow {
         TextField yField = TextFieldFactory.getFieldWithValidator("y", new YValidator());
         TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
         TextField typeField = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
-        Label personData = LabelFactory.fetUsualLabel("Person Data");
+        Label personData = LabelFactory.getUsualLabel("Person Data");
         TextField birthdayField = TextFieldFactory.getFieldWithValidator("birthday [ year.month.day.hour.minute.second ]", new DateValidator());
         TextField countryField = TextFieldFactory.getFieldWithValidator("country", new CountryValidator());
         TextField eyeField = TextFieldFactory.getFieldWithValidator("eye color", new EyeValidator());

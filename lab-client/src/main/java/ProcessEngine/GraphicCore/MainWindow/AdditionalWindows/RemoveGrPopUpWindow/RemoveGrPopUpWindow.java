@@ -25,15 +25,14 @@ public class RemoveGrPopUpWindow {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Insert price"); // Сравнение идет по цене
         TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        Label label = LabelFactory.getErrorLabel("");
         VBox textBox = BoxFactory.getTextBox();
-        textBox.getChildren().add(priceField);
+        textBox.getChildren().addAll(priceField, label);
         Button commit = ButtonFactory.getCommitButton();
 
         VBox box = BoxFactory.getPopUpBox(mainLabel, textBox, commit);
-        Scene scene = new Scene(box, 300, 400);
+        Scene scene = new Scene(box, 600, 400);
         stage.setScene(scene);
-        Label error = new Label("Некорректное значение поля price");
-        error.setTextFill(Color.RED);
 
         commit.setOnAction(
                 event -> {
@@ -57,13 +56,12 @@ public class RemoveGrPopUpWindow {
 
                         String netAnswer = networkManager.sendAndReceive(request);
 
-                        // Какое-то сообщение наверное надо вывести
-                        textBox.getChildren().remove(error);
+                        label.setText(netAnswer);
+                        LabelFactory.toResultLabel(label);
 
                     } catch (IllegalArgumentException e) {
-                        if (!textBox.getChildren().contains(error)) {
-                            textBox.getChildren().add(error);
-                        }
+                        label.setText("Введите корректное значение");
+                        LabelFactory.toErrorLabel(label);
                     }
                 }
         );
