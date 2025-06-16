@@ -1,5 +1,6 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -27,6 +28,7 @@ public class LabelFactory {
             Label label = new Label(name);
             label.setFont(Font.font("System", FontWeight.BOLD, 16));
             label.setTextFill(Color.RED);
+            label.setAlignment(Pos.CENTER);
 
             return label;
         }
@@ -35,6 +37,7 @@ public class LabelFactory {
             Label label = new Label(name);
             label.setFont(Font.font("System", FontWeight.BOLD, 18));
             label.setTextFill(Color.FORESTGREEN);
+            label.setAlignment(Pos.CENTER);
 
             return label;
         }
@@ -42,11 +45,13 @@ public class LabelFactory {
         public static void toErrorLabel(Label label) {
             label.setFont(Font.font("System", FontWeight.BOLD, 16));
             label.setTextFill(Color.RED);
+            label.setAlignment(Pos.CENTER);
         }
 
         public static void toResultLabel(Label label) {
             label.setFont(Font.font("System", FontWeight.BOLD, 18));
             label.setTextFill(Color.FORESTGREEN);
+            label.setAlignment(Pos.CENTER);
         }
 
     }

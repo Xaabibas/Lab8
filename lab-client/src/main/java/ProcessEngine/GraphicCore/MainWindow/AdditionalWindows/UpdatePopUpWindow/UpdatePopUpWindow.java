@@ -23,61 +23,108 @@ import network.Request;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Set;
+import java.util.Vector;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class UpdatePopUpWindow {
 
-    public static Stage updateWindow(NetworkManager networkManager, String login, String password) {
+    public static Stage updateWindow(NetworkManager networkManager, String login, String password, Vector<String[]> collection) {
         Stage stage = new Stage();
+        Label mainLabel = LabelFactory.getMainLabel("Insert key");
+
+        VBox textBox = BoxFactory.getTextBox();
+        TextField keyField = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
+        Label label = new Label("");
+        LabelFactory.toErrorLabel(label);
+        textBox.getChildren().addAll(keyField, label);
+
+        Button button = ButtonFactory.getCommitButton();
+        button.setOnAction(
+                event -> {
+                    try {
+                        long key = Long.parseLong(keyField.getText());
+                        Set<Long> keys = collection.stream().map(strings -> Long.parseLong(strings[0])).collect(Collectors.toSet());
+                        if (keys.contains(key)) {
+                            String[] values = collection.stream().filter(strings -> key == Long.parseLong(strings[0])).collect(toSingleton());
+                            Stage second = secondWindow(networkManager, login, password, values, key);
+                            second.show();
+                            stage.close();
+                        } else {
+                            label.setText("Нет элемента с заданным key");
+                        }
+                    } catch (IllegalArgumentException e) {
+                        label.setText("Введите корректный key");
+                    }
+                }
+        );
+
+        VBox box = BoxFactory.getPopUpBox();
+        box.getChildren().addAll(mainLabel, textBox, button);
+
+        Scene scene = new Scene(box, 400, 400);
+        stage.setScene(scene);
+        return stage;
+    }
+
+    private static Stage secondWindow(NetworkManager networkManager, String login, String password, String[] values, long key) {
+        Stage stage = new Stage();
+        // [ [key, id, name, Coordinates.x, Coordinates.y, creationDate, price, type, Person.birthday, Person.eyeColor, Person.hairColor, Person.nationality] ]
 
         Label mainLabel = LabelFactory.getMainLabel("Insert your data");
         VBox textBox = BoxFactory.getTextBox();
-        TextField keyField = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
         TextField nameField = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
+        nameField.setText(values[2]);
         TextField xField = TextFieldFactory.getFieldWithValidator("x", new XValidator());
+        xField.setText(values[3]);
         TextField yField = TextFieldFactory.getFieldWithValidator("y", new YValidator());
+        yField.setText(values[4]);
         TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        priceField.setText(values[6]);
         TextField typeField = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
+        typeField.setText(values[7].equals("null") ? "" : values[7]);
         Label personData = LabelFactory.getUsualLabel("Person Data");
         TextField birthdayField = TextFieldFactory.getFieldWithValidator("birthday [ year.month.day.hour.minute.second ]", new DateValidator());
+        birthdayField.setText(values[8].equals("null") ? "" : values[8]);
         TextField countryField = TextFieldFactory.getFieldWithValidator("country", new CountryValidator());
+        countryField.setText(values[11].equals("null") ? "" : values[11]);
         TextField eyeField = TextFieldFactory.getFieldWithValidator("eye color", new EyeValidator());
+        eyeField.setText(values[9].equals("null") ? "" : values[9]);
         TextField hairField = TextFieldFactory.getFieldWithValidator("hair color", new HairValidator());
+        hairField.setText(values[10].equals("null") ? "" : values[10]);
+        Label label = new Label();
 
         textBox.getChildren().addAll(
-            keyField, 
-            nameField, 
-            xField, 
-            yField, 
-            priceField, 
-            typeField,
-            personData, 
-            birthdayField, 
-            countryField, 
-            eyeField, 
-            hairField
+                nameField,
+                xField,
+                yField,
+                priceField,
+                typeField,
+                personData,
+                birthdayField,
+                countryField,
+                eyeField,
+                hairField,
+                label
         );
         Button commit = ButtonFactory.getCommitButton();
 
-        Label error = new Label("Введите корректные данные!");
-        error.setTextFill(Color.RED);
 
         commit.setOnAction(
                 event -> {
                     try {
-                        long key = Long.parseLong(keyField.getText());
                         String name = nameField.getText();
                         Coordinates coord = new Coordinates(Float.parseFloat(xField.getText()), Long.parseLong(yField.getText()));
                         float price = Float.parseFloat(priceField.getText());
-                        TicketType type = typeField.getText() == null ? null : TicketType.valueOf(typeField.getText());
+                        TicketType type = typeField.getText().isEmpty() ? null : TicketType.valueOf(typeField.getText());
                         LocalDateTime birthday;
                         String line = birthdayField.getText();
                         if (!line.isEmpty()) {
@@ -94,9 +141,9 @@ public class UpdatePopUpWindow {
                         } else {
                             birthday = null;
                         }
-                        Country country = countryField.getText() == null ? null : Country.valueOf(countryField.getText());
-                        EyeColor eye = eyeField.getText() == null ? null : EyeColor.valueOf(eyeField.getText());
-                        HairColor hair = hairField.getText() == null ? null : HairColor.valueOf(hairField.getText());
+                        Country country = countryField.getText().isEmpty() ? null : Country.valueOf(countryField.getText());
+                        EyeColor eye = eyeField.getText().isEmpty() ? null : EyeColor.valueOf(eyeField.getText());
+                        HairColor hair = hairField.getText().isEmpty() ? null : HairColor.valueOf(hairField.getText());
 
                         Ticket ticket = new Ticket();
                         ticket.setName(name);
@@ -113,9 +160,9 @@ public class UpdatePopUpWindow {
                         Request insertRequest = new Request();
                         insertRequest.setUser(login);
                         insertRequest.setPassword(Arrays.toString(password
-                            .chars()
-                            .mapToObj(c -> String.valueOf((char) c))
-                            .toArray(String[]::new))
+                                .chars()
+                                .mapToObj(c -> String.valueOf((char) c))
+                                .toArray(String[]::new))
                         );
                         insertRequest.setObj(ticket);
                         insertRequest.setCommandName("update");
@@ -123,19 +170,16 @@ public class UpdatePopUpWindow {
                         String netAnswer = networkManager.sendAndReceive(insertRequest);
 
                         if (!netAnswer.equals("Элемент был успешно обновлен")) {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
-                            mainLabel.setTextFill(javafx.scene.paint.Color.RED);
-                            mainLabel.setText("Не существует элемента с таким ключом\nИли нет прав доступа");
+                            label.setText("Нет прав доступа");
+                            LabelFactory.toErrorLabel(label);
                         } else {
-                            mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
-                            mainLabel.setTextFill(javafx.scene.paint.Color.FORESTGREEN);
-                            mainLabel.setText("Insert your data");
+                            label.setText(netAnswer);
+                            LabelFactory.toResultLabel(label);
                         }
 
                     } catch (Exception e) {
-                        if (!textBox.getChildren().contains(error)) {
-                            textBox.getChildren().add(error);
-                        }
+                        label.setText("Введите корректные данные");
+                        LabelFactory.toErrorLabel(label);
                     }
                 }
         );
@@ -147,6 +191,18 @@ public class UpdatePopUpWindow {
         stage.setScene(scene);
 
         return stage;
+    }
+
+    public static <T> Collector<T, ?, T> toSingleton() {
+        return Collectors.collectingAndThen(
+                Collectors.toList(),
+                list -> {
+                    if (list.size() != 1) {
+                        throw new IllegalStateException();
+                    }
+                    return list.get(0);
+                }
+        );
     }
     
 }

@@ -14,7 +14,6 @@ import javafx.scene.text.FontWeight;
 import network.Request;
 
 import java.util.Arrays;
-import java.util.Vector;
 
 public class SumOfPricePopUpWindow {
 

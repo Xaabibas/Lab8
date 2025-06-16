@@ -44,7 +44,7 @@ public class ControlPanel {
 
         Button update = ButtonFactory.getCommandButton("update");
         update.setOnAction(event -> {
-            Stage stage = UpdatePopUpWindow.updateWindow(networkManager, login, password);
+            Stage stage = UpdatePopUpWindow.updateWindow(networkManager, login, password, dataRun.getCollectionData());
             stage.show();
         });
 
