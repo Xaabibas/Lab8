@@ -125,7 +125,7 @@ public class UpdatePopUpWindow {
                         if (!netAnswer.equals("Элемент был успешно обновлен")) {
                             mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
                             mainLabel.setTextFill(javafx.scene.paint.Color.RED);
-                            mainLabel.setText("Не существует элемента с таким ключом");
+                            mainLabel.setText("Не существует элемента с таким ключом\nИли нет прав доступа");
                         } else {
                             mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));
                             mainLabel.setTextFill(javafx.scene.paint.Color.FORESTGREEN);

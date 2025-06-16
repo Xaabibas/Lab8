@@ -76,7 +76,7 @@ public class DataRun {
             @Override
             protected Void call() throws Exception {
                 collectionVectorData = collectionDataRun(login, password);
-                Thread.sleep(1500);
+                Thread.sleep(200);
                 return null;
             }
         };

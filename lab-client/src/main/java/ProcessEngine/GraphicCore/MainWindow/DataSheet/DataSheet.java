@@ -91,7 +91,7 @@ public class DataSheet {
                     Platform.runLater(() -> {
                         table.setItems(tickets);
                     });
-                    Thread.sleep(1000);
+                    Thread.sleep(100);
                 }
                 return null;
             }
