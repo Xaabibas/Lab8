@@ -74,7 +74,7 @@ public class InsertPopUpWindow {
                         String name = nameField.getText();
                         Coordinates coord = new Coordinates(Float.parseFloat(xField.getText()), Long.parseLong(yField.getText()));
                         float price = Float.parseFloat(priceField.getText());
-                        TicketType type = typeField.getText() == null ? null : TicketType.valueOf(typeField.getText());
+                        TicketType type = typeField.getText().isEmpty() ? null : TicketType.valueOf(typeField.getText());
                         LocalDateTime birthday;
                         String line = birthdayField.getText();
                         if (!line.isEmpty()) {
@@ -91,9 +91,9 @@ public class InsertPopUpWindow {
                         } else {
                             birthday = null;
                         }
-                        Country country = countryField.getText() == null ? null : Country.valueOf(countryField.getText());
-                        EyeColor eye = eyeField.getText() == null ? null : EyeColor.valueOf(eyeField.getText());
-                        HairColor hair = hairField.getText() == null ? null : HairColor.valueOf(hairField.getText());
+                        Country country = countryField.getText().isEmpty() ? null : Country.valueOf(countryField.getText());
+                        EyeColor eye = eyeField.getText().isEmpty() ? null : EyeColor.valueOf(eyeField.getText());
+                        HairColor hair = hairField.getText().isEmpty() ? null : HairColor.valueOf(hairField.getText());
 
                         Ticket ticket = new Ticket();
                         ticket.setName(name);
