@@ -25,6 +25,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.Vector;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -93,7 +95,7 @@ public class UpdatePopUpWindow {
         typeField.setText(values[7].equals("null") ? "" : values[7]);
         Label personData = LabelFactory.getUsualLabel("Person Data");
         TextField birthdayField = TextFieldFactory.getFieldWithValidator("birthday [ year.month.day.hour.minute.second ]", new DateValidator());
-        birthdayField.setText(values[8].equals("null") ? "" : values[8]);
+        birthdayField.setText(values[8].equals("null") ? "" : format(values[8]));
         TextField countryField = TextFieldFactory.getFieldWithValidator("country", new CountryValidator());
         countryField.setText(values[11].equals("null") ? "" : values[11]);
         TextField eyeField = TextFieldFactory.getFieldWithValidator("eye color", new EyeValidator());
@@ -203,6 +205,22 @@ public class UpdatePopUpWindow {
                     return list.get(0);
                 }
         );
+    }
+
+    private static String format(String date) {
+        String regex = "\\d+";
+        StringBuilder result = new StringBuilder();
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher matcher = pattern.matcher(date);
+        while (matcher.find()) {
+            int start = matcher.start();
+            int end = matcher.end();
+            result.append(date, start, end).append(".");
+        }
+        String out = result.toString();
+
+        return out.substring(0, out.length() - 1);
     }
     
 }
