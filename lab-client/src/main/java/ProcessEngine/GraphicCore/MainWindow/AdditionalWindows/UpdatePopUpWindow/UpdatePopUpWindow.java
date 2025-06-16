@@ -77,7 +77,7 @@ public class UpdatePopUpWindow {
         return stage;
     }
 
-    private static Stage secondWindow(NetworkManager networkManager, String login, String password, String[] values, long key) {
+    public static Stage secondWindow(NetworkManager networkManager, String login, String password, String[] values, long key) {
         Stage stage = new Stage();
         // [ [key, id, name, Coordinates.x, Coordinates.y, creationDate, price, type, Person.birthday, Person.eyeColor, Person.hairColor, Person.nationality] ]
 

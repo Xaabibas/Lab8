@@ -36,7 +36,7 @@ public class MainWindow {
         dataRun = new DataRun(networkManager);
         dataRun.asyncAutoUpdateCollectionData(authCheckData.getLogin(), authCheckData.getPassword());
         dataSheet = new DataSheet(dataRun);
-        visualizationArea = new VisualizationArea(dataRun);
+        visualizationArea = new VisualizationArea(dataRun, networkManager, authCheckData.getLogin(), authCheckData.getPassword());
     }    
 
     public void window() {
@@ -95,7 +95,7 @@ public class MainWindow {
         );
         Button coordButton = new Button("Visualization");
         coordButton.setOnAction(
-                event -> root.setCenter(visualizationArea.startPane())
+                event -> root.setCenter(visualizationArea.startPane(stage))
         );
 
 
