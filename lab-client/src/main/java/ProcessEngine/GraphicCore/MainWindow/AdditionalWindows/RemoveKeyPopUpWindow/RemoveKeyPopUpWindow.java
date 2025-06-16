@@ -36,16 +36,16 @@ public class RemoveKeyPopUpWindow {
                     try {
                         long key = Long.parseLong(keyField.getText());
 
-                        Request insertRequest = new Request();
-                        insertRequest.setUser(login);
-                        insertRequest.setPassword(Arrays.toString(password
+                        Request request = new Request();
+                        request.setUser(login);
+                        request.setPassword(Arrays.toString(password
                             .chars()
                             .mapToObj(c -> String.valueOf((char) c))
                             .toArray(String[]::new))
                         );
-                        insertRequest.setCommandName("remove_key");
-                        insertRequest.setTokens("remove_key" + " " + key);
-                        String netAnswer = networkManager.sendAndReceive(insertRequest);
+                        request.setCommandName("remove_key");
+                        request.setTokens("remove_key" + " " + key);
+                        String netAnswer = networkManager.sendAndReceive(request);
 
                         if (!netAnswer.equals("Элемент успешно удален")) {
                             mainLabel.setFont(Font.font("System", FontWeight.BOLD, 19));

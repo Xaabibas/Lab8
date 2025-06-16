@@ -58,14 +58,14 @@ public class ControlPanel {
 
         Button removeGreater = ButtonFactory.getCommandButton("remove greater");
         removeGreater.setOnAction(event -> {
-            Stage stage = RemoveGrPopUpWindow.removeGreaterWindow();
+            Stage stage = RemoveGrPopUpWindow.removeGreaterWindow(networkManager, login, password);
 
             stage.show();
         });
 
         Button removeLower = ButtonFactory.getCommandButton("remove lower");
         removeLower.setOnAction(event -> {
-            Stage stage = RemoveLowPopUpWindow.removeLowerWindow();
+            Stage stage = RemoveLowPopUpWindow.removeLowerWindow(networkManager, login, password);
 
             stage.show();
         });
@@ -75,7 +75,7 @@ public class ControlPanel {
 
         Button removeLowerKey = ButtonFactory.getCommandButton("remove lower by key");
         removeLowerKey.setOnAction(event -> {
-            Stage stage = RemoveLowKeyPopUpWindow.removeLowerKeyWindow();
+            Stage stage = RemoveLowKeyPopUpWindow.removeLowerKeyWindow(networkManager, login, password);
 
             stage.show();
         });

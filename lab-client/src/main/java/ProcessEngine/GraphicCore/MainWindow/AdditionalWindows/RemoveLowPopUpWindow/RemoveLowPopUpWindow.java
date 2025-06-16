@@ -4,6 +4,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFacto
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.PriceValidator;
 
 import javafx.scene.Scene;
@@ -13,10 +14,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import moduls.Ticket;
+import network.Request;
+
+import java.util.Arrays;
 
 public class RemoveLowPopUpWindow {
 
-    public static Stage removeLowerWindow() {
+    public static Stage removeLowerWindow(NetworkManager networkManager, String login, String password) {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Insert price"); // Сравнение идет по цене
         TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
@@ -34,8 +39,24 @@ public class RemoveLowPopUpWindow {
                 event -> {
                     try {
                         float price = Float.parseFloat(priceField.getText());
+                        Ticket fictitious = new Ticket();
+                        fictitious.setPrice(price);
 
-                        // отправить remove_lower, но он ожидает Ticket, можно либо создавать фиктивный ticket, либо немного переделать на сервере
+                        Request request = new Request();
+                        request.setUser(login);
+                        request.setPassword(Arrays.toString(password
+                                .chars()
+                                .mapToObj(c -> String.valueOf((char) c))
+                                .toArray(String[]::new))
+                        );
+                        request.setObj(fictitious);
+
+                        request.setCommandName("remove_lower");
+                        request.setTokens("remove_lower");
+
+                        String netAnswer = networkManager.sendAndReceive(request);
+
+                        // Какое-то сообщение наверное надо вывести
 
                         textBox.getChildren().remove(error);
 

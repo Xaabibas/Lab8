@@ -4,6 +4,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFacto
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.KeyValidator;
 
 import javafx.scene.Scene;
@@ -13,10 +14,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import network.Request;
+
+import java.util.Arrays;
 
 public class RemoveLowKeyPopUpWindow {
 
-    public static Stage removeLowerKeyWindow() {
+    public static Stage removeLowerKeyWindow(NetworkManager networkManager, String login, String password) {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Insert Key");
         VBox textBox = BoxFactory.getTextBox();
@@ -31,7 +35,18 @@ public class RemoveLowKeyPopUpWindow {
                     try {
                         long key = Long.parseLong(keyField.getText());
 
-                        // отправить команду remove_lower_key key (вроде)
+                        Request request = new Request();
+                        request.setUser(login);
+                        request.setPassword(Arrays.toString(password
+                                .chars()
+                                .mapToObj(c -> String.valueOf((char) c))
+                                .toArray(String[]::new))
+                        );
+                        request.setCommandName("remove_lower_key");
+                        request.setTokens("remove_lower_key" + " " + key);
+                        String netAnswer = networkManager.sendAndReceive(request);
+
+                        // Какое-то сообщение наверное вывести
 
                         textBox.getChildren().remove(error);
 
