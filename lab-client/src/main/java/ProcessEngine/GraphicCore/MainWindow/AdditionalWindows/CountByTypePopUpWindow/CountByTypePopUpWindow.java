@@ -32,7 +32,6 @@ public class CountByTypePopUpWindow {
                 mainLabel.setFont(Font.font("System", FontWeight.BOLD, 30));
                 mainLabel.setTextFill(javafx.scene.paint.Color.RED);
                 mainLabel.setText("Введите корректный Type!");
-                return;
             } else {
                 mainLabel.setText("Результат: " + countByType(vectorStringCollection, type.getText().trim()));
                 mainLabel.setFont(Font.font("System", FontWeight.BOLD, 35));

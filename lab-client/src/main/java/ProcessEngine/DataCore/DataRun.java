@@ -12,14 +12,14 @@ import javafx.concurrent.Task;
 public class DataRun {
 
     protected NetworkManager networkManager;
-    protected Vector<String[]> collectionVectorData = new Vector<String[]>();
+    protected Vector<String[]> collectionVectorData = new Vector<>();
  
     public DataRun(NetworkManager networkManager) {
         this.networkManager = networkManager;
     }
     
     public Vector<String[]> collectionDataRun(String login, String password) {
-        Vector<String[]> vectorString = new Vector<String[]>();
+        Vector<String[]> vectorString = new Vector<>();
 
         Request collectionRequest = new Request();
         collectionRequest.setUser(login);
@@ -72,7 +72,7 @@ public class DataRun {
     }
 
     public synchronized void asyncAutoUpdateCollectionData(String login, String password) {
-        Task<Void> asyncUpdateCollectionDataTask = new Task<Void>() {
+        Task<Void> asyncUpdateCollectionDataTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
                 collectionVectorData = collectionDataRun(login, password);

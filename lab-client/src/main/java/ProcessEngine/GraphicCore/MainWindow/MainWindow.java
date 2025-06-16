@@ -95,7 +95,7 @@ public class MainWindow {
         );
         Button coordButton = new Button("Visualization");
         coordButton.setOnAction(
-                event -> root.setCenter(visualizationArea.getVisualizationArea())
+                event -> root.setCenter(visualizationArea.startPane())
         );
 
 

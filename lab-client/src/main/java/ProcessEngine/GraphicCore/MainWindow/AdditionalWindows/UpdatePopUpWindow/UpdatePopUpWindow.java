@@ -73,7 +73,7 @@ public class UpdatePopUpWindow {
         commit.setOnAction(
                 event -> {
                     try {
-                        Long key = Long.parseLong(keyField.getText());
+                        long key = Long.parseLong(keyField.getText());
                         String name = nameField.getText();
                         Coordinates coord = new Coordinates(Float.parseFloat(xField.getText()), Long.parseLong(yField.getText()));
                         float price = Float.parseFloat(priceField.getText());
