@@ -5,22 +5,21 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFacto
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
-import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
+import ProcessEngine.DataCore.DataRun;
+import moduls.*;
+import network.Request;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import moduls.*;
-import network.Request;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Set;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collector;
@@ -28,7 +27,7 @@ import java.util.stream.Collectors;
 
 public class UpdatePopUpWindow {
 
-    public static Stage updateWindow(NetworkManager networkManager, String login, String password, Vector<String[]> collection) {
+    public static Stage updateWindow(NetworkManager networkManager, String login, String password, DataRun dataRun) {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel(GraphicRun.localizator.getString("insert key"));
 
@@ -43,9 +42,9 @@ public class UpdatePopUpWindow {
                 event -> {
                     try {
                         long key = Long.parseLong(keyField.getText());
-                        Set<Long> keys = collection.stream().map(strings -> Long.parseLong(strings[0])).collect(Collectors.toSet());
+                        Set<Long> keys = dataRun.getCollectionData().stream().map(strings -> Long.parseLong(strings[0])).collect(Collectors.toSet());
                         if (keys.contains(key)) {
-                            String[] values = collection.stream().filter(strings -> key == Long.parseLong(strings[0])).collect(toSingleton());
+                            String[] values = dataRun.getCollectionData().stream().filter(strings -> key == Long.parseLong(strings[0])).collect(toSingleton());
                             Stage second = secondWindow(networkManager, login, password, values, key);
                             second.show();
                             stage.close();

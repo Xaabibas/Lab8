@@ -14,7 +14,6 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWin
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.ColumnSortFlag;
-import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import network.Request;
 
@@ -48,7 +47,7 @@ public class ControlPanel {
 
         Button update = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("update"));
         update.setOnAction(event -> {
-            Stage stage = UpdatePopUpWindow.updateWindow(networkManager, login, password, dataRun.getCollectionData());
+            Stage stage = UpdatePopUpWindow.updateWindow(networkManager, login, password, dataRun);
             stage.show();
         });
 
@@ -96,14 +95,14 @@ public class ControlPanel {
 
         Button sum = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("sum"));
         sum.setOnAction(event -> {
-            Stage stage = SumOfPricePopUpWindow.sumWindow(dataRun.getCollectionData());
+            Stage stage = SumOfPricePopUpWindow.sumWindow(dataRun);
 
             stage.show();
         });
 
         Button count = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("count by type"));
         count.setOnAction(event -> {
-            Stage stage = CountByTypePopUpWindow.countWindow(dataRun.getCollectionData());
+            Stage stage = CountByTypePopUpWindow.countWindow(dataRun);
 
             stage.show();
         });

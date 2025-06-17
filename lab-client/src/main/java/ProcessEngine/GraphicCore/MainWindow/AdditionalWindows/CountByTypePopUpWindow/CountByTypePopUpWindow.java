@@ -1,11 +1,11 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.CountByTypePopUpWindow;
 
+import ProcessEngine.DataCore.DataRun;
 import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
-import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.TypeValidator;
 
 import javafx.scene.Scene;
@@ -19,7 +19,7 @@ import java.util.Vector;
 
 public class CountByTypePopUpWindow {
 
-    public static Stage countWindow(Vector<String[]> collectionData) {
+    public static Stage countWindow(DataRun dataRun) {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel(GraphicRun.localizator.getString("count by type"));
         TextField type = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("type"), new TypeValidator());
@@ -35,7 +35,7 @@ public class CountByTypePopUpWindow {
             if (type.getText().trim().isEmpty()) {
                 textBox.getChildren().add(LabelFactory.getErrorLabel(GraphicRun.localizator.getString("insert correct type")));
             } else {
-                textBox.getChildren().add(LabelFactory.getResultLabel(countByType(collectionData, type.getText().trim())));
+                textBox.getChildren().add(LabelFactory.getResultLabel(countByType(dataRun.getCollectionData(), type.getText().trim())));
             }
         });
 
