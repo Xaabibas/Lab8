@@ -21,7 +21,7 @@ public class SumOfPricePopUpWindow {
         Stage stage = new Stage();
 
         Label mainLabel = LabelFactory.getMainLabel(countSumOfPrice(networkManager, login, password));
-        mainLabel.setTextFill(Color.AZURE);
+        mainLabel.setTextFill(Color.MEDIUMBLUE);
         mainLabel.setFont(Font.font("System", FontWeight.BOLD, 48));
 
         VBox box = BoxFactory.getPopUpBox(mainLabel);

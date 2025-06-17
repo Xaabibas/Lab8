@@ -37,15 +37,15 @@ public class SignInWindow {
         box.setPadding(new Insets(50.0));
 
         Button continueButton = new Button("Continue");
-        continueButton.setTextFill(Color.GREEN);
+        continueButton.setTextFill(Color.BLACK);
         continueButton.setFont(new Font(15));
         continueButton.setPadding(new Insets(8));
 
         VBox innerBox = new VBox(10);
         innerBox.setAlignment(Pos.CENTER);
         innerBox.setPadding(new Insets(15.0, 10.0, 15.0, 10.0));
-        innerBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(30), Insets.EMPTY)));
-        innerBox.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(30), new BorderWidths(3.0))));
+        innerBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(30), Insets.EMPTY)));
+        innerBox.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(30), new BorderWidths(3.0))));
 
         VBox textBox = BoxFactory.getTextBox();
         TextField loginField = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
@@ -85,13 +85,13 @@ public class SignInWindow {
 
         Label mainLabel = new Label("Sign in!");
         mainLabel.setFont(new Font(50));
-        mainLabel.setTextFill(Color.GREEN);
+        mainLabel.setTextFill(Color.MEDIUMBLUE);
 
         Hyperlink button = new Hyperlink("Sign up!");
         button.setOnAction(actionEvent -> SignUpWindow.signUpWindow(stage, authCheckData));
 
         Label lowLabel = new Label("Yet haven't account?");
-        lowLabel.setTextFill(Color.GREEN);
+        lowLabel.setTextFill(Color.MEDIUMBLUE);
 
         innerBox.getChildren().addAll(mainLabel, textBox, continueButton, lowLabel, button);
         box.getChildren().add(innerBox);

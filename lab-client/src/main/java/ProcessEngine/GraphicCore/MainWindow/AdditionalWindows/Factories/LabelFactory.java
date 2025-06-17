@@ -11,7 +11,7 @@ public class LabelFactory {
         public static Label getMainLabel(String name) {
             Label label = new Label(name);
             label.setFont(Font.font("System", FontWeight.BOLD, 19));
-            label.setTextFill(Color.FORESTGREEN);
+            label.setTextFill(Color.MEDIUMBLUE);
 
             return label;
         }
@@ -19,7 +19,7 @@ public class LabelFactory {
         public static Label getUsualLabel(String name) {
             Label label = new Label(name);
             label.setFont(new Font(16));
-            label.setTextFill(Color.FORESTGREEN);
+            label.setTextFill(Color.MEDIUMBLUE);
 
             return label;
         }
@@ -36,7 +36,7 @@ public class LabelFactory {
         public static Label getResultLabel(String name) {
             Label label = new Label(name);
             label.setFont(Font.font("System", FontWeight.BOLD, 18));
-            label.setTextFill(Color.MINTCREAM);
+            label.setTextFill(Color.MEDIUMBLUE);
             label.setAlignment(Pos.CENTER);
 
             return label;
@@ -50,7 +50,7 @@ public class LabelFactory {
 
         public static void toResultLabel(Label label) {
             label.setFont(Font.font("System", FontWeight.BOLD, 18));
-            label.setTextFill(Color.FORESTGREEN);
+            label.setTextFill(Color.MEDIUMBLUE);
             label.setAlignment(Pos.CENTER);
         }
 

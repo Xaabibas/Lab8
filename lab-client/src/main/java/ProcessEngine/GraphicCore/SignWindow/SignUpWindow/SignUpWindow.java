@@ -36,15 +36,15 @@ public class SignUpWindow {
         button.setOnAction(actionEvent -> SignInWindow.signInWindow(stage, authCheckData));
 
         Button continueButton = new Button("Continue");
-        continueButton.setTextFill(Color.GREEN);
+        continueButton.setTextFill(Color.BLACK);
         continueButton.setFont(new Font(15));
         continueButton.setPadding(new Insets(8));
 
         VBox innerBox = new VBox(10);
         innerBox.setAlignment(Pos.CENTER);
         innerBox.setPadding(new Insets(15.0, 10.0, 15.0, 10.0));
-        innerBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, new CornerRadii(30), Insets.EMPTY)));
-        innerBox.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(30), new BorderWidths(3.0))));
+        innerBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, new CornerRadii(30), Insets.EMPTY)));
+        innerBox.setBorder(new Border(new BorderStroke(Color.GREY, BorderStrokeStyle.SOLID, new CornerRadii(30), new BorderWidths(3.0))));
 
         VBox textBox = new VBox();
         textBox.setSpacing(12);
@@ -86,10 +86,10 @@ public class SignUpWindow {
 
         Label mainLabel = new Label("Sign up!");
         mainLabel.setFont(new Font(50));
-        mainLabel.setTextFill(Color.GREEN);
+        mainLabel.setTextFill(Color.MEDIUMBLUE);
 
         Label lowLabel = new Label("Already have account?");
-        lowLabel.setTextFill(Color.GREEN);
+        lowLabel.setTextFill(Color.MEDIUMBLUE);
 
         innerBox.getChildren().addAll(mainLabel, textBox, continueButton, lowLabel, button);
         box.getChildren().add(innerBox);

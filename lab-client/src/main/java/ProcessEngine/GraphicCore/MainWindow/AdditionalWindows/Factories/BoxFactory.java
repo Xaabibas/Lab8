@@ -25,7 +25,7 @@ public class BoxFactory {
 
         public static VBox getPopUpBox(Node... es) {
             VBox box = new VBox();
-            box.setBackground(new Background(new BackgroundFill(Color.PALEGREEN, new CornerRadii(5), Insets.EMPTY)));
+            box.setBackground(new Background(new BackgroundFill(Color.AZURE, new CornerRadii(5), Insets.EMPTY)));
             box.setAlignment(Pos.CENTER);
             box.getChildren().addAll(es);
             box.setSpacing(10);
