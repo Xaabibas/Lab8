@@ -10,6 +10,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWin
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.DataCore.DataRun;
 import network.Request;
@@ -107,6 +108,23 @@ public class ControlPanel {
         HBox fourth = BoxFactory.getBoxWithButtons(sum, count);
 
         Button printAscending = ButtonFactory.getCommandButton("print ascending"); // Написать setOnAction
+        printAscending.setOnAction(event -> {
+            DataSheet.setColumnSortFlag(
+                "priceFlagSort",
+                DataSheet.headerKeyButton,
+                DataSheet.headerIdButton,
+                DataSheet.headerNameButton,
+                DataSheet.headerXButton,
+                DataSheet.headerYButton,
+                DataSheet.headerCreationDateButton,
+                DataSheet.headerPriceButton,
+                DataSheet.headerTypeButton,
+                DataSheet.headerBirthdayButton,
+                DataSheet.headerEyeButton,
+                DataSheet.headerHairButton,
+                DataSheet.headerCountryButton
+                );
+        });
         Button clear = ButtonFactory.getCommandButton("clear");
         HBox fifth = BoxFactory.getBoxWithButtons(printAscending, clear);
         clear.setOnAction(event -> {
