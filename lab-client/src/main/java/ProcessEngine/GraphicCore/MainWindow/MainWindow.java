@@ -36,7 +36,7 @@ public class MainWindow {
         this.stage = stage;
         dataRun = new DataRun(networkManager);
         dataRun.asyncAutoUpdateCollectionData(authCheckData.getLogin(), authCheckData.getPassword());
-        dataSheet = new DataSheet(dataRun);
+        dataSheet = new DataSheet(dataRun, networkManager, authCheckData.getLogin(), authCheckData.getPassword());
         visualizationArea = new VisualizationArea(dataRun, networkManager, authCheckData.getLogin(), authCheckData.getPassword());
     }
 
@@ -52,7 +52,7 @@ public class MainWindow {
 
         root.setTop(upLine);
         root.setLeft(controlPanel.getCommands());
-        root.setCenter(dataSheet.getDataSheet());
+        root.setCenter(dataSheet.getDataSheet(stage));
         root.setBottom(bottomLine);
 
         Scene scene = new Scene(root, 1200, 700);
@@ -92,7 +92,7 @@ public class MainWindow {
     private HBox bottomLine() {
         Button tableButton = new Button("Table view");
         tableButton.setOnAction(
-                event -> root.setCenter(dataSheet.getDataSheet())
+                event -> root.setCenter(dataSheet.getDataSheet(stage))
         );
         Button coordButton = new Button("Visualization");
         coordButton.setOnAction(

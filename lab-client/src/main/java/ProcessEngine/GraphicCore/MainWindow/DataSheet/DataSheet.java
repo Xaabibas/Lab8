@@ -1,25 +1,38 @@
 package ProcessEngine.GraphicCore.MainWindow.DataSheet;
 
 import ProcessEngine.DataCore.DataRun;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
+import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import moduls.Country;
 import moduls.EyeColor;
 import moduls.HairColor;
 import moduls.TicketType;
+import network.Request;
+
+import java.util.Arrays;
+
 
 public class DataSheet {
 
     protected DataRun dataRun;
+    private static NetworkManager networkManager;
+    private static String login;
+    private static String password;
 
     public static Boolean keyFlagSort = null;
     public static Boolean idFlagSort = null;
@@ -48,11 +61,14 @@ public class DataSheet {
     public static Button headerCountryButton = new Button("⇅");
 
 
-    public DataSheet(DataRun dataRun) {
+    public DataSheet(DataRun dataRun, NetworkManager networkManager, String login, String password) {
         this.dataRun = dataRun;
+        DataSheet.networkManager = networkManager;
+        DataSheet.login = login;
+        DataSheet.password = password;
     }
 
-    public StackPane getDataSheet() {
+    public StackPane getDataSheet(Stage stage) {
         ObservableList<String[]> tickets = FXCollections.observableArrayList(dataRun.getCollectionData());
         TableView<String[]> table = new TableView<>();
         table.setItems(tickets);
@@ -360,6 +376,28 @@ public class DataSheet {
 
         startAutoParallelUpdateDataSheet(table);
         table.getColumns().forEach(column -> column.setReorderable(false));
+
+        table.setRowFactory(
+                tableView -> {
+                    TableRow<String[]> row = new TableRow<>();
+                    row.setOnMouseClicked(
+                            event -> {
+                                if (event.getButton() == MouseButton.SECONDARY) {
+                                    ContextMenu menu = new ContextMenu();
+                                    MenuItem update = getUpdate(row.getItem());
+                                    MenuItem remove = getRemove(row.getItem());
+
+
+                                    menu.getItems().addAll(update, remove);
+                                    menu.setX(event.getScreenX());
+                                    menu.setY(event.getScreenY());
+                                    menu.show(stage);
+                                }
+                            }
+                    );
+                    return row;
+                }
+        );
 
         return new StackPane(table);
     }
@@ -794,5 +832,61 @@ public class DataSheet {
             eyeFlagSort = null;
             hairFlagSort = null;
         }
+    }
+
+    private MenuItem getUpdate(String[] i) {
+        MenuItem update = new MenuItem("update");
+        update.setOnAction(
+                event1 -> {
+                    Stage stage = UpdatePopUpWindow.secondWindow(networkManager, login, password, i, Long.parseLong(i[0]));
+                    stage.show();
+                }
+        );
+        return update;
+    }
+
+    private MenuItem getRemove(String[] i) {
+        MenuItem remove = new MenuItem("remove");
+        remove.setOnAction(
+                event1 -> {
+                    Stage stage = new Stage();
+                    VBox box = BoxFactory.getPopUpBox();
+                    Label label = LabelFactory.getMainLabel("Удалить данный элемент? (ключ - " + i[0] + ")");
+                    Button yes = ButtonFactory.getCommitButton();
+                    Label error = LabelFactory.getErrorLabel("");
+                    yes.setText("yes");
+
+                    yes.setOnAction(
+                            event2 -> {
+                                Request request = new Request();
+                                request.setUser(login);
+                                request.setPassword(Arrays.toString(password
+                                        .chars()
+                                        .mapToObj(c -> String.valueOf((char) c))
+                                        .toArray(String[]::new))
+                                );
+                                request.setCommandName("remove_key");
+                                request.setTokens("remove_key " + i[0]);
+                                String answer = networkManager.sendAndReceive(request);
+
+                                if (answer.equals("Элемент успешно удален")) {
+                                    error.setText("Элемент успешно удален");
+                                    LabelFactory.toResultLabel(error);
+                                } else if (answer.equals("[ERROR] Не достаточно прав для взаимодействия с данным элементом")) {
+                                    error.setText("Нет прав доступа");
+                                    LabelFactory.toErrorLabel(error);
+                                } else {
+                                    error.setText("Элемент уже удален");
+                                    LabelFactory.toErrorLabel(error);
+                                }
+                            });
+
+                    box.getChildren().addAll(label, yes, error);
+                    stage.setScene(new Scene(box, 500, 300));
+
+                    stage.show();
+                }
+        );
+        return remove;
     }
 }
