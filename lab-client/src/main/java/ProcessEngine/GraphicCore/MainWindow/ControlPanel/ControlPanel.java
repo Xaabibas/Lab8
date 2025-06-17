@@ -12,15 +12,16 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowPopUpWind
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWindow.SumOfPricePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.ColumnSortFlag;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import network.Request;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import network.Request;
-
 import java.util.Arrays;
 
 public class ControlPanel {
@@ -93,7 +94,7 @@ public class ControlPanel {
 
         Button sum = ButtonFactory.getCommandButton("sum of price");
         sum.setOnAction(event -> {
-            Stage stage = SumOfPricePopUpWindow.sumWindow(networkManager, login, password);
+            Stage stage = SumOfPricePopUpWindow.sumWindow(dataRun.getCollectionData());
 
             stage.show();
         });
@@ -109,7 +110,7 @@ public class ControlPanel {
 
         Button printAscending = ButtonFactory.getCommandButton("print ascending"); // Написать setOnAction
         printAscending.setOnAction(event -> {
-            DataSheet.setColumnSortFlag(
+            ColumnSortFlag.setColumnSortFlag(
                     "priceFlagSort",
                     DataSheet.headerKeyButton,
                     DataSheet.headerIdButton,

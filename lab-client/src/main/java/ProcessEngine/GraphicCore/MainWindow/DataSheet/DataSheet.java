@@ -6,6 +6,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFa
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.ColumnSortFlag;
 import moduls.Country;
 import moduls.EyeColor;
 import moduls.HairColor;
@@ -80,7 +81,7 @@ public class DataSheet {
         HBox headerKeyBox = new HBox();
         headerKeyBox.setSpacing(15);
         Label keyLabel = new Label("key");
-        headerKeyButton.setOnAction(e -> setColumnSortFlag(
+        headerKeyButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "keyFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -105,7 +106,7 @@ public class DataSheet {
         HBox headerIdBox = new HBox();
         headerIdBox.setSpacing(15);
         Label idLabel = new Label("id");
-        headerIdButton.setOnAction(e -> setColumnSortFlag(
+        headerIdButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "idFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -130,7 +131,7 @@ public class DataSheet {
         HBox headerNameBox = new HBox();
         headerNameBox.setSpacing(15);
         Label nameLabel = new Label("name");
-        headerNameButton.setOnAction(e -> setColumnSortFlag(
+        headerNameButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "nameFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -155,7 +156,7 @@ public class DataSheet {
         HBox headerXBox = new HBox();
         headerXBox.setSpacing(15);
         Label xLabel = new Label("x");
-        headerXButton.setOnAction(e -> setColumnSortFlag(
+        headerXButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "xFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -180,7 +181,7 @@ public class DataSheet {
         HBox headerYBox = new HBox();
         headerYBox.setSpacing(15);
         Label yLabel = new Label("y");
-        headerYButton.setOnAction(e -> setColumnSortFlag(
+        headerYButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "yFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -205,7 +206,7 @@ public class DataSheet {
         HBox headerCreationDateBox = new HBox();
         headerCreationDateBox.setSpacing(15);
         Label creationDateLabel = new Label("creation date");
-        headerCreationDateButton.setOnAction(e -> setColumnSortFlag(
+        headerCreationDateButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "creationDateFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -230,7 +231,7 @@ public class DataSheet {
         HBox headerPriceBox = new HBox();
         headerPriceBox.setSpacing(15);
         Label priceLabel = new Label("price");
-        headerPriceButton.setOnAction(e -> setColumnSortFlag(
+        headerPriceButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "priceFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -255,7 +256,7 @@ public class DataSheet {
         HBox headerTypeBox = new HBox();
         headerTypeBox.setSpacing(15);
         Label typeLabel = new Label("type");
-        headerTypeButton.setOnAction(e -> setColumnSortFlag(
+        headerTypeButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "typeFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -280,7 +281,7 @@ public class DataSheet {
         HBox headerBirthdayBox = new HBox();
         headerBirthdayBox.setSpacing(15);
         Label birthdayLabel = new Label("birthday");
-        headerBirthdayButton.setOnAction(e -> setColumnSortFlag(
+        headerBirthdayButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "birthdayFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -305,7 +306,7 @@ public class DataSheet {
         HBox headerEyeBox = new HBox();
         headerEyeBox.setSpacing(15);
         Label eyeLabel = new Label("eye");
-        headerEyeButton.setOnAction(e -> setColumnSortFlag(
+        headerEyeButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "eyeFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -330,7 +331,7 @@ public class DataSheet {
         HBox headerHairBox = new HBox();
         headerHairBox.setSpacing(15);
         Label hairLabel = new Label("hair");
-        headerHairButton.setOnAction(e -> setColumnSortFlag(
+        headerHairButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "hairFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -355,7 +356,7 @@ public class DataSheet {
         HBox headerCountryBox = new HBox();
         headerCountryBox.setSpacing(15);
         Label countryLabel = new Label("country");
-        headerCountryButton.setOnAction(e -> setColumnSortFlag(
+        headerCountryButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "countryFlagSort",
                 headerKeyButton,
                 headerIdButton,
@@ -418,420 +419,6 @@ public class DataSheet {
         Thread newThread = new Thread(updateTask);
         newThread.setDaemon(true);
         newThread.start();
-    }
-
-    public static void setColumnSortFlag(
-            String columnFlag,
-            Button headerKeyButton,
-            Button headerIdButton,
-            Button headerNameButton,
-            Button headerXButton,
-            Button headerYButton,
-            Button headerCreationDateButton,
-            Button headerPriceButton,
-            Button headerTypeButton,
-            Button headerBirthdayButton,
-            Button headerEyeButton,
-            Button headerHairButton,
-            Button headerCountryButton
-    ) {
-        if (columnFlag.equals("keyFlagSort")) {
-            if (keyFlagSort == null) {
-                keyFlagSort = true;
-                headerKeyButton.setText("↓");
-            } else if (keyFlagSort) {
-                headerKeyButton.setText("↑");
-                keyFlagSort = false;
-            } else if (!keyFlagSort) {
-                headerKeyButton.setText("⇅");
-                keyFlagSort = null;
-            }
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("idFlagSort")) {
-            if (idFlagSort == null) {
-                idFlagSort = true;
-                headerIdButton.setText("↓");
-            } else if (idFlagSort) {
-                headerIdButton.setText("↑");
-                idFlagSort = false;
-            } else if (!idFlagSort) {
-                headerIdButton.setText("⇅");
-                idFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("nameFlagSort")) {
-            if (nameFlagSort == null) {
-                nameFlagSort = true;
-                headerNameButton.setText("↓");
-            } else if (nameFlagSort) {
-                headerNameButton.setText("↑");
-                nameFlagSort = false;
-            } else if (!nameFlagSort) {
-                headerNameButton.setText("⇅");
-                nameFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("xFlagSort")) {
-            if (xFlagSort == null) {
-                xFlagSort = true;
-                headerXButton.setText("↓");
-            } else if (xFlagSort) {
-                headerXButton.setText("↑");
-                xFlagSort = false;
-            } else if (!xFlagSort) {
-                headerXButton.setText("⇅");
-                xFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("yFlagSort")) {
-            if (yFlagSort == null) {
-                yFlagSort = true;
-                headerYButton.setText("↓");
-            } else if (yFlagSort) {
-                headerYButton.setText("↑");
-                yFlagSort = false;
-            } else if (!yFlagSort) {
-                headerYButton.setText("⇅");
-                yFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("creationDateFlagSort")) {
-            if (creationDateFlagSort == null) {
-                creationDateFlagSort = true;
-                headerCreationDateButton.setText("↓");
-            } else if (creationDateFlagSort) {
-                headerCreationDateButton.setText("↑");
-                creationDateFlagSort = false;
-            } else if (!creationDateFlagSort) {
-                headerCreationDateButton.setText("⇅");
-                creationDateFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("priceFlagSort")) {
-            if (priceFlagSort == null) {
-                priceFlagSort = true;
-                headerPriceButton.setText("↓");
-            } else if (priceFlagSort) {
-                headerPriceButton.setText("↑");
-                priceFlagSort = false;
-            } else if (!priceFlagSort) {
-                headerPriceButton.setText("⇅");
-                priceFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("typeFlagSort")) {
-            if (typeFlagSort == null) {
-                typeFlagSort = true;
-                headerTypeButton.setText("↓");
-            } else if (typeFlagSort) {
-                headerTypeButton.setText("↑");
-                typeFlagSort = false;
-            } else if (!typeFlagSort) {
-                headerTypeButton.setText("⇅");
-                typeFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("birthdayFlagSort")) {
-            if (birthdayFlagSort == null) {
-                birthdayFlagSort = true;
-                headerBirthdayButton.setText("↓");
-            } else if (birthdayFlagSort) {
-                headerBirthdayButton.setText("↑");
-                birthdayFlagSort = false;
-            } else if (!birthdayFlagSort) {
-                headerBirthdayButton.setText("⇅");
-                birthdayFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("eyeFlagSort")) {
-            if (eyeFlagSort == null) {
-                eyeFlagSort = true;
-                headerEyeButton.setText("↓");
-            } else if (eyeFlagSort) {
-                headerEyeButton.setText("↑");
-                eyeFlagSort = false;
-            } else if (!eyeFlagSort) {
-                headerEyeButton.setText("⇅");
-                eyeFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            hairFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("hairFlagSort")) {
-            if (hairFlagSort == null) {
-                hairFlagSort = true;
-                headerHairButton.setText("↓");
-            } else if (hairFlagSort) {
-                headerHairButton.setText("↑");
-                hairFlagSort = false;
-            } else if (!hairFlagSort) {
-                headerHairButton.setText("⇅");
-                hairFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerCountryButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            countryFlagSort = null;
-        } else if (columnFlag.equals("countryFlagSort")) {
-            if (countryFlagSort == null) {
-                countryFlagSort = true;
-                headerCountryButton.setText("↓");
-            } else if (countryFlagSort) {
-                headerCountryButton.setText("↑");
-                countryFlagSort = false;
-            } else if (!countryFlagSort) {
-                headerCountryButton.setText("⇅");
-                countryFlagSort = null;
-            }
-            headerKeyButton.setText("⇅");
-            headerIdButton.setText("⇅");
-            headerNameButton.setText("⇅");
-            headerXButton.setText("⇅");
-            headerYButton.setText("⇅");
-            headerCreationDateButton.setText("⇅");
-            headerPriceButton.setText("⇅");
-            headerTypeButton.setText("⇅");
-            headerBirthdayButton.setText("⇅");
-            headerEyeButton.setText("⇅");
-            headerHairButton.setText("⇅");
-            keyFlagSort = null;
-            idFlagSort = null;
-            nameFlagSort = null;
-            xFlagSort = null;
-            yFlagSort = null;
-            creationDateFlagSort = null;
-            priceFlagSort = null;
-            typeFlagSort = null;
-            birthdayFlagSort = null;
-            eyeFlagSort = null;
-            hairFlagSort = null;
-        }
     }
 
     private MenuItem getUpdate(String[] i) {

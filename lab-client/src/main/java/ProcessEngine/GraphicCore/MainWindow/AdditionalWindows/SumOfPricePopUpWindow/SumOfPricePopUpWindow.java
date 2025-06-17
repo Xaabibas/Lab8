@@ -2,7 +2,7 @@ package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWi
 
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
-import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -10,16 +10,14 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-import network.Request;
-
-import java.util.Arrays;
+import java.util.Vector;
 
 public class SumOfPricePopUpWindow {
 
-    public static Stage sumWindow(NetworkManager networkManager, String login, String password) {
+    public static Stage sumWindow(Vector<String[]> collectionData) {
         Stage stage = new Stage();
 
-        Label mainLabel = LabelFactory.getMainLabel(countSumOfPrice(networkManager, login, password));
+        Label mainLabel = LabelFactory.getMainLabel(countSumOfPrice(collectionData));
         mainLabel.setTextFill(Color.MEDIUMBLUE);
         mainLabel.setFont(Font.font("System", FontWeight.BOLD, 48));
 
@@ -30,18 +28,11 @@ public class SumOfPricePopUpWindow {
         return stage;
     }
 
-    public static String countSumOfPrice(NetworkManager networkManager, String login, String password) {
-        Request request = new Request();
-        request.setUser(login);
-        request.setPassword(Arrays.toString(password
-                .chars()
-                .mapToObj(c -> String.valueOf((char) c))
-                .toArray(String[]::new))
-        );
-        request.setCommandName("sum_of_price");
-        request.setTokens("sum_of_price");
-
-        return networkManager.sendAndReceive(request);
+    public static String countSumOfPrice(Vector<String[]> collectionData) {
+        double sum = collectionData.stream()
+            .mapToDouble(item -> Double.parseDouble(item[6]))
+            .sum();
+        return String.valueOf(sum);
     }
 
 }
