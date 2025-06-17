@@ -14,8 +14,9 @@ public class SortByCreationDate {
     }
 
     public static Vector<String[]> sortByCreationDateDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByCreationDateAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByCreationDateAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

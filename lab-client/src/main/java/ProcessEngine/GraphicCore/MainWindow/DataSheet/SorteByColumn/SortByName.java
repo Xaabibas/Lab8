@@ -14,8 +14,9 @@ public class SortByName {
     }
 
     public static Vector<String[]> sortByNameDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByNameAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByNameAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

@@ -14,8 +14,9 @@ public class SortByHair {
     }
 
     public static Vector<String[]> sortByHairDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByHairAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByHairAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

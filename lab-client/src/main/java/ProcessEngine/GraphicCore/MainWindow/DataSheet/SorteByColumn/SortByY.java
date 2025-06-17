@@ -14,8 +14,9 @@ public class SortByY {
     }
 
     public static Vector<String[]> sortByYDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByYAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByYAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

@@ -14,8 +14,9 @@ public class SortByBirthday {
     }
 
     public static Vector<String[]> sortByBirthdayDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByBirthdayAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByBirthdayAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

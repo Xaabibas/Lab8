@@ -14,8 +14,9 @@ public class SortByEye {
     }
 
     public static Vector<String[]> sortByEyeDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByEyeAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByEyeAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

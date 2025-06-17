@@ -6,6 +6,13 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFa
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import moduls.Country;
+import moduls.EyeColor;
+import moduls.HairColor;
+import moduls.TicketType;
+import network.Request;
+
+import java.util.Arrays;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -18,13 +25,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import moduls.Country;
-import moduls.EyeColor;
-import moduls.HairColor;
-import moduls.TicketType;
-import network.Request;
-
-import java.util.Arrays;
 
 
 public class DataSheet {

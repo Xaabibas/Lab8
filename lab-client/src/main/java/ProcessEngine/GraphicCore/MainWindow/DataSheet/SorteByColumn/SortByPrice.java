@@ -14,8 +14,9 @@ public class SortByPrice {
     }
 
     public static Vector<String[]> sortByPriceDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByPriceAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByPriceAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

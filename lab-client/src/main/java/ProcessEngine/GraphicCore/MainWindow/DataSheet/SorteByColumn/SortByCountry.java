@@ -14,8 +14,9 @@ public class SortByCountry {
     }
 
     public static Vector<String[]> sortByCountryDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByCountryAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByCountryAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

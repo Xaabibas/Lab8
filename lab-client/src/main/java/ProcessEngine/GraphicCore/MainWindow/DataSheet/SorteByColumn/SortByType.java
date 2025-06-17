@@ -14,8 +14,9 @@ public class SortByType {
     }
 
     public static Vector<String[]> sortByTypeDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByTypeAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByTypeAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

@@ -14,8 +14,9 @@ public class SortByX {
     }
 
     public static Vector<String[]> sortByXDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByXAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByXAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }

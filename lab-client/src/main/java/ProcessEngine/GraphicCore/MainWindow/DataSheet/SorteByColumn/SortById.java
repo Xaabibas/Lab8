@@ -14,8 +14,9 @@ public class SortById {
     }
 
     public static Vector<String[]> sortByIdDescendingOrder(Vector<String[]> arr) {
-        Collections.reverse(sortByIdAscendingOrder(arr));
-        return arr;
+        Vector<String[]> sorted = sortByIdAscendingOrder(arr);
+        Collections.reverse(sorted);
+        return sorted;
     }
 
 }
