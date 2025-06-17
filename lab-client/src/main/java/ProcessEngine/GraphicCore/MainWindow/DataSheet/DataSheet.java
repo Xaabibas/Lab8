@@ -410,7 +410,7 @@ public class DataSheet {
                 while (!isCancelled()) {
                     ObservableList<String[]> tickets = FXCollections.observableArrayList(dataRun.getCollectionData());
                     Platform.runLater(() -> table.setItems(tickets));
-                    Thread.sleep(50);
+                    Thread.sleep(30);
                 }
                 return null;
             }
