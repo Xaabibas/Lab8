@@ -4,8 +4,8 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFacto
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
-import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.TypeValidator;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,13 +13,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import network.Request;
-
-import java.util.Arrays;
+import java.util.Vector;
 
 public class CountByTypePopUpWindow {
 
-    public static Stage countWindow(NetworkManager networkManager, String login, String password) {
+    public static Stage countWindow(Vector<String[]> collectionData) {
         Stage stage = new Stage();
         Label mainLabel = LabelFactory.getMainLabel("Count by type");
         TextField type = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
@@ -35,7 +33,7 @@ public class CountByTypePopUpWindow {
             if (type.getText().trim().isEmpty()) {
                 textBox.getChildren().add(LabelFactory.getErrorLabel("Введите корректный Type!"));
             } else {
-                textBox.getChildren().add(LabelFactory.getResultLabel(countByType(networkManager, login, password, type.getText().trim())));
+                textBox.getChildren().add(LabelFactory.getResultLabel(countByType(collectionData, type.getText().trim())));
             }
         });
 
@@ -44,18 +42,11 @@ public class CountByTypePopUpWindow {
         return stage;
     }
 
-    public static String countByType(NetworkManager networkManager, String login, String password, String type) {
-        Request request = new Request();
-        request.setUser(login);
-        request.setPassword(Arrays.toString(password
-                .chars()
-                .mapToObj(c -> String.valueOf((char) c))
-                .toArray(String[]::new))
-        );
-        request.setCommandName("count_by_type");
-        request.setTokens("count_by_type " + type);
-
-        return networkManager.sendAndReceive(request);
+    public static String countByType(Vector<String[]> collectionData, String type) {
+        long count = collectionData.stream()
+                .filter(item -> item[7].equals(type))
+                .count();
+        return "Элементов с Type = " + type + " : " + String.valueOf(count);
     }
 
 }

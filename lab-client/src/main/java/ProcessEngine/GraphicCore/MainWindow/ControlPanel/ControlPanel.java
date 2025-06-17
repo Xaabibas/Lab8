@@ -101,7 +101,7 @@ public class ControlPanel {
 
         Button count = ButtonFactory.getCommandButton("count by type");
         count.setOnAction(event -> {
-            Stage stage = CountByTypePopUpWindow.countWindow(networkManager, login, password);
+            Stage stage = CountByTypePopUpWindow.countWindow(dataRun.getCollectionData());
 
             stage.show();
         });
