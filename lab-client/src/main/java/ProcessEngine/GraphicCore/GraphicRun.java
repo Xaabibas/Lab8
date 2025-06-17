@@ -4,14 +4,14 @@ import ProcessEngine.DataCore.AuthCheck;
 import ProcessEngine.GraphicCore.MainWindow.MainWindow;
 import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.concurrent.Task;
-import javafx.stage.Stage;
 import resources.Localizator;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.stage.Stage;
 
 public class GraphicRun extends Application {
 

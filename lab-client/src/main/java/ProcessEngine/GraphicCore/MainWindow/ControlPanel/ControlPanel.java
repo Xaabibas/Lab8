@@ -41,7 +41,7 @@ public class ControlPanel {
 
     public VBox getCommands() {
         VBox commands = new VBox();
-        commands.setAlignment(Pos.CENTER);
+        commands.setAlignment(Pos.CENTER_LEFT);
         commands.setSpacing(17);
         commands.setPadding(new Insets(30, 30, 30, 30));
 

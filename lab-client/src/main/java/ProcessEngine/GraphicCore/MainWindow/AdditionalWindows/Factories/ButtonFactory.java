@@ -6,14 +6,14 @@ public class ButtonFactory {
 
     public static Button getCommandButton(String name) {
         Button button = new Button(name);
-        button.setPrefWidth(150);
+        button.setPrefWidth(95);
 
         return button;
     }
 
     public static Button getCommitButton() {
         Button button = new Button("Commit");
-        button.setPrefWidth(150);
+        button.setPrefWidth(90);
 
         return button;
     }

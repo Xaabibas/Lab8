@@ -60,9 +60,9 @@ public class MainWindow {
         root.setCenter(dataSheet.getDataSheet(stage));
         root.setBottom(bottomLine);
 
-        Scene scene = new Scene(root, 1200, 700);
-
+        Scene scene = new Scene(root, 1400, 600);
         stage.setScene(scene);
+        stage.centerOnScreen();
         stage.show();
     }
 
@@ -153,7 +153,7 @@ public class MainWindow {
 
 
         HBox bottomLine = new HBox();
-        bottomLine.setSpacing(30);
+        bottomLine.setSpacing(20);
         bottomLine.setPadding(new Insets(1, 15, 1, 0));
         bottomLine.setAlignment(Pos.CENTER_LEFT);
         bottomLine.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, new CornerRadii(0), Insets.EMPTY)));
