@@ -1,6 +1,7 @@
 package ProcessEngine.GraphicCore.MainWindow.DataSheet;
 
 import ProcessEngine.DataCore.DataRun;
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
@@ -80,7 +81,7 @@ public class DataSheet {
         table.getColumns().add(keyColumn);
         HBox headerKeyBox = new HBox();
         headerKeyBox.setSpacing(15);
-        Label keyLabel = new Label("key");
+        Label keyLabel = new Label(GraphicRun.localizator.getString("key"));
         headerKeyButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "keyFlagSort",
                 headerKeyButton,
@@ -130,7 +131,7 @@ public class DataSheet {
         table.getColumns().add(nameColumn);
         HBox headerNameBox = new HBox();
         headerNameBox.setSpacing(15);
-        Label nameLabel = new Label("name");
+        Label nameLabel = new Label(GraphicRun.localizator.getString("name"));
         headerNameButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "nameFlagSort",
                 headerKeyButton,
@@ -205,7 +206,7 @@ public class DataSheet {
         table.getColumns().add(creationDateColumn);
         HBox headerCreationDateBox = new HBox();
         headerCreationDateBox.setSpacing(15);
-        Label creationDateLabel = new Label("creation date");
+        Label creationDateLabel = new Label(GraphicRun.localizator.getString("creation date"));
         headerCreationDateButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "creationDateFlagSort",
                 headerKeyButton,
@@ -230,7 +231,7 @@ public class DataSheet {
         table.getColumns().add(priceColumn);
         HBox headerPriceBox = new HBox();
         headerPriceBox.setSpacing(15);
-        Label priceLabel = new Label("price");
+        Label priceLabel = new Label(GraphicRun.localizator.getString("price"));
         headerPriceButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "priceFlagSort",
                 headerKeyButton,
@@ -255,7 +256,7 @@ public class DataSheet {
         table.getColumns().add(typeColumn);
         HBox headerTypeBox = new HBox();
         headerTypeBox.setSpacing(15);
-        Label typeLabel = new Label("type");
+        Label typeLabel = new Label(GraphicRun.localizator.getString("type"));
         headerTypeButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "typeFlagSort",
                 headerKeyButton,
@@ -280,7 +281,7 @@ public class DataSheet {
         table.getColumns().add(birthdayColumn);
         HBox headerBirthdayBox = new HBox();
         headerBirthdayBox.setSpacing(15);
-        Label birthdayLabel = new Label("birthday");
+        Label birthdayLabel = new Label(GraphicRun.localizator.getString("birthday"));
         headerBirthdayButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "birthdayFlagSort",
                 headerKeyButton,
@@ -305,7 +306,7 @@ public class DataSheet {
         table.getColumns().add(eyeColumn);
         HBox headerEyeBox = new HBox();
         headerEyeBox.setSpacing(15);
-        Label eyeLabel = new Label("eye");
+        Label eyeLabel = new Label(GraphicRun.localizator.getString("eye color"));
         headerEyeButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "eyeFlagSort",
                 headerKeyButton,
@@ -330,7 +331,7 @@ public class DataSheet {
         table.getColumns().add(hairColumn);
         HBox headerHairBox = new HBox();
         headerHairBox.setSpacing(15);
-        Label hairLabel = new Label("hair");
+        Label hairLabel = new Label(GraphicRun.localizator.getString("hair color"));
         headerHairButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "hairFlagSort",
                 headerKeyButton,
@@ -355,7 +356,7 @@ public class DataSheet {
         table.getColumns().add(countryColumn);
         HBox headerCountryBox = new HBox();
         headerCountryBox.setSpacing(15);
-        Label countryLabel = new Label("country");
+        Label countryLabel = new Label(GraphicRun.localizator.getString("country"));
         headerCountryButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "countryFlagSort",
                 headerKeyButton,
@@ -422,7 +423,7 @@ public class DataSheet {
     }
 
     private MenuItem getUpdate(String[] i) {
-        MenuItem update = new MenuItem("update");
+        MenuItem update = new MenuItem(GraphicRun.localizator.getString("update"));
         update.setOnAction(
                 event1 -> {
                     Stage stage = UpdatePopUpWindow.secondWindow(networkManager, login, password, i, Long.parseLong(i[0]));
@@ -433,15 +434,15 @@ public class DataSheet {
     }
 
     private MenuItem getRemove(String[] i) {
-        MenuItem remove = new MenuItem("remove");
+        MenuItem remove = new MenuItem(GraphicRun.localizator.getString("remove"));
         remove.setOnAction(
                 event1 -> {
                     Stage stage = new Stage();
                     VBox box = BoxFactory.getPopUpBox();
-                    Label label = LabelFactory.getMainLabel("Удалить данный элемент? (ключ - " + i[0] + ")");
+                    Label label = LabelFactory.getMainLabel(GraphicRun.localizator.getString("remove this?") + "(" + GraphicRun.localizator.getString("key") + i[0] + ")");
                     Button yes = ButtonFactory.getCommitButton();
                     Label error = LabelFactory.getErrorLabel("");
-                    yes.setText("yes");
+                    yes.setText(GraphicRun.localizator.getString("yes"));
 
                     yes.setOnAction(
                             event2 -> {
@@ -457,13 +458,14 @@ public class DataSheet {
                                 String answer = networkManager.sendAndReceive(request);
 
                                 if (answer.equals("Элемент успешно удален")) {
-                                    error.setText("Элемент успешно удален");
+                                    error.setText(GraphicRun.localizator.getString("success remove"));
                                     LabelFactory.toResultLabel(error);
+                                    stage.close();
                                 } else if (answer.equals("[ERROR] Не достаточно прав для взаимодействия с данным элементом")) {
-                                    error.setText("Нет прав доступа");
+                                    error.setText(GraphicRun.localizator.getString("not enough rights"));
                                     LabelFactory.toErrorLabel(error);
                                 } else {
-                                    error.setText("Элемент уже удален");
+                                    error.setText(GraphicRun.localizator.getString("no key"));
                                     LabelFactory.toErrorLabel(error);
                                 }
                             });

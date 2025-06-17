@@ -8,12 +8,17 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.stage.Stage;
+import resources.Localizator;
+
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class GraphicRun extends Application {
 
     protected Stage stage;
     protected volatile AuthCheck authCheckData = new AuthCheck();
     protected static NetworkManager netManager;
+    public static Localizator localizator = new Localizator(ResourceBundle.getBundle("resources.Resource", new Locale("ru")));
 
     public static void main(NetworkManager networkManager) {
         netManager = networkManager;

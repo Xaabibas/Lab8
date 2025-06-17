@@ -1,9 +1,11 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowPopUpWindow;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
+import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.PriceValidator;
 import javafx.scene.Scene;
@@ -21,8 +23,8 @@ public class RemoveLowPopUpWindow {
 
     public static Stage removeLowerWindow(NetworkManager networkManager, String login, String password) {
         Stage stage = new Stage();
-        Label mainLabel = LabelFactory.getMainLabel("Insert price"); // Сравнение идет по цене
-        TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        Label mainLabel = LabelFactory.getMainLabel(GraphicRun.localizator.getString("insert price")); // Сравнение идет по цене
+        TextField priceField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("price"), new PriceValidator());
         Label label = LabelFactory.getErrorLabel("");
         VBox textBox = BoxFactory.getTextBox();
         textBox.getChildren().addAll(priceField, label);
@@ -54,11 +56,11 @@ public class RemoveLowPopUpWindow {
 
                         String netAnswer = networkManager.sendAndReceive(request);
 
-                        label.setText(netAnswer);
+                        label.setText(GraphicRun.localizator.getString("remove lower"));
                         LabelFactory.toResultLabel(label);
 
                     } catch (IllegalArgumentException e) {
-                        label.setText("Введите корректное значение");
+                        label.setText(GraphicRun.localizator.getString("insert correct values"));
                         LabelFactory.toErrorLabel(label);
                     }
                 }
