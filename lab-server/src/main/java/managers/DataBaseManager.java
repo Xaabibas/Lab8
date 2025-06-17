@@ -264,4 +264,53 @@ public class DataBaseManager {
             return false;
         }
     }
+
+    public String getUserByKey(long key) {
+        try (Connection connection = connect()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT client FROM tickets " +
+                            "WHERE key = ?"
+            );
+            statement.setLong(1, key);
+
+            ResultSet set = statement.executeQuery();
+
+            if (set.next()) {
+                return set.getString("client");
+            }
+        } catch (SQLException ignored) {
+
+        }
+        return null;
+    }
+
+    public String getCollection() {
+        try (Connection connection = connect()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM tickets"
+            );
+
+            ResultSet set = statement.executeQuery();
+            StringBuilder builder = new StringBuilder();
+            while (set.next()) {
+                builder.append(set.getLong("key")).append(", ");
+                builder.append(set.getLong("id")).append(", ");
+                builder.append(set.getString("name")).append(", ");
+                builder.append(set.getFloat("x")).append(", ");
+                builder.append(set.getLong("y")).append(", ");
+                builder.append(set.getTimestamp("creation")).append(", ");
+                builder.append(set.getFloat("price")).append(", ");
+                builder.append(set.getString("type")).append(", ");
+                builder.append(set.getTimestamp("birthday")).append(", ");
+                builder.append(set.getString("eye")).append(", ");
+                builder.append(set.getString("hair")).append(", ");
+                builder.append(set.getString("country")).append(", ");
+                builder.append(set.getString("client")).append("\n");
+            }
+            return builder.toString();
+        } catch (SQLException ignored) {
+
+        }
+        return null;
+    }
 }

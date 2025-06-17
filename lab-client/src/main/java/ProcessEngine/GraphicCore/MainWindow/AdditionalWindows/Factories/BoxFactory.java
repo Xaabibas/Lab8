@@ -39,4 +39,12 @@ public class BoxFactory {
         return textBox;
     }
 
+    public static HBox getTableLine() {
+        HBox box = new HBox();
+        box.setSpacing(12);
+        box.setAlignment(Pos.CENTER);
+
+        return box;
+    }
+
 }

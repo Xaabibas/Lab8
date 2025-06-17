@@ -35,9 +35,7 @@ public class ShowCommand extends Command {
 
             this.getCm().sortByName();
 
-            String answer = this.getCm().getCollection().keySet().stream().map(
-                    k -> k + " - " + this.getCm().getCollection().get(k).toString() + "\n"
-            ).collect(Collectors.joining());
+            String answer = this.getCm().getDbManager().getCollection();
 
             return new Response(answer);
         } catch (SQLException e) {

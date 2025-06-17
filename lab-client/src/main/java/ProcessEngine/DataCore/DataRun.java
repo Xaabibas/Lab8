@@ -41,42 +41,11 @@ public class DataRun {
 
         String networkResponse = networkManager.sendAndReceive(collectionRequest);
 
-        Pattern wordPattern = Pattern.compile("(\\d+\\s*-\\s*Ticket\\{([^\\}]*\\}[^\\}]*\\}))");
-        Matcher wordMatcher = wordPattern.matcher(networkResponse);
-
-        while (wordMatcher.find()) {
-            String word = wordMatcher.group(1);
-            vectorString.add(replacedFunc(word));
+        for (String tickets : networkResponse.split("\n")) {
+            vectorString.add(tickets.split(", "));
         }
 
         return vectorString; // [ [key, id, name, Coordinates.x, Coordinates.y, creationDate, price, type, Person.birthday, Person.eyeColor, Person.hairColor, Person.nationality] ]
-    }
-
-    protected String[] replacedFunc(String word) {
-        return word
-            .substring(0, word.length() - 1)
-            .replace("id=", "")
-            .replace("name=", "")
-            .replace("coordinates=", "")
-            .replace("creationDate=", "")
-            .replace("price=", "")
-            .replace("type=", "")
-            .replace("person=", "")
-            .replace("eyeColor=", "")
-            .replace("hairColor=", "")
-            .replace("nationality=", "")
-            .replace("Coordinates", "")
-            .replace("birthday=", "")
-            .replace("x=", "")
-            .replace("y=", "")
-            .replace("Person", "")
-            .replace("Person", "")
-            .replace("'", "")
-            .replace("{", "")
-            .replace("}", "")
-            .replace(" -", ",")
-            .replace("Ticket", "")
-            .split(", ");
     }
 
     public void asyncAutoUpdateCollectionData(String login, String password) {
@@ -165,7 +134,7 @@ public class DataRun {
                     writeLock.unlock();
                 }
 
-                Thread.sleep(50);
+                Thread.sleep(500);
                 return null;
             }
         };
