@@ -8,6 +8,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFac
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.ColumnSortFlag;
+import javafx.geometry.Insets;
 import moduls.Country;
 import moduls.EyeColor;
 import moduls.HairColor;
@@ -77,11 +78,12 @@ public class DataSheet {
 
 
         TableColumn<String[], Long> keyColumn = new TableColumn<>(null);
+        keyColumn.setResizable(true);
         keyColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Long.parseLong(s.getValue()[0])));
         table.getColumns().add(keyColumn);
-        HBox headerKeyBox = new HBox();
-        headerKeyBox.setSpacing(15);
+        HBox headerKeyBox = BoxFactory.getTableLine();
         Label keyLabel = new Label(GraphicRun.localizator.getString("key"));
+        keyColumn.setPrefWidth(keyLabel.getText().length() * keyLabel.getFont().getSize() + 70);
         headerKeyButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "keyFlagSort",
                 headerKeyButton,
@@ -104,9 +106,9 @@ public class DataSheet {
         TableColumn<String[], Long> idColumn = new TableColumn<>(null);
         idColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Long.parseLong(s.getValue()[1])));
         table.getColumns().add(idColumn);
-        HBox headerIdBox = new HBox();
-        headerIdBox.setSpacing(15);
+        HBox headerIdBox = BoxFactory.getTableLine();
         Label idLabel = new Label("id");
+        idColumn.setPrefWidth(idLabel.getText().length() * idLabel.getFont().getSize() + 70);
         headerIdButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "idFlagSort",
                 headerKeyButton,
@@ -129,9 +131,9 @@ public class DataSheet {
         TableColumn<String[], String> nameColumn = new TableColumn<>(null);
         nameColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[2]));
         table.getColumns().add(nameColumn);
-        HBox headerNameBox = new HBox();
-        headerNameBox.setSpacing(15);
+        HBox headerNameBox = BoxFactory.getTableLine();
         Label nameLabel = new Label(GraphicRun.localizator.getString("name"));
+        nameColumn.setPrefWidth(nameLabel.getText().length() * nameLabel.getFont().getSize() + 70);
         headerNameButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "nameFlagSort",
                 headerKeyButton,
@@ -154,9 +156,9 @@ public class DataSheet {
         TableColumn<String[], Float> xColumn = new TableColumn<>(null);
         xColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Float.parseFloat(s.getValue()[3])));
         table.getColumns().add(xColumn);
-        HBox headerXBox = new HBox();
-        headerXBox.setSpacing(15);
+        HBox headerXBox = BoxFactory.getTableLine();
         Label xLabel = new Label("x");
+        xColumn.setPrefWidth(xLabel.getText().length() *xLabel.getFont().getSize() + 70);
         headerXButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "xFlagSort",
                 headerKeyButton,
@@ -179,9 +181,9 @@ public class DataSheet {
         TableColumn<String[], Long> yColumn = new TableColumn<>(null);
         yColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Long.parseLong(s.getValue()[4])));
         table.getColumns().add(yColumn);
-        HBox headerYBox = new HBox();
-        headerYBox.setSpacing(15);
+        HBox headerYBox = BoxFactory.getTableLine();
         Label yLabel = new Label("y");
+        yColumn.setPrefWidth(yLabel.getText().length() * yLabel.getFont().getSize() + 70);
         headerYButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "yFlagSort",
                 headerKeyButton,
@@ -204,9 +206,9 @@ public class DataSheet {
         TableColumn<String[], String> creationDateColumn = new TableColumn<>(null);
         creationDateColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[5]));
         table.getColumns().add(creationDateColumn);
-        HBox headerCreationDateBox = new HBox();
-        headerCreationDateBox.setSpacing(15);
+        HBox headerCreationDateBox = BoxFactory.getTableLine();
         Label creationDateLabel = new Label(GraphicRun.localizator.getString("creation date"));
+        creationDateColumn.setPrefWidth(creationDateLabel.getText().length() * creationDateLabel.getFont().getSize() + 30);
         headerCreationDateButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "creationDateFlagSort",
                 headerKeyButton,
@@ -229,9 +231,9 @@ public class DataSheet {
         TableColumn<String[], Float> priceColumn = new TableColumn<>(null);
         priceColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Float.parseFloat(s.getValue()[6])));
         table.getColumns().add(priceColumn);
-        HBox headerPriceBox = new HBox();
-        headerPriceBox.setSpacing(15);
+        HBox headerPriceBox = BoxFactory.getTableLine();
         Label priceLabel = new Label(GraphicRun.localizator.getString("price"));
+        priceColumn.setPrefWidth(priceLabel.getText().length() * priceLabel.getFont().getSize() + 70);
         headerPriceButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "priceFlagSort",
                 headerKeyButton,
@@ -254,9 +256,9 @@ public class DataSheet {
         TableColumn<String[], TicketType> typeColumn = new TableColumn<>(null);
         typeColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[7].equals("null") ? null : TicketType.valueOf(s.getValue()[7])));
         table.getColumns().add(typeColumn);
-        HBox headerTypeBox = new HBox();
-        headerTypeBox.setSpacing(15);
+        HBox headerTypeBox = BoxFactory.getTableLine();
         Label typeLabel = new Label(GraphicRun.localizator.getString("type"));
+        typeColumn.setPrefWidth(typeLabel.getText().length() * typeLabel.getFont().getSize() + 30);
         headerTypeButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "typeFlagSort",
                 headerKeyButton,
@@ -279,9 +281,9 @@ public class DataSheet {
         TableColumn<String[], String> birthdayColumn = new TableColumn<>(null);
         birthdayColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[8].equals("null") ? null : s.getValue()[8]));
         table.getColumns().add(birthdayColumn);
-        HBox headerBirthdayBox = new HBox();
-        headerBirthdayBox.setSpacing(15);
+        HBox headerBirthdayBox = BoxFactory.getTableLine();
         Label birthdayLabel = new Label(GraphicRun.localizator.getString("birthday"));
+        birthdayColumn.setPrefWidth(birthdayLabel.getText().length() * birthdayLabel.getFont().getSize() + 30);
         headerBirthdayButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "birthdayFlagSort",
                 headerKeyButton,
@@ -304,9 +306,9 @@ public class DataSheet {
         TableColumn<String[], EyeColor> eyeColumn = new TableColumn<>(null);
         eyeColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[9].equals("null") ? null : EyeColor.valueOf(s.getValue()[9])));
         table.getColumns().add(eyeColumn);
-        HBox headerEyeBox = new HBox();
-        headerEyeBox.setSpacing(15);
+        HBox headerEyeBox = BoxFactory.getTableLine();
         Label eyeLabel = new Label(GraphicRun.localizator.getString("eye color"));
+        eyeColumn.setPrefWidth(eyeLabel.getText().length() * eyeLabel.getFont().getSize() + 30);
         headerEyeButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "eyeFlagSort",
                 headerKeyButton,
@@ -329,9 +331,9 @@ public class DataSheet {
         TableColumn<String[], HairColor> hairColumn = new TableColumn<>(null);
         hairColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[10].equals("null") ? null : HairColor.valueOf(s.getValue()[10])));
         table.getColumns().add(hairColumn);
-        HBox headerHairBox = new HBox();
-        headerHairBox.setSpacing(15);
+        HBox headerHairBox = BoxFactory.getTableLine();
         Label hairLabel = new Label(GraphicRun.localizator.getString("hair color"));
+        hairColumn.setPrefWidth(hairLabel.getText().length() * hairLabel.getFont().getSize() + 30);
         headerHairButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "hairFlagSort",
                 headerKeyButton,
@@ -354,9 +356,9 @@ public class DataSheet {
         TableColumn<String[], Country> countryColumn = new TableColumn<>(null);
         countryColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[11].equals("null") ? null : Country.valueOf(s.getValue()[11])));
         table.getColumns().add(countryColumn);
-        HBox headerCountryBox = new HBox();
-        headerCountryBox.setSpacing(15);
+        HBox headerCountryBox = BoxFactory.getTableLine();
         Label countryLabel = new Label(GraphicRun.localizator.getString("country"));
+        countryColumn.setPrefWidth(countryLabel.getText().length() * countryLabel.getFont().getSize() + 30);
         headerCountryButton.setOnAction(e -> ColumnSortFlag.setColumnSortFlag(
                 "countryFlagSort",
                 headerKeyButton,
