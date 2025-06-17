@@ -1,15 +1,17 @@
 package ProcessEngine.GraphicCore.MainWindow.VisualizationArea;
 
 import ProcessEngine.DataCore.DataRun;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveKeyPopUpWindow.RemoveKeyPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import javafx.animation.ScaleTransition;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -18,6 +20,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import moduls.Coordinates;
 import moduls.Ticket;
+import network.Request;
+
+import java.util.Arrays;
 
 public class VisualizationArea {
 
@@ -94,27 +99,8 @@ public class VisualizationArea {
                     event -> {
                         if (event.getButton() == MouseButton.SECONDARY) {
                             ContextMenu menu = new ContextMenu();
-                            MenuItem update = new MenuItem("update");
-                            update.setOnAction(
-                                    event1 -> {
-                                        Stage stage = UpdatePopUpWindow.secondWindow(networkManager, login, password, i, Long.parseLong(i[0]));
-                                        stage.show();
-                                        // Анимация???
-                                    }
-                            );
-                            MenuItem remove = new MenuItem("remove");
-                            remove.setOnAction(
-                                    event1 -> {
-                                        Stage stage = RemoveKeyPopUpWindow.removeKeyWithTextWindow(networkManager, login, password, i[0]);
-                                        ScaleTransition exit = new ScaleTransition(Duration.millis(3000), circle);
-                                        exit.setFromX(1);
-                                        exit.setToX(0);
-                                        exit.setFromY(1); // Доработать анимацию
-                                        exit.setToY(0);
-                                        exit.play();
-                                        stage.show();
-                                    }
-                            );
+                            MenuItem update = getUpdate(i);
+                            MenuItem remove = getRemove(i, circle);
                             menu.getItems().addAll(update, remove);
                             menu.setX(event.getScreenX());
                             menu.setY(event.getScreenY());
@@ -133,6 +119,70 @@ public class VisualizationArea {
 
             root.getChildren().add(circle);
         }
+    }
+
+    private MenuItem getRemove(String[] i, Circle circle) {
+        MenuItem remove = new MenuItem("remove");
+        remove.setOnAction(
+                event1 -> {
+//                    Stage stage = RemoveKeyPopUpWindow.removeKeyWithTextWindow(networkManager, login, password, i[0]);
+                    Stage stage = new Stage();
+                    VBox box = BoxFactory.getPopUpBox();
+                    Label label = LabelFactory.getMainLabel("Удалить данный элемент? (ключ - " + i[0] + ")");
+                    Button yes = ButtonFactory.getCommitButton();
+                    Label error = LabelFactory.getErrorLabel("");
+                    yes.setText("yes");
+
+                    yes.setOnAction(
+                            event2 -> {
+                                Request request = new Request();
+                                request.setUser(login);
+                                request.setPassword(Arrays.toString(password
+                                        .chars()
+                                        .mapToObj(c -> String.valueOf((char) c))
+                                        .toArray(String[]::new))
+                                );
+                                request.setCommandName("remove_key");
+                                request.setTokens("remove_key " + i[0]);
+                                String answer = networkManager.sendAndReceive(request);
+
+                                if (answer.equals("Элемент успешно удален")) {
+                                    ScaleTransition exit = new ScaleTransition(Duration.millis(3000), circle);
+                                    exit.setFromX(1);
+                                    exit.setToX(0);
+                                    exit.setFromY(1); // Доработать анимацию
+                                    exit.setToY(0);
+                                    exit.play();
+                                    error.setText("Элемент успешно удален");
+                                    LabelFactory.toResultLabel(error);
+                                } else if (answer.equals("[ERROR] Не достаточно прав для взаимодействия с данным элементом")) {
+                                    error.setText("Нет прав доступа");
+                                    LabelFactory.toErrorLabel(error);
+                                } else {
+                                    error.setText("Элемент уже удален");
+                                    LabelFactory.toErrorLabel(error);
+                                }
+                    });
+
+                    box.getChildren().addAll(label, yes, error);
+                    stage.setScene(new Scene(box, 500, 300));
+
+                    stage.show();
+                }
+        );
+        return remove;
+    }
+
+    private  MenuItem getUpdate(String[] i) {
+        MenuItem update = new MenuItem("update");
+        update.setOnAction(
+                event1 -> {
+                    Stage stage = UpdatePopUpWindow.secondWindow(networkManager, login, password, i, Long.parseLong(i[0]));
+                    stage.show();
+                    // Анимация???
+                }
+        );
+        return update;
     }
 
     protected void autoUpdating(Stage owner) {

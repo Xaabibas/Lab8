@@ -38,11 +38,7 @@ public class SignWindow {
 
         String networkResponse = netManager.sendAndReceive(requestPack);
 
-        if ((networkResponse.trim().equals("Успешная авторизация")) || (networkResponse.trim().equals("Успешная регистрация"))) {
-            return true;
-        } else {
-            return false;
-        }
+        return (networkResponse.trim().equals("Успешная авторизация")) || (networkResponse.trim().equals("Успешная регистрация"));
     }
 
 }
