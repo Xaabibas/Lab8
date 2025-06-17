@@ -36,7 +36,7 @@ public class LabelFactory {
         public static Label getResultLabel(String name) {
             Label label = new Label(name);
             label.setFont(Font.font("System", FontWeight.BOLD, 18));
-            label.setTextFill(Color.FORESTGREEN);
+            label.setTextFill(Color.MINTCREAM);
             label.setAlignment(Pos.CENTER);
 
             return label;

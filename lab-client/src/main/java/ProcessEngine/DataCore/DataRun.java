@@ -1,6 +1,19 @@
 package ProcessEngine.DataCore;
 
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByKey;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortById;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByName;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByX;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByY;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByCreationDate;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByPrice;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByType;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByBirthday;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByEye;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByHair;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByCountry;
 import network.Request;
 
 import java.util.Vector;
@@ -75,8 +88,83 @@ public class DataRun {
         Task<Void> asyncUpdateCollectionDataTask = new Task<>() {
             @Override
             protected Void call() throws Exception {
-                collectionVectorData = collectionDataRun(login, password);
-                Thread.sleep(200);
+                if (DataSheet.keyFlagSort != null) {
+                    if (DataSheet.keyFlagSort) {
+                        collectionVectorData = SortByKey.sortByKeyAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.keyFlagSort) {
+                        collectionVectorData = SortByKey.sortByKeyDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.idFlagSort != null) {
+                    if (DataSheet.idFlagSort) {
+                        collectionVectorData = SortById.sortByIdAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.idFlagSort) {
+                        collectionVectorData = SortById.sortByIdDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.nameFlagSort != null) {
+                    if (DataSheet.nameFlagSort) {
+                        collectionVectorData = SortByName.sortByNameAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.nameFlagSort) {
+                        collectionVectorData = SortByName.sortByNameDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.xFlagSort != null) {
+                    if (DataSheet.xFlagSort) {
+                        collectionVectorData = SortByX.sortByXAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.xFlagSort) {
+                        collectionVectorData = SortByX.sortByXDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.yFlagSort != null) {
+                    if (DataSheet.yFlagSort) {
+                        collectionVectorData = SortByY.sortByYAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.yFlagSort) {
+                        collectionVectorData = SortByY.sortByYDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.creationDateFlagSort != null) {
+                    if (DataSheet.creationDateFlagSort) {
+                        collectionVectorData = SortByCreationDate.sortByCreationDateAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.creationDateFlagSort) {
+                        collectionVectorData = SortByCreationDate.sortByCreationDateDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.priceFlagSort != null) {
+                    if (DataSheet.priceFlagSort) {
+                        collectionVectorData = SortByPrice.sortByPriceAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.priceFlagSort) {
+                        collectionVectorData = SortByPrice.sortByPriceDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.typeFlagSort != null) {
+                    if (DataSheet.typeFlagSort) {
+                        collectionVectorData = SortByType.sortByTypeAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.typeFlagSort) {
+                        collectionVectorData = SortByType.sortByTypeDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.birthdayFlagSort != null) {
+                    if (DataSheet.birthdayFlagSort) {
+                        collectionVectorData = SortByBirthday.sortByBirthdayAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.birthdayFlagSort) {
+                        collectionVectorData = SortByBirthday.sortByBirthdayDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.eyeFlagSort != null) {
+                    if (DataSheet.eyeFlagSort) {
+                        collectionVectorData = SortByEye.sortByEyeAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.eyeFlagSort) {
+                        collectionVectorData = SortByEye.sortByEyeDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.hairFlagSort != null) {
+                    if (DataSheet.hairFlagSort) {
+                        collectionVectorData = SortByHair.sortByHairAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.hairFlagSort) {
+                        collectionVectorData = SortByHair.sortByHairDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else if (DataSheet.countryFlagSort != null) {
+                    if (DataSheet.countryFlagSort) {
+                        collectionVectorData = SortByCountry.sortByCountryAscendingOrder(collectionDataRun(login, password));
+                    } else if (!DataSheet.countryFlagSort) {
+                        collectionVectorData = SortByCountry.sortByCountryDescendingOrder(collectionDataRun(login, password));
+                    }
+                } else {
+                    collectionVectorData = collectionDataRun(login, password);
+                }
+
+                Thread.sleep(100);
                 return null;
             }
         };
@@ -87,6 +175,8 @@ public class DataRun {
         });
 
         asyncUpdateCollectionDataTask.setOnFailed(event -> {
+            Throwable ex = asyncUpdateCollectionDataTask.getException();
+            ex.printStackTrace();
             System.out.println("# AsyncCollectionUpdate завершился с ошибкой. Повторный запуск");
             asyncAutoUpdateCollectionData(login, password);
         });

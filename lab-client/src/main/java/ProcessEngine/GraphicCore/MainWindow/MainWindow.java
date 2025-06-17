@@ -72,7 +72,7 @@ public class MainWindow {
 
         Label name = new Label(authCheckData.getLogin());
         name.setFont(Font.font("System", FontWeight.BOLD, 15));
-        name.setTextFill(Color.GREEN);
+        name.setTextFill(Color.BLUE);
 
         Hyperlink logOut = new Hyperlink("log out"); // setOnAction Выход в стартовое окно
         logOut.setTextFill(Color.RED);
