@@ -1,6 +1,7 @@
 package ProcessEngine.GraphicCore.MainWindow.ControlPanel;
 
 import ProcessEngine.DataCore.DataRun;
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.CountByTypePopUpWindow.CountByTypePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
@@ -13,6 +14,7 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWin
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.ColumnSortFlag;
+import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import network.Request;
 
@@ -44,13 +46,13 @@ public class ControlPanel {
         commands.setSpacing(17);
         commands.setPadding(new Insets(30, 30, 30, 30));
 
-        Button update = ButtonFactory.getCommandButton("update");
+        Button update = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("update"));
         update.setOnAction(event -> {
             Stage stage = UpdatePopUpWindow.updateWindow(networkManager, login, password, dataRun.getCollectionData());
             stage.show();
         });
 
-        Button insert = ButtonFactory.getCommandButton("insert");
+        Button insert = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("insert"));
         insert.setOnAction(event -> {
             Stage stage = InsertPopUpWindow.insertWindow(networkManager, login, password);
             stage.show();
@@ -58,14 +60,14 @@ public class ControlPanel {
 
         HBox first = BoxFactory.getBoxWithButtons(update, insert);
 
-        Button removeGreater = ButtonFactory.getCommandButton("remove greater");
+        Button removeGreater = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("remove") + GraphicRun.localizator.getString("greater"));
         removeGreater.setOnAction(event -> {
             Stage stage = RemoveGrPopUpWindow.removeGreaterWindow(networkManager, login, password);
 
             stage.show();
         });
 
-        Button removeLower = ButtonFactory.getCommandButton("remove lower");
+        Button removeLower = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("remove") + GraphicRun.localizator.getString("lower"));
         removeLower.setOnAction(event -> {
             Stage stage = RemoveLowPopUpWindow.removeLowerWindow(networkManager, login, password);
 
@@ -75,14 +77,14 @@ public class ControlPanel {
         HBox second = BoxFactory.getBoxWithButtons(removeGreater, removeLower);
         second.setPadding(new Insets(17, 0, 0, 0));
 
-        Button removeLowerKey = ButtonFactory.getCommandButton("remove lower by key");
+        Button removeLowerKey = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("remove") + GraphicRun.localizator.getString("lower") + " " + GraphicRun.localizator.getString("by key"));
         removeLowerKey.setOnAction(event -> {
             Stage stage = RemoveLowKeyPopUpWindow.removeLowerKeyWindow(networkManager, login, password);
 
             stage.show();
         });
 
-        Button removeKey = ButtonFactory.getCommandButton("remove by key");
+        Button removeKey = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("remove") + GraphicRun.localizator.getString("by key"));
         removeKey.setOnAction(event -> {
             Stage stage = RemoveKeyPopUpWindow.removeKeyWindow(networkManager, login, password);
 
@@ -92,14 +94,14 @@ public class ControlPanel {
         HBox third = BoxFactory.getBoxWithButtons(removeLowerKey, removeKey);
         third.setPadding(new Insets(0, 0, 17, 0));
 
-        Button sum = ButtonFactory.getCommandButton("sum of price");
+        Button sum = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("sum"));
         sum.setOnAction(event -> {
             Stage stage = SumOfPricePopUpWindow.sumWindow(dataRun.getCollectionData());
 
             stage.show();
         });
 
-        Button count = ButtonFactory.getCommandButton("count by type");
+        Button count = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("count by type"));
         count.setOnAction(event -> {
             Stage stage = CountByTypePopUpWindow.countWindow(dataRun.getCollectionData());
 
@@ -108,7 +110,7 @@ public class ControlPanel {
 
         HBox fourth = BoxFactory.getBoxWithButtons(sum, count);
 
-        Button printAscending = ButtonFactory.getCommandButton("print ascending"); // Написать setOnAction
+        Button printAscending = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("print ascending")); // Написать setOnAction
         printAscending.setOnAction(event -> {
             ColumnSortFlag.setColumnSortFlag(
                     "priceFlagSort",
@@ -126,7 +128,7 @@ public class ControlPanel {
                     DataSheet.headerCountryButton
             );
         });
-        Button clear = ButtonFactory.getCommandButton("clear");
+        Button clear = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("clear"));
         HBox fifth = BoxFactory.getBoxWithButtons(printAscending, clear);
         clear.setOnAction(event -> {
             Request request = new Request();

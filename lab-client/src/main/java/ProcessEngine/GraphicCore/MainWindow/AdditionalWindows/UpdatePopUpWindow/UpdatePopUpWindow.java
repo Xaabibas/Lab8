@@ -1,9 +1,11 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
+import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
 import javafx.scene.Scene;
@@ -28,10 +30,10 @@ public class UpdatePopUpWindow {
 
     public static Stage updateWindow(NetworkManager networkManager, String login, String password, Vector<String[]> collection) {
         Stage stage = new Stage();
-        Label mainLabel = LabelFactory.getMainLabel("Insert key");
+        Label mainLabel = LabelFactory.getMainLabel(GraphicRun.localizator.getString("insert key"));
 
         VBox textBox = BoxFactory.getTextBox();
-        TextField keyField = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
+        TextField keyField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("key"), new KeyValidator());
         Label label = new Label("");
         LabelFactory.toErrorLabel(label);
         textBox.getChildren().addAll(keyField, label);
@@ -48,10 +50,10 @@ public class UpdatePopUpWindow {
                             second.show();
                             stage.close();
                         } else {
-                            label.setText("Нет элемента с заданным key");
+                            label.setText(GraphicRun.localizator.getString("no key"));
                         }
                     } catch (IllegalArgumentException e) {
-                        label.setText("Введите корректный key");
+                        label.setText(GraphicRun.localizator.getString("insert correct values"));
                     }
                 }
         );
@@ -68,26 +70,26 @@ public class UpdatePopUpWindow {
         Stage stage = new Stage();
         // [ [key, id, name, Coordinates.x, Coordinates.y, creationDate, price, type, Person.birthday, Person.eyeColor, Person.hairColor, Person.nationality] ]
 
-        Label mainLabel = LabelFactory.getMainLabel("Insert your data");
+        Label mainLabel = LabelFactory.getMainLabel(GraphicRun.localizator.getString("insert data"));
         VBox textBox = BoxFactory.getTextBox();
-        TextField nameField = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
+        TextField nameField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("name"), new NameValidator());
         nameField.setText(values[2]);
         TextField xField = TextFieldFactory.getFieldWithValidator("x", new XValidator());
         xField.setText(values[3]);
         TextField yField = TextFieldFactory.getFieldWithValidator("y", new YValidator());
         yField.setText(values[4]);
-        TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
+        TextField priceField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("price"), new PriceValidator());
         priceField.setText(values[6]);
-        TextField typeField = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
+        TextField typeField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("type"), new TypeValidator());
         typeField.setText(values[7].equals("null") ? "" : values[7]);
-        Label personData = LabelFactory.getUsualLabel("Person Data");
-        TextField birthdayField = TextFieldFactory.getFieldWithValidator("birthday [ year.month.day.hour.minute.second ]", new DateValidator());
+        Label personData = LabelFactory.getUsualLabel(GraphicRun.localizator.getString("person data"));
+        TextField birthdayField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("birthday"), new DateValidator());
         birthdayField.setText(values[8].equals("null") ? "" : format(values[8]));
-        TextField countryField = TextFieldFactory.getFieldWithValidator("country", new CountryValidator());
+        TextField countryField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("country"), new CountryValidator());
         countryField.setText(values[11].equals("null") ? "" : values[11]);
-        TextField eyeField = TextFieldFactory.getFieldWithValidator("eye color", new EyeValidator());
+        TextField eyeField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("eye color"), new EyeValidator());
         eyeField.setText(values[9].equals("null") ? "" : values[9]);
-        TextField hairField = TextFieldFactory.getFieldWithValidator("hair color", new HairValidator());
+        TextField hairField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("hair color"), new HairValidator());
         hairField.setText(values[10].equals("null") ? "" : values[10]);
         Label label = new Label();
 
@@ -159,7 +161,7 @@ public class UpdatePopUpWindow {
                         String netAnswer = networkManager.sendAndReceive(insertRequest);
 
                         if (!netAnswer.equals("Элемент был успешно обновлен")) {
-                            label.setText("Нет прав доступа");
+                            label.setText(GraphicRun.localizator.getString("not enough rights"));
                             LabelFactory.toErrorLabel(label);
                         } else {
                             label.setText(netAnswer);
@@ -167,7 +169,7 @@ public class UpdatePopUpWindow {
                         }
 
                     } catch (Exception e) {
-                        label.setText("Введите корректные данные");
+                        label.setText(GraphicRun.localizator.getString("insert correct values"));
                         LabelFactory.toErrorLabel(label);
                     }
                 }

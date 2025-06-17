@@ -1,9 +1,11 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.InsertPopUpWindow;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
+import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
 import javafx.scene.Scene;
@@ -23,19 +25,19 @@ public class InsertPopUpWindow {
     public static Stage insertWindow(NetworkManager networkManager, String login, String password) {
         Stage stage = new Stage();
 
-        Label mainLabel = LabelFactory.getMainLabel("Insert your data");
+        Label mainLabel = LabelFactory.getMainLabel(GraphicRun.localizator.getString("insert data"));
         VBox textBox = BoxFactory.getTextBox();
-        TextField keyField = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
-        TextField nameField = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
+        TextField keyField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("key"), new KeyValidator());
+        TextField nameField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("name"), new NameValidator());
         TextField xField = TextFieldFactory.getFieldWithValidator("x", new XValidator());
         TextField yField = TextFieldFactory.getFieldWithValidator("y", new YValidator());
-        TextField priceField = TextFieldFactory.getFieldWithValidator("price", new PriceValidator());
-        TextField typeField = TextFieldFactory.getFieldWithValidator("type", new TypeValidator());
-        Label personData = LabelFactory.getUsualLabel("Person Data");
-        TextField birthdayField = TextFieldFactory.getFieldWithValidator("birthday [ year.month.day.hour.minute.second ]", new DateValidator());
-        TextField countryField = TextFieldFactory.getFieldWithValidator("country", new CountryValidator());
-        TextField eyeField = TextFieldFactory.getFieldWithValidator("eye color", new EyeValidator());
-        TextField hairField = TextFieldFactory.getFieldWithValidator("hair color", new HairValidator());
+        TextField priceField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("price"), new PriceValidator());
+        TextField typeField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("type"), new TypeValidator());
+        Label personData = LabelFactory.getUsualLabel(GraphicRun.localizator.getString("person data"));
+        TextField birthdayField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("birthday"), new DateValidator());
+        TextField countryField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("country"), new CountryValidator());
+        TextField eyeField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("eye color"), new EyeValidator());
+        TextField hairField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("hair color"), new HairValidator());
         Label label = LabelFactory.getErrorLabel("");
 
         textBox.getChildren().addAll(
@@ -111,11 +113,11 @@ public class InsertPopUpWindow {
                             label.setText("Уже существуюет элемент с таким ключом");
                             LabelFactory.toErrorLabel(label);
                         } else {
-                            label.setText("Элемент был успешно добавлен");
+                            label.setText(GraphicRun.localizator.getString("success insert"));
                             LabelFactory.toResultLabel(label);
                         }
                     } catch (Exception e) {
-                        label.setText("Введите корректные значения");
+                        label.setText(GraphicRun.localizator.getString("insert correct values"));
                         LabelFactory.toErrorLabel(label);
                     }
                 }

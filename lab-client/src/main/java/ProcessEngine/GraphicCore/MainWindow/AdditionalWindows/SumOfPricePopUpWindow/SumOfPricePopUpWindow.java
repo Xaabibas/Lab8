@@ -1,8 +1,10 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWindow;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 
+import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -19,7 +21,7 @@ public class SumOfPricePopUpWindow {
 
         Label mainLabel = LabelFactory.getMainLabel(countSumOfPrice(collectionData));
         mainLabel.setTextFill(Color.MEDIUMBLUE);
-        mainLabel.setFont(Font.font("System", FontWeight.BOLD, 48));
+        mainLabel.setFont(Font.font("System", FontWeight.BOLD, 30));
 
         VBox box = BoxFactory.getPopUpBox(mainLabel);
 
@@ -32,7 +34,7 @@ public class SumOfPricePopUpWindow {
         double sum = collectionData.stream()
             .mapToDouble(item -> Double.parseDouble(item[6]))
             .sum();
-        return String.valueOf(sum);
+        return GraphicRun.localizator.getString("sum") + " " + sum;
     }
 
 }

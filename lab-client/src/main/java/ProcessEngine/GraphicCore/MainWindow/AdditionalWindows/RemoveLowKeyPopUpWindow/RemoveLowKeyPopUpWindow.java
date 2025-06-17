@@ -1,9 +1,11 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowKeyPopUpWindow;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
+import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.KeyValidator;
 import javafx.scene.Scene;
@@ -20,10 +22,10 @@ public class RemoveLowKeyPopUpWindow {
 
     public static Stage removeLowerKeyWindow(NetworkManager networkManager, String login, String password) {
         Stage stage = new Stage();
-        Label mainLabel = LabelFactory.getMainLabel("Insert Key");
+        Label mainLabel = LabelFactory.getMainLabel(GraphicRun.localizator.getString("insert key"));
         VBox textBox = BoxFactory.getTextBox();
         Label label = new Label();
-        TextField keyField = TextFieldFactory.getFieldWithValidator("key", new KeyValidator());
+        TextField keyField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("key"), new KeyValidator());
         textBox.getChildren().addAll(keyField, label);
         Button commit = ButtonFactory.getCommitButton();
 
@@ -44,7 +46,7 @@ public class RemoveLowKeyPopUpWindow {
                         String netAnswer = networkManager.sendAndReceive(request);
 
                         if (!netAnswer.equals("Младшие элементы были успешно удалены")) {
-                            label.setText("В коллекции нет \nэлемента с таким ключом");
+                            label.setText(GraphicRun.localizator.getString("no key"));
                             LabelFactory.toErrorLabel(label);
                         } else {
                             label.setText(netAnswer);
@@ -53,10 +55,10 @@ public class RemoveLowKeyPopUpWindow {
 
 
                     } catch (IllegalArgumentException e) {
-                        label.setText("Введите корректное значение key");
+                        label.setText(GraphicRun.localizator.getString("insert correct values"));
                         LabelFactory.toErrorLabel(label);
                     } catch (Exception e) {
-                        label.setText("Нет элемента с таким key"); // Это надо? Если да, то в try надо будет кидать exception и здесь как раз выводить сообщение
+                        label.setText(GraphicRun.localizator.getString("key"));
                         LabelFactory.toErrorLabel(label);
                     }
                 }

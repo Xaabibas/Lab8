@@ -1,5 +1,6 @@
 package ProcessEngine.GraphicCore.SignWindow;
 
+import resources.Localizator;
 import ProcessEngine.DataCore.AuthCheck;
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
@@ -7,12 +8,15 @@ import javafx.stage.Stage;
 import network.Request;
 
 import java.util.Arrays;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class SignWindow {
 
     protected Stage stage;
     protected AuthCheck authCheckData;
     protected static NetworkManager netManager;
+
 
     public SignWindow(Stage stage, AuthCheck authCheckData, NetworkManager networkManager) {
         this.stage = stage;

@@ -158,7 +158,7 @@ public class VisualizationArea {
                                     error.setText("Нет прав доступа");
                                     LabelFactory.toErrorLabel(error);
                                 } else {
-                                    error.setText("Элемент уже удален");
+                                    error.setText("Нет элемента с таким ключом");
                                     LabelFactory.toErrorLabel(error);
                                 }
                             });

@@ -1,6 +1,7 @@
 package ProcessEngine.GraphicCore.SignWindow.SignInWindow;
 
 import ProcessEngine.DataCore.AuthCheck;
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
@@ -28,7 +29,7 @@ public class SignInWindow {
         box.setBackground(Background.EMPTY);
         box.setPadding(new Insets(50.0));
 
-        Button continueButton = new Button("Continue");
+        Button continueButton = new Button(GraphicRun.localizator.getString("continue"));
         continueButton.setTextFill(Color.BLACK);
         continueButton.setFont(new Font(15));
         continueButton.setPadding(new Insets(8));
@@ -40,11 +41,11 @@ public class SignInWindow {
         innerBox.setBorder(new Border(new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, new CornerRadii(30), new BorderWidths(3.0))));
 
         VBox textBox = BoxFactory.getTextBox();
-        TextField loginField = TextFieldFactory.getFieldWithValidator("name", new NameValidator());
-        TextField passwordField = TextFieldFactory.getPasswordField("password");
+        TextField loginField = TextFieldFactory.getFieldWithValidator(GraphicRun.localizator.getString("login"), new NameValidator());
+        TextField passwordField = TextFieldFactory.getPasswordField(GraphicRun.localizator.getString("password"));
         textBox.getChildren().addAll(loginField, passwordField);
 
-        Label error = new Label("Неверное имя пользователя или пароль");
+        Label error = new Label(GraphicRun.localizator.getString("wrong login or password"));
         error.setTextFill(Color.RED);
 
         loginField.setOnAction(new EventHandler<ActionEvent>() {
@@ -60,7 +61,7 @@ public class SignInWindow {
 
             if (login.isEmpty() || password.isEmpty()) {
                 textBox.getChildren().remove(error);
-                error.setText("Введите значения всех полей");
+                error.setText(GraphicRun.localizator.getString("insert all values"));
                 textBox.getChildren().add(error);
             } else {
                 boolean checkAuthResult = SignWindow.checkAuthInfo(login, password, "login");
@@ -75,14 +76,14 @@ public class SignInWindow {
             }
         });
 
-        Label mainLabel = new Label("Sign in!");
+        Label mainLabel = new Label(GraphicRun.localizator.getString("sign in"));
         mainLabel.setFont(new Font(50));
         mainLabel.setTextFill(Color.MEDIUMBLUE);
 
-        Hyperlink button = new Hyperlink("Sign up!");
+        Hyperlink button = new Hyperlink(GraphicRun.localizator.getString("sign up"));
         button.setOnAction(actionEvent -> SignUpWindow.signUpWindow(stage, authCheckData));
 
-        Label lowLabel = new Label("Yet haven't account?");
+        Label lowLabel = new Label(GraphicRun.localizator.getString("yet have not account?"));
         lowLabel.setTextFill(Color.MEDIUMBLUE);
 
         innerBox.getChildren().addAll(mainLabel, textBox, continueButton, lowLabel, button);
