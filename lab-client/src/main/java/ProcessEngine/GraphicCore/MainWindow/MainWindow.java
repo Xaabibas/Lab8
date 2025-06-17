@@ -1,23 +1,24 @@
 package ProcessEngine.GraphicCore.MainWindow;
 
+import ProcessEngine.DataCore.AuthCheck;
+import ProcessEngine.DataCore.DataRun;
 import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.ControlPanel.ControlPanel;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
 import ProcessEngine.GraphicCore.MainWindow.VisualizationArea.VisualizationArea;
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import ProcessEngine.DataCore.AuthCheck;
-import ProcessEngine.DataCore.DataRun;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
+import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 import javafx.scene.text.FontWeight;
+import javafx.stage.Stage;
 
 public class MainWindow {
 
@@ -37,7 +38,7 @@ public class MainWindow {
         dataRun.asyncAutoUpdateCollectionData(authCheckData.getLogin(), authCheckData.getPassword());
         dataSheet = new DataSheet(dataRun);
         visualizationArea = new VisualizationArea(dataRun, networkManager, authCheckData.getLogin(), authCheckData.getPassword());
-    }    
+    }
 
     public void window() {
         root = new BorderPane();
@@ -78,7 +79,7 @@ public class MainWindow {
         logOut.setTextFill(Color.RED);
         logOut.setFont(Font.font("System", FontWeight.BOLD, 16));
         logOut.setOnAction(event -> {
-            authCheckData.setAuthSeccess(false);
+            authCheckData.setAuthSuccess(false);
             new Thread(GraphicRun.runSpecialThreadTask(authCheckData, stage)).start();
             SignUpWindow.signUpWindow(stage, authCheckData);
         });
@@ -108,5 +109,5 @@ public class MainWindow {
         bottomLine.getChildren().addAll(tableButton, coordButton);
         return bottomLine;
     }
-    
+
 }

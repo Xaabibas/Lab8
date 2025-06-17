@@ -6,10 +6,10 @@ import ProcessEngine.GraphicCore.SignWindow.SignWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.stage.Stage;
 import javafx.concurrent.Task;
+import javafx.stage.Stage;
 
-public class GraphicRun extends Application  {
+public class GraphicRun extends Application {
 
     protected Stage stage;
     protected volatile AuthCheck authCheckData = new AuthCheck();

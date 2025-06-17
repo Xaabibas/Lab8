@@ -4,7 +4,6 @@ import ProcessEngine.DataCore.DataRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
-import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveKeyPopUpWindow.RemoveKeyPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import javafx.animation.ScaleTransition;
@@ -125,7 +124,7 @@ public class VisualizationArea {
         MenuItem remove = new MenuItem("remove");
         remove.setOnAction(
                 event1 -> {
-//                    Stage stage = RemoveKeyPopUpWindow.removeKeyWithTextWindow(networkManager, login, password, i[0]);
+                    //                    Stage stage = RemoveKeyPopUpWindow.removeKeyWithTextWindow(networkManager, login, password, i[0]);
                     Stage stage = new Stage();
                     VBox box = BoxFactory.getPopUpBox();
                     Label label = LabelFactory.getMainLabel("Удалить данный элемент? (ключ - " + i[0] + ")");
@@ -162,7 +161,7 @@ public class VisualizationArea {
                                     error.setText("Элемент уже удален");
                                     LabelFactory.toErrorLabel(error);
                                 }
-                    });
+                            });
 
                     box.getChildren().addAll(label, yes, error);
                     stage.setScene(new Scene(box, 500, 300));
@@ -173,7 +172,7 @@ public class VisualizationArea {
         return remove;
     }
 
-    private  MenuItem getUpdate(String[] i) {
+    private MenuItem getUpdate(String[] i) {
         MenuItem update = new MenuItem("update");
         update.setOnAction(
                 event1 -> {

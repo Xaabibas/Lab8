@@ -29,5 +29,5 @@ public class SortByHair {
         Collections.reverse(sortByHairAscendingOrder(arr));
         return arr;
     }
-    
+
 }

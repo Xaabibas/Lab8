@@ -1,6 +1,9 @@
 package ProcessEngine.GraphicCore.MainWindow.ControlPanel;
 
+import ProcessEngine.DataCore.DataRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.CountByTypePopUpWindow.CountByTypePopUpWindow;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.InsertPopUpWindow.InsertPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveGrPopUpWindow.RemoveGrPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveKeyPopUpWindow.RemoveKeyPopUpWindow;
@@ -8,20 +11,17 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowKeyPopUpW
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.RemoveLowPopUpWindow.RemoveLowPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.SumOfPricePopUpWindow.SumOfPricePopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
-import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
-import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import ProcessEngine.DataCore.DataRun;
-import network.Request;
-
-import java.util.Arrays;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import network.Request;
+
+import java.util.Arrays;
 
 public class ControlPanel {
 
@@ -29,7 +29,7 @@ public class ControlPanel {
     protected NetworkManager networkManager;
     protected String login;
     protected String password;
-    
+
     public ControlPanel(DataRun dataRun, NetworkManager networkManager, String login, String password) {
         this.dataRun = dataRun;
         this.networkManager = networkManager;
@@ -110,20 +110,20 @@ public class ControlPanel {
         Button printAscending = ButtonFactory.getCommandButton("print ascending"); // Написать setOnAction
         printAscending.setOnAction(event -> {
             DataSheet.setColumnSortFlag(
-                "priceFlagSort",
-                DataSheet.headerKeyButton,
-                DataSheet.headerIdButton,
-                DataSheet.headerNameButton,
-                DataSheet.headerXButton,
-                DataSheet.headerYButton,
-                DataSheet.headerCreationDateButton,
-                DataSheet.headerPriceButton,
-                DataSheet.headerTypeButton,
-                DataSheet.headerBirthdayButton,
-                DataSheet.headerEyeButton,
-                DataSheet.headerHairButton,
-                DataSheet.headerCountryButton
-                );
+                    "priceFlagSort",
+                    DataSheet.headerKeyButton,
+                    DataSheet.headerIdButton,
+                    DataSheet.headerNameButton,
+                    DataSheet.headerXButton,
+                    DataSheet.headerYButton,
+                    DataSheet.headerCreationDateButton,
+                    DataSheet.headerPriceButton,
+                    DataSheet.headerTypeButton,
+                    DataSheet.headerBirthdayButton,
+                    DataSheet.headerEyeButton,
+                    DataSheet.headerHairButton,
+                    DataSheet.headerCountryButton
+            );
         });
         Button clear = ButtonFactory.getCommandButton("clear");
         HBox fifth = BoxFactory.getBoxWithButtons(printAscending, clear);
@@ -131,9 +131,9 @@ public class ControlPanel {
             Request request = new Request();
             request.setUser(login);
             request.setPassword(Arrays.toString(password
-                .chars()
-                .mapToObj(c -> String.valueOf((char) c))
-                .toArray(String[]::new))
+                    .chars()
+                    .mapToObj(c -> String.valueOf((char) c))
+                    .toArray(String[]::new))
             );
             request.setCommandName("clear");
             request.setTokens("clear");
@@ -145,5 +145,5 @@ public class ControlPanel {
 
         return commands;
     }
-    
+
 }

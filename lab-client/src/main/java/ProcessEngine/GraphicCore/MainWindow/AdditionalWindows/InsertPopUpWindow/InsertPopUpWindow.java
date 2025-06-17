@@ -4,26 +4,17 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFacto
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.CountryValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.DateValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.EyeValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.HairValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.KeyValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.NameValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.PriceValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.TypeValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.XValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.YValidator;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import network.Request;
-import moduls.*;
-
+import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import moduls.*;
+import network.Request;
+
 import java.time.LocalDateTime;
 import java.util.Arrays;
 
@@ -48,17 +39,17 @@ public class InsertPopUpWindow {
         Label label = LabelFactory.getErrorLabel("");
 
         textBox.getChildren().addAll(
-            keyField, 
-            nameField, 
-            xField, 
-            yField, 
-            priceField, 
-            typeField,
-            personData, 
-            birthdayField, 
-            countryField, 
-            eyeField, 
-            hairField,
+                keyField,
+                nameField,
+                xField,
+                yField,
+                priceField,
+                typeField,
+                personData,
+                birthdayField,
+                countryField,
+                eyeField,
+                hairField,
                 label
         );
         Button commit = ButtonFactory.getCommitButton();
@@ -107,9 +98,9 @@ public class InsertPopUpWindow {
                         Request insertRequest = new Request();
                         insertRequest.setUser(login);
                         insertRequest.setPassword(Arrays.toString(password
-                            .chars()
-                            .mapToObj(c -> String.valueOf((char) c))
-                            .toArray(String[]::new))
+                                .chars()
+                                .mapToObj(c -> String.valueOf((char) c))
+                                .toArray(String[]::new))
                         );
                         insertRequest.setObj(ticket);
                         insertRequest.setCommandName("insert");

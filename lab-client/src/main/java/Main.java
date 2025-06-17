@@ -16,7 +16,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             NetworkManager networkManager = new NetworkManager(port, InetAddress.getByName(host));
             ProcessRun runner = new ProcessRun(scanner, networkManager);
-            
+
             new Thread(runner::interactiveMode).start();
 
             startGraphicWindow(networkManager);
@@ -28,7 +28,7 @@ public class Main {
     }
 
     private static void startGraphicWindow(NetworkManager networkManager) {
-       GraphicRun.main(networkManager);
+        GraphicRun.main(networkManager);
     }
 
 }

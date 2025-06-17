@@ -1,24 +1,18 @@
 package ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow;
 
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.CountryValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.DateValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.EyeValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.HairValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.KeyValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.NameValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.PriceValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.TypeValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.XValidator;
-import ProcessEngine.ProcessCore.validatorModule.fieldValidators.YValidator;
-import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.*;
-import moduls.Coordinates;
-import moduls.Country;
-import moduls.EyeColor;
-import moduls.HairColor;
-import moduls.Person;
-import moduls.Ticket;
-import moduls.TicketType;
+import ProcessEngine.ProcessCore.validatorModule.fieldValidators.*;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import moduls.*;
 import network.Request;
 
 import java.time.LocalDateTime;
@@ -29,13 +23,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class UpdatePopUpWindow {
 
@@ -222,5 +209,5 @@ public class UpdatePopUpWindow {
 
         return out.substring(0, out.length() - 1);
     }
-    
+
 }

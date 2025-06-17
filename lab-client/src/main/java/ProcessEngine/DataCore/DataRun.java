@@ -1,45 +1,34 @@
 package ProcessEngine.DataCore;
 
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.DataSheet;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.*;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByKey;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortById;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByName;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByX;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByY;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByCreationDate;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByPrice;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByType;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByBirthday;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByEye;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByHair;
-import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.SortByCountry;
+import javafx.concurrent.Task;
 import network.Request;
 
-import java.util.Vector;
 import java.util.Arrays;
+import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javafx.concurrent.Task;
 
 public class DataRun {
 
     protected NetworkManager networkManager;
     protected Vector<String[]> collectionVectorData = new Vector<>();
- 
+
     public DataRun(NetworkManager networkManager) {
         this.networkManager = networkManager;
     }
-    
+
     public Vector<String[]> collectionDataRun(String login, String password) {
         Vector<String[]> vectorString = new Vector<>();
 
         Request collectionRequest = new Request();
         collectionRequest.setUser(login);
         collectionRequest.setPassword(Arrays.toString(password
-            .chars()
-            .mapToObj(c -> String.valueOf((char) c))
-            .toArray(String[]::new))
+                .chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .toArray(String[]::new))
         );
         collectionRequest.setCommandName("show");
         collectionRequest.setTokens("show");
@@ -53,35 +42,35 @@ public class DataRun {
             String word = wordMatcher.group(1);
             vectorString.add(replacedFunc(word));
         }
-        
+
         return vectorString; // [ [key, id, name, Coordinates.x, Coordinates.y, creationDate, price, type, Person.birthday, Person.eyeColor, Person.hairColor, Person.nationality] ]
     }
 
     protected String[] replacedFunc(String word) {
         return word
-            .substring(0, word.length() - 1)
-            .replace("id=", "")
-            .replace("name=", "")
-            .replace("coordinates=", "")
-            .replace("creationDate=", "")
-            .replace("price=", "")
-            .replace("type=", "")
-            .replace("person=", "")
-            .replace("eyeColor=", "")
-            .replace("hairColor=", "")
-            .replace("nationality=", "")
-            .replace("Coordinates", "")
-            .replace("birthday=", "")
-            .replace("x=", "")
-            .replace("y=", "")
-            .replace("Person", "")
-            .replace("Person", "")
-            .replace("'", "")
-            .replace("{", "")
-            .replace("}", "")
-            .replace(" -", ",")
-            .replace("Ticket", "")
-            .split(", ");
+                .substring(0, word.length() - 1)
+                .replace("id=", "")
+                .replace("name=", "")
+                .replace("coordinates=", "")
+                .replace("creationDate=", "")
+                .replace("price=", "")
+                .replace("type=", "")
+                .replace("person=", "")
+                .replace("eyeColor=", "")
+                .replace("hairColor=", "")
+                .replace("nationality=", "")
+                .replace("Coordinates", "")
+                .replace("birthday=", "")
+                .replace("x=", "")
+                .replace("y=", "")
+                .replace("Person", "")
+                .replace("Person", "")
+                .replace("'", "")
+                .replace("{", "")
+                .replace("}", "")
+                .replace(" -", ",")
+                .replace("Ticket", "")
+                .split(", ");
     }
 
     public synchronized void asyncAutoUpdateCollectionData(String login, String password) {

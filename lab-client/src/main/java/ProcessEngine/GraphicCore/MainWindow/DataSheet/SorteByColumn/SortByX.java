@@ -1,7 +1,7 @@
 package ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn;
 
-import java.util.Vector;
 import java.util.Collections;
+import java.util.Vector;
 
 public class SortByX {
 
@@ -29,5 +29,5 @@ public class SortByX {
         Collections.reverse(sortByXAscendingOrder(arr));
         return arr;
     }
-    
+
 }

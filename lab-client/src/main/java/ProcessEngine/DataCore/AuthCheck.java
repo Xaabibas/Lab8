@@ -5,9 +5,10 @@ public class AuthCheck {
     private String login;
     private String password;
 
-    public AuthCheck() {}
+    public AuthCheck() {
+    }
 
-    public void setAuthSeccess(boolean authSuccess) {
+    public void setAuthSuccess(boolean authSuccess) {
         this.authSuccess = authSuccess;
     }
 

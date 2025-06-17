@@ -1,11 +1,11 @@
 package ProcessEngine.GraphicCore.SignWindow;
 
+import ProcessEngine.DataCore.AuthCheck;
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
-import ProcessEngine.DataCore.AuthCheck;
+import javafx.stage.Stage;
 import network.Request;
 
-import javafx.stage.Stage;
 import java.util.Arrays;
 
 public class SignWindow {
@@ -13,7 +13,7 @@ public class SignWindow {
     protected Stage stage;
     protected AuthCheck authCheckData;
     protected static NetworkManager netManager;
-    
+
     public SignWindow(Stage stage, AuthCheck authCheckData, NetworkManager networkManager) {
         this.stage = stage;
         this.authCheckData = authCheckData;
@@ -29,9 +29,9 @@ public class SignWindow {
         Request requestPack = new Request();
         requestPack.setUser(login);
         requestPack.setPassword(Arrays.toString(password
-            .chars()
-            .mapToObj(c -> String.valueOf((char) c))
-            .toArray(String[]::new))
+                .chars()
+                .mapToObj(c -> String.valueOf((char) c))
+                .toArray(String[]::new))
         );
         requestPack.setCommandName(typeRequestLogPass);
         requestPack.setTokens(typeRequestLogPass);

@@ -1,12 +1,11 @@
 package ProcessEngine.GraphicCore.SignWindow.SignInWindow;
 
+import ProcessEngine.DataCore.AuthCheck;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.TextFieldFactory;
 import ProcessEngine.GraphicCore.SignWindow.SignUpWindow.SignUpWindow;
 import ProcessEngine.GraphicCore.SignWindow.SignWindow;
-import ProcessEngine.DataCore.AuthCheck;
 import ProcessEngine.ProcessCore.validatorModule.fieldValidators.NameValidator;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -16,20 +15,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class SignInWindow {
-    
+
     public static void signInWindow(Stage stage, AuthCheck authCheckData) {
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
@@ -77,7 +69,7 @@ public class SignInWindow {
                         textBox.getChildren().add(error);
                     }
                 } else {
-                    authCheckData.setAuthSeccess(checkAuthResult);
+                    authCheckData.setAuthSuccess(checkAuthResult);
                     authCheckData.setLoginPassword(login, password);
                 }
             }
