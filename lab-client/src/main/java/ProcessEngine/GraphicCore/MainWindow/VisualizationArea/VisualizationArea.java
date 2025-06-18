@@ -6,6 +6,8 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFa
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import network.Request;
+
 import javafx.animation.ScaleTransition;
 import javafx.concurrent.Task;
 import javafx.geometry.Insets;
@@ -15,10 +17,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import network.Request;
-
 import java.util.Arrays;
 
 public class VisualizationArea {
@@ -32,7 +33,7 @@ public class VisualizationArea {
     private final String password;
     private final float a = 21341;
     private final float b = 5454;
-
+    private final int cellSize = 50;
 
     public VisualizationArea(DataRun dataRun, NetworkManager networkManager, String login, String password) {
         this.dataRun = dataRun;
@@ -48,6 +49,7 @@ public class VisualizationArea {
     }
 
     public ScrollPane startPane(Stage owner) {
+        drawGrid();
         for (String[] i : dataRun.getCollectionData()) {
             double size = 2 * Math.log(Float.parseFloat(i[6]));
             double x = Float.parseFloat(i[3]) % width;
@@ -82,6 +84,7 @@ public class VisualizationArea {
 
     private void updatePane(Stage owner) {
         root.getChildren().clear();
+        drawGrid();
         for (String[] i : dataRun.getCollectionData()) {
             double size = 2 * Math.log(Float.parseFloat(i[6]));
             double x = Float.parseFloat(i[3]) % width;
@@ -124,11 +127,40 @@ public class VisualizationArea {
         }
     }
 
+    private void drawGrid() {
+        root.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), Insets.EMPTY)));
+
+        for (int x = 0; x <= width; x += cellSize) {
+            Line line = new Line(x, 0, x, width);
+            line.setStroke(Color.LIGHTGRAY);
+            line.setStrokeWidth(1);
+            root.getChildren().add(line);
+        }
+
+        for (int y = 0; y <= width; y += cellSize) {
+            Line line = new Line(0, y, width, y);
+            line.setStroke(Color.LIGHTGRAY);
+            line.setStrokeWidth(1);
+            root.getChildren().add(line);
+        }
+
+        // Оси
+        double center = width / 2.0;
+        Line horizontalAxis = new Line(0, center, width, center);
+        horizontalAxis.setStroke(Color.GRAY);
+        horizontalAxis.setStrokeWidth(3);
+
+        Line verticalAxis = new Line(center, 0, center, width);
+        verticalAxis.setStroke(Color.GRAY);
+        verticalAxis.setStrokeWidth(3);
+
+        root.getChildren().addAll(horizontalAxis, verticalAxis);
+    }
+
     private MenuItem getRemove(String[] i, Circle circle) {
         MenuItem remove = new MenuItem("remove");
         remove.setOnAction(
                 event1 -> {
-                    //                    Stage stage = RemoveKeyPopUpWindow.removeKeyWithTextWindow(networkManager, login, password, i[0]);
                     Stage stage = new Stage();
                     VBox box = BoxFactory.getPopUpBox();
                     Label label = LabelFactory.getMainLabel("Удалить данный элемент? (ключ - " + i[0] + ")");
@@ -153,7 +185,7 @@ public class VisualizationArea {
                                     ScaleTransition exit = new ScaleTransition(Duration.millis(3000), circle);
                                     exit.setFromX(1);
                                     exit.setToX(0);
-                                    exit.setFromY(1); // Доработать анимацию
+                                    exit.setFromY(1);
                                     exit.setToY(0);
                                     exit.play();
                                     error.setText("Элемент успешно удален");
@@ -182,7 +214,6 @@ public class VisualizationArea {
                 event1 -> {
                     Stage stage = UpdatePopUpWindow.secondWindow(networkManager, login, password, i, Long.parseLong(i[0]));
                     stage.show();
-                    // Анимация???
                 }
         );
         return update;

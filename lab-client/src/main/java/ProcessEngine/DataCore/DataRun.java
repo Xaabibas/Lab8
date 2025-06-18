@@ -14,7 +14,7 @@ import java.util.Vector;
 public class DataRun {
 
     protected NetworkManager networkManager;
-    private Vector<String[]> collectionVectorData = new Vector<>();
+    private final Vector<String[]> collectionVectorData = new Vector<>();
 
     private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final Lock readLock = readWriteLock.readLock();
@@ -51,89 +51,88 @@ public class DataRun {
             @Override
             protected Void call() throws Exception {
                 writeLock.lock();
-                Vector<String[]> collection = new Vector<>();
+                collectionVectorData.clear();
                 try {
                     if (DataSheet.keyFlagSort != null) {
                         if (DataSheet.keyFlagSort) {
-                            collection.addAll(SortByKey.sortByKeyAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByKey.sortByKeyAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByKey.sortByKeyDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByKey.sortByKeyDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.idFlagSort != null) {
                         if (DataSheet.idFlagSort) {
-                            collection.addAll(SortById.sortByIdAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortById.sortByIdAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortById.sortByIdDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortById.sortByIdDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.nameFlagSort != null) {
                         if (DataSheet.nameFlagSort) {
-                            collection.addAll(SortByName.sortByNameAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByName.sortByNameAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByName.sortByNameDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByName.sortByNameDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.xFlagSort != null) {
                         if (DataSheet.xFlagSort) {
-                            collection.addAll(SortByX.sortByXAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByX.sortByXAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByX.sortByXDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByX.sortByXDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.yFlagSort != null) {
                         if (DataSheet.yFlagSort) {
-                            collection.addAll(SortByY.sortByYAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByY.sortByYAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByY.sortByYDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByY.sortByYDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.creationDateFlagSort != null) {
                         if (DataSheet.creationDateFlagSort) {
-                            collection.addAll(SortByCreationDate.sortByCreationDateAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByCreationDate.sortByCreationDateAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByCreationDate.sortByCreationDateDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByCreationDate.sortByCreationDateDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.priceFlagSort != null) {
                         if (DataSheet.priceFlagSort) {
-                            collection.addAll(SortByPrice.sortByPriceAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByPrice.sortByPriceAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByPrice.sortByPriceDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByPrice.sortByPriceDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.typeFlagSort != null) {
                         if (DataSheet.typeFlagSort) {
-                            collection.addAll(SortByType.sortByTypeAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByType.sortByTypeAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByType.sortByTypeDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByType.sortByTypeDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.birthdayFlagSort != null) {
                         if (DataSheet.birthdayFlagSort) {
-                            collection.addAll(SortByBirthday.sortByBirthdayAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByBirthday.sortByBirthdayAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByBirthday.sortByBirthdayDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByBirthday.sortByBirthdayDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.eyeFlagSort != null) {
                         if (DataSheet.eyeFlagSort) {
-                            collection.addAll(SortByEye.sortByEyeAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByEye.sortByEyeAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByEye.sortByEyeDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByEye.sortByEyeDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.hairFlagSort != null) {
                         if (DataSheet.hairFlagSort) {
-                            collection.addAll(SortByHair.sortByHairAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByHair.sortByHairAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByHair.sortByHairDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByHair.sortByHairDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else if (DataSheet.countryFlagSort != null) {
                         if (DataSheet.countryFlagSort) {
-                            collection.addAll(SortByCountry.sortByCountryAscendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByCountry.sortByCountryAscendingOrder(collectionDataRun(login, password)));
                         } else {
-                            collection.addAll(SortByCountry.sortByCountryDescendingOrder(collectionDataRun(login, password)));
+                            collectionVectorData.addAll(SortByCountry.sortByCountryDescendingOrder(collectionDataRun(login, password)));
                         }
                     } else {
-                        collection.addAll(collectionDataRun(login, password));
+                        collectionVectorData.addAll(collectionDataRun(login, password));
                     }
                 } finally {
-                    collectionVectorData = collection;
                     writeLock.unlock();
                 }
 
-                Thread.sleep(500);
+                Thread.sleep(50);
                 return null;
             }
         };
@@ -156,7 +155,12 @@ public class DataRun {
     }
 
     public Vector<String[]> getCollectionData() {
-        return collectionVectorData;
+        readLock.lock();
+        try {
+            return collectionVectorData;
+        } finally {
+            readLock.unlock();
+        }
     }
 
 }
