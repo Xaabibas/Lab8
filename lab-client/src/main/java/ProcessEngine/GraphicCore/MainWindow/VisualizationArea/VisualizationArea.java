@@ -225,7 +225,7 @@ public class VisualizationArea {
             protected Void call() throws Exception {
                 while (!isCancelled()) {
                     updatePane(owner);
-                    Thread.sleep(3000);
+                    Thread.sleep(50);
                 }
                 return null;
             }

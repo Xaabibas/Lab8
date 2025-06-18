@@ -77,7 +77,7 @@ public class DataSheet {
 
         TableColumn<String[], Long> keyColumn = new TableColumn<>(null);
         keyColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Long.parseLong(s.getValue()[0])));
-        keyColumn.setPrefWidth(100);
+        keyColumn.setPrefWidth(115);
         keyColumn.setResizable(false);
         keyColumn.setSortable(false);
         keyColumn.setStyle("-fx-alignment: CENTER;");
@@ -100,14 +100,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerKeyBox.getChildren().addAll(keyLabel, headerKeyButton);
+        Button headerKeyFilterButton = new Button("🔍");
+        headerKeyBox.getChildren().addAll(keyLabel, headerKeyButton, headerKeyFilterButton);
         keyColumn.setGraphic(headerKeyBox);
 
 
         TableColumn<String[], Long> idColumn = new TableColumn<>(null);
         idColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Long.parseLong(s.getValue()[1])));
         table.getColumns().add(idColumn);
-        idColumn.setPrefWidth(80);
+        idColumn.setPrefWidth(100);
         idColumn.setResizable(false);
         idColumn.setSortable(false);
         HBox headerIdBox = new HBox();
@@ -128,14 +129,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerIdBox.getChildren().addAll(idLabel, headerIdButton);
+        Button headerIdFilterButton = new Button("🔍");
+        headerIdBox.getChildren().addAll(idLabel, headerIdButton, headerIdFilterButton);
         idColumn.setGraphic(headerIdBox);
 
 
         TableColumn<String[], String> nameColumn = new TableColumn<>(null);
         nameColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[2]));
         table.getColumns().add(nameColumn);
-        nameColumn.setPrefWidth(100);
+        nameColumn.setPrefWidth(110);
         nameColumn.setResizable(false);
         nameColumn.setSortable(false);
         HBox headerNameBox = new HBox();
@@ -156,14 +158,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerNameBox.getChildren().addAll(nameLabel, headerNameButton);
+        Button headerNameFilterButton = new Button("🔍");
+        headerNameBox.getChildren().addAll(nameLabel, headerNameButton, headerNameFilterButton);
         nameColumn.setGraphic(headerNameBox);
 
 
         TableColumn<String[], Float> xColumn = new TableColumn<>(null);
         xColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Float.parseFloat(s.getValue()[3])));
         table.getColumns().add(xColumn);
-        xColumn.setPrefWidth(80);
+        xColumn.setPrefWidth(90);
         xColumn.setResizable(false);
         xColumn.setSortable(false);
         HBox headerXBox = new HBox();
@@ -184,14 +187,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerXBox.getChildren().addAll(xLabel, headerXButton);
+        Button headerXFilterButton = new Button("🔍");
+        headerXBox.getChildren().addAll(xLabel, headerXButton, headerXFilterButton);
         xColumn.setGraphic(headerXBox);
 
 
         TableColumn<String[], Long> yColumn = new TableColumn<>(null);
         yColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Long.parseLong(s.getValue()[4])));
         table.getColumns().add(yColumn);
-        yColumn.setPrefWidth(80);
+        yColumn.setPrefWidth(90);
         yColumn.setResizable(false);
         yColumn.setSortable(false);
         HBox headerYBox = new HBox();
@@ -212,14 +216,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerYBox.getChildren().addAll(yLabel, headerYButton);
+        Button headerYFilterButton = new Button("🔍");
+        headerYBox.getChildren().addAll(yLabel, headerYButton, headerYFilterButton);
         yColumn.setGraphic(headerYBox);
 
 
         TableColumn<String[], String> creationDateColumn = new TableColumn<>(null);
         creationDateColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[5]));
         table.getColumns().add(creationDateColumn);
-        creationDateColumn.setPrefWidth(125);
+        creationDateColumn.setPrefWidth(135);
         creationDateColumn.setResizable(false);
         creationDateColumn.setSortable(false);
         HBox headerCreationDateBox = new HBox();
@@ -240,14 +245,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerCreationDateBox.getChildren().addAll(creationDateLabel, headerCreationDateButton);
+        Button headerCreationDateFilterButton = new Button("🔍");
+        headerCreationDateBox.getChildren().addAll(creationDateLabel, headerCreationDateButton, headerCreationDateFilterButton);
         creationDateColumn.setGraphic(headerCreationDateBox);
 
 
         TableColumn<String[], Float> priceColumn = new TableColumn<>(null);
         priceColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(Float.parseFloat(s.getValue()[6])));
         table.getColumns().add(priceColumn);
-        priceColumn.setPrefWidth(105);
+        priceColumn.setPrefWidth(115);
         priceColumn.setResizable(false);
         priceColumn.setSortable(false);
         HBox headerPriceBox = new HBox();
@@ -268,14 +274,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerPriceBox.getChildren().addAll(priceLabel, headerPriceButton);
+        Button headerPriceFilterButton = new Button("🔍");
+        headerPriceBox.getChildren().addAll(priceLabel, headerPriceButton, headerPriceFilterButton);
         priceColumn.setGraphic(headerPriceBox);
 
 
         TableColumn<String[], TicketType> typeColumn = new TableColumn<>(null);
         typeColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[7].equals("null") ? null : TicketType.valueOf(s.getValue()[7])));
         table.getColumns().add(typeColumn);
-        typeColumn.setPrefWidth(100);
+        typeColumn.setPrefWidth(110);
         typeColumn.setResizable(false);
         typeColumn.setSortable(false);
         HBox headerTypeBox = new HBox();
@@ -296,14 +303,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerTypeBox.getChildren().addAll(typeLabel, headerTypeButton);
+        Button headerTypeFilterButton = new Button("🔍");
+        headerTypeBox.getChildren().addAll(typeLabel, headerTypeButton, headerTypeFilterButton);
         typeColumn.setGraphic(headerTypeBox);
 
 
         TableColumn<String[], String> birthdayColumn = new TableColumn<>(null);
         birthdayColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[8].equals("null") ? null : s.getValue()[8]));
         table.getColumns().add(birthdayColumn);
-        birthdayColumn.setPrefWidth(125);
+        birthdayColumn.setPrefWidth(135);
         birthdayColumn.setResizable(false);
         birthdayColumn.setSortable(false);
         HBox headerBirthdayBox = new HBox();
@@ -324,14 +332,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerBirthdayBox.getChildren().addAll(birthdayLabel, headerBirthdayButton);
+        Button headerBirthdayFilterButton = new Button("🔍");
+        headerBirthdayBox.getChildren().addAll(birthdayLabel, headerBirthdayButton, headerBirthdayFilterButton);
         birthdayColumn.setGraphic(headerBirthdayBox);
 
 
         TableColumn<String[], EyeColor> eyeColumn = new TableColumn<>(null);
         eyeColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[9].equals("null") ? null : EyeColor.valueOf(s.getValue()[9])));
         table.getColumns().add(eyeColumn);
-        eyeColumn.setPrefWidth(105);
+        eyeColumn.setPrefWidth(120);
         eyeColumn.setResizable(false);
         eyeColumn.setSortable(false);
         HBox headerEyeBox = new HBox();
@@ -352,14 +361,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerEyeBox.getChildren().addAll(eyeLabel, headerEyeButton);
+        Button headerEyeFilterButton = new Button("🔍");
+        headerEyeBox.getChildren().addAll(eyeLabel, headerEyeButton, headerEyeFilterButton);
         eyeColumn.setGraphic(headerEyeBox);
 
 
         TableColumn<String[], HairColor> hairColumn = new TableColumn<>(null);
         hairColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[10].equals("null") ? null : HairColor.valueOf(s.getValue()[10])));
         table.getColumns().add(hairColumn);
-        hairColumn.setPrefWidth(110);
+        hairColumn.setPrefWidth(125);
         hairColumn.setResizable(false);
         hairColumn.setSortable(false);
         HBox headerHairBox = new HBox();
@@ -380,14 +390,15 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerHairBox.getChildren().addAll(hairLabel, headerHairButton);
+        Button headerHairFilterButton = new Button("🔍");
+        headerHairBox.getChildren().addAll(hairLabel, headerHairButton, headerHairFilterButton);
         hairColumn.setGraphic(headerHairBox);
 
 
         TableColumn<String[], Country> countryColumn = new TableColumn<>(null);
         countryColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[11].equals("null") ? null : Country.valueOf(s.getValue()[11])));
         table.getColumns().add(countryColumn);
-        countryColumn.setPrefWidth(115);
+        countryColumn.setPrefWidth(130);
         countryColumn.setResizable(false);
         countryColumn.setSortable(false);
         HBox headerCountryBox = new HBox();
@@ -408,7 +419,8 @@ public class DataSheet {
                 headerHairButton,
                 headerCountryButton
         ));
-        headerCountryBox.getChildren().addAll(countryLabel, headerCountryButton);
+        Button headerCountryFilterButton = new Button("🔍");
+        headerCountryBox.getChildren().addAll(countryLabel, headerCountryButton, headerCountryFilterButton);
         countryColumn.setGraphic(headerCountryBox);
 
 
