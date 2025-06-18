@@ -4,6 +4,7 @@ import ProcessEngine.DataCore.DataRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.InfoColumnPopUpWindow.InfoColumnPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import javafx.animation.TranslateTransition;
@@ -148,6 +149,9 @@ public class VisualizationArea {
                         menu.setY(event.getScreenY());
 
                         menu.show(owner);
+                    } else {
+                        Stage stage = InfoColumnPopUpWindow.InfoWindow(value);
+                        stage.show();
                     }
                 }
         );

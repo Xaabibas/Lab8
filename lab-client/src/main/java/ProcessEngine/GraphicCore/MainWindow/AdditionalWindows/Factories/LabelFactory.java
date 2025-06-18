@@ -24,6 +24,14 @@ public class LabelFactory {
         return label;
     }
 
+    public static Label getAdditionalLabel(String name) {
+        Label label = new Label(name);
+        label.setFont(new Font(16));
+        label.setTextFill(Color.BLUEVIOLET);
+
+        return label;
+    }
+
     public static Label getErrorLabel(String name) {
         Label label = new Label(name);
         label.setFont(Font.font("System", FontWeight.BOLD, 16));

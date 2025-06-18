@@ -57,7 +57,7 @@ public class ControlPanel {
             stage.show();
         });
 
-        HBox first = BoxFactory.getBoxWithButtons(update, insert);
+        HBox first = BoxFactory.getBoxWithNodes(update, insert);
 
         Button removeGreater = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("remove") + GraphicRun.localizator.getString("greater"));
         removeGreater.setOnAction(event -> {
@@ -73,7 +73,7 @@ public class ControlPanel {
             stage.show();
         });
 
-        HBox second = BoxFactory.getBoxWithButtons(removeGreater, removeLower);
+        HBox second = BoxFactory.getBoxWithNodes(removeGreater, removeLower);
         second.setPadding(new Insets(17, 0, 0, 0));
 
         Button removeLowerKey = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("remove") + GraphicRun.localizator.getString("lower") + " " + GraphicRun.localizator.getString("by key"));
@@ -90,7 +90,7 @@ public class ControlPanel {
             stage.show();
         });
 
-        HBox third = BoxFactory.getBoxWithButtons(removeLowerKey, removeKey);
+        HBox third = BoxFactory.getBoxWithNodes(removeLowerKey, removeKey);
         third.setPadding(new Insets(0, 0, 17, 0));
 
         Button sum = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("sum"));
@@ -107,7 +107,7 @@ public class ControlPanel {
             stage.show();
         });
 
-        HBox fourth = BoxFactory.getBoxWithButtons(sum, count);
+        HBox fourth = BoxFactory.getBoxWithNodes(sum, count);
 
         Button printAscending = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("print ascending")); // Написать setOnAction
         printAscending.setOnAction(event -> {
@@ -128,7 +128,7 @@ public class ControlPanel {
             );
         });
         Button clear = ButtonFactory.getCommandButton(GraphicRun.localizator.getString("clear"));
-        HBox fifth = BoxFactory.getBoxWithButtons(printAscending, clear);
+        HBox fifth = BoxFactory.getBoxWithNodes(printAscending, clear);
         clear.setOnAction(event -> {
             Request request = new Request();
             request.setUser(login);
