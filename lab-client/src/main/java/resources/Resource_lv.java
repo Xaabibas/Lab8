@@ -52,6 +52,9 @@ public class Resource_lv extends ListResourceBundle {
                 {"success insert", "Elements veiksmīgi pievienots"},
                 // Update
                 {"success update", "Elements veiksmīgi atjaunināts"},
+                // Info
+                {"info", "Informācija"},
+                {"owner", "Īpašnieks"},
 
                 // Removes
                 {"insert price", "Ievadiet cenu"},

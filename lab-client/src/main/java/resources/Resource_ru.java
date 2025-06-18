@@ -52,6 +52,9 @@ public class Resource_ru extends ListResourceBundle {
                 {"success insert", "Элемент был успешно добавлен"},
                 // Update
                 {"success update", "Элемент был успешно обновлен"},
+                // Info
+                {"info", "Информация"},
+                {"owner", "Владелец"},
 
                 // Removes
                 {"insert price", "Введите цену"},

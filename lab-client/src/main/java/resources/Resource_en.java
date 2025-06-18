@@ -52,6 +52,9 @@ public class Resource_en extends ListResourceBundle {
                 {"success insert", "Item was successfully added"},
                 // Update
                 {"success update", "Item was successfully updated"},
+                // Info
+                {"info", "Information"},
+                {"owner", "Owner"},
 
                 // Removes
                 {"insert price", "Enter the price"},

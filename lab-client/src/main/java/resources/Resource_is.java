@@ -52,6 +52,9 @@ public class Resource_is extends ListResourceBundle {
                 {"success insert", "Hlutur hefur verið settur inn með góðum árangri"},
                 // Update
                 {"success update", "Hlutur hefur verið uppfærður með góðum árangri"},
+                // Info
+                {"info", "Upplýsingar"},
+                {"owner", "Eigandi"},
 
                 // Removes
                 {"insert price", "Sláðu inn verð"},
