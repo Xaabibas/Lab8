@@ -49,18 +49,20 @@ public class VisualizationArea {
 
     public ScrollPane startPane(Stage owner) {
         for (String[] i : dataRun.getCollectionData()) {
-            Ticket ticket = new Ticket();
-            ticket.setPrice(Float.parseFloat(i[6]));
-            ticket.setCoordinates(new Coordinates(Float.parseFloat(i[3]), Long.parseLong(i[4])));
-
-            float size = ticket.getPrice() / 1000;
-            double x = (ticket.getCoordinates().getX());
-            double y = (ticket.getCoordinates().getY());
+            double size = 2 * Math.log(Float.parseFloat(i[6]));
+            double x = Float.parseFloat(i[3]) % width;
+            double y = Long.parseLong(i[4]) % width;
 
             Circle circle = new Circle();
             circle.setCenterX(x);
             circle.setCenterY(y);
             circle.setRadius(size);
+
+            if (i[12].equals(login)) {
+                circle.setFill(Color.GREEN);
+            } else {
+                circle.setFill(Color.RED);
+            }
 
             ScaleTransition scale = new ScaleTransition(Duration.millis(3000), circle);
             scale.setFromX(0.2);
@@ -81,18 +83,19 @@ public class VisualizationArea {
     private void updatePane(Stage owner) {
         root.getChildren().clear();
         for (String[] i : dataRun.getCollectionData()) {
-            Ticket ticket = new Ticket();
-            ticket.setPrice(Float.parseFloat(i[6]));
-            ticket.setCoordinates(new Coordinates(Float.parseFloat(i[3]), Long.parseLong(i[4])));
-
-            double size = 2 * Math.log(ticket.getPrice());
-            double x = ticket.getCoordinates().getX() % width;
-            double y = (ticket.getCoordinates().getY()) % width;
+            double size = 2 * Math.log(Float.parseFloat(i[6]));
+            double x = Float.parseFloat(i[3]) % width;
+            double y = Long.parseLong(i[4]) % width;
 
             Circle circle = new Circle();
             circle.setCenterX(x);
             circle.setCenterY(y);
             circle.setRadius(size);
+            if (login.equals(i[12])) {
+                circle.setFill(Color.GREEN);
+            } else {
+                circle.setFill(Color.RED);
+            }
 
             circle.setOnMouseClicked(
                     event -> {

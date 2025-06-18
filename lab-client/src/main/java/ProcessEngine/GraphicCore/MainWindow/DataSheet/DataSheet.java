@@ -447,7 +447,7 @@ public class DataSheet {
                 while (!isCancelled()) {
                     ObservableList<String[]> tickets = FXCollections.observableArrayList(dataRun.getCollectionData());
                     Platform.runLater(() -> table.setItems(tickets));
-                    Thread.sleep(30);
+                    Thread.sleep(500);
                 }
                 return null;
             }

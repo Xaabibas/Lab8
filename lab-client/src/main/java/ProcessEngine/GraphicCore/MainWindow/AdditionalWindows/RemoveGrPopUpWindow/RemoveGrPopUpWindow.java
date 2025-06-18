@@ -39,7 +39,7 @@ public class RemoveGrPopUpWindow {
                     try {
                         float price = Float.parseFloat(priceField.getText());
 
-                        Ticket fictitious = new Ticket();
+                        Ticket fictitious = new Ticket(login);
                         fictitious.setPrice(price);
 
                         Request request = new Request();

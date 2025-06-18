@@ -6,20 +6,24 @@ import network.Request;
 import network.Response;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class ShowCommand extends Command {
     public ShowCommand(CollectionManager cm) {
         super(cm);
     }
+
     @Override
     public String describe() {
         return "show - вывод всех элементов коллекции в строковом виде";
     }
+
     @Override
     public String rightFormat() {
         return "show";
     }
+
     @Override
     public Response execute(Request request) {
         if (request.getTokens().length != 1) {
@@ -35,8 +39,10 @@ public class ShowCommand extends Command {
 
             this.getCm().sortByName();
 
+            HashMap<Long, String> clients = this.getCm().getDbManager().selectAll();
+
             String answer = this.getCm().getCollection().keySet().stream().map(
-                    k -> k + " - " + this.getCm().getCollection().get(k).toString() + "\n"
+                    k -> k + ", " + this.getCm().getCollection().get(k).toString() + "\n"
             ).collect(Collectors.joining());
 
             return new Response(answer);
