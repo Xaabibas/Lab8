@@ -6,6 +6,8 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFa
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
+import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import network.Request;
 
 import javafx.animation.ScaleTransition;
@@ -21,19 +23,24 @@ import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VisualizationArea {
 
     protected DataRun dataRun;
     private final ScrollPane scrollPane;
     private final Pane root;
-    private final int width = 1000;
+    private final long width = 1200;
     private final NetworkManager networkManager;
     private final String login;
     private final String password;
     private final float a = 21341;
     private final float b = 5454;
     private final int cellSize = 50;
+    private final HashMap<Long, Circle> circles = new HashMap<>();
+    private final Pane background = drawGrid();
 
     public VisualizationArea(DataRun dataRun, NetworkManager networkManager, String login, String password) {
         this.dataRun = dataRun;
@@ -49,99 +56,137 @@ public class VisualizationArea {
     }
 
     public ScrollPane startPane(Stage owner) {
-        drawGrid();
+        root.getChildren().clear();
+        circles.clear();
+        root.getChildren().addAll(background);
         for (String[] i : dataRun.getCollectionData()) {
-            double size = 2 * Math.log(Float.parseFloat(i[6]));
-            double x = Float.parseFloat(i[3]) % width;
-            double y = Long.parseLong(i[4]) % width;
+            Circle circle = makeCircle(i, owner);
 
-            Circle circle = new Circle();
-            circle.setCenterX(x);
-            circle.setCenterY(y);
-            circle.setRadius(size);
-
-            if (i[12].equals(login)) {
-                circle.setFill(Color.GREEN);
-            } else {
-                circle.setFill(new Color(Math.abs(i[12].hashCode()) % a / a, 0.1, Math.abs(i[12].hashCode()) % b / b, 1));
-            }
-
-            ScaleTransition scale = new ScaleTransition(Duration.millis(3000), circle);
-            scale.setFromX(0.2);
-            scale.setToX(1);
-            scale.setFromY(0.2);
-            scale.setToY(1);
-
-            scale.play();
-
-            root.getChildren().add(circle);
+            root.getChildren().addAll(circle);
+            circles.put(Long.parseLong(i[0]), circle);
         }
-
         autoUpdating(owner);
 
         return scrollPane;
     }
 
     private void updatePane(Stage owner) {
-        root.getChildren().clear();
-        drawGrid();
+        Set<Long> keys = new HashSet<>();
         for (String[] i : dataRun.getCollectionData()) {
-            double size = 2 * Math.log(Float.parseFloat(i[6]));
-            double x = Float.parseFloat(i[3]) % width;
-            double y = Long.parseLong(i[4]) % width;
+            long key = Long.parseLong(i[0]);
+            keys.add(key);
+            if (circles.containsKey(key)) {
+                Circle circle = circles.get(key);
+                long x = Math.floorMod((long) Float.parseFloat(i[3]) + width / 2, width);
+                long y = Math.floorMod(-Long.parseLong(i[4]) + width / 2, width);
+                if (circle.getCenterX() != x || circle.getCenterY() != y) {
+                    TranslateTransition lineTransition = new TranslateTransition(new Duration(1000), circle);
+                    lineTransition.setToX(x - circle.getCenterX());
+                    lineTransition.setToY(y - circle.getCenterY());
+                    lineTransition.play();
 
-            Circle circle = new Circle();
-            circle.setCenterX(x);
-            circle.setCenterY(y);
-            circle.setRadius(size);
-
-            if (i[12].equals(login)) {
-                circle.setFill(Color.GREEN);
-            } else {
-                circle.setFill(new Color(Math.abs(i[12].hashCode()) % a / a, 0.1, Math.abs(i[12].hashCode()) % b / b, 1));
+                }
+                double size = 2 * Math.log(Float.parseFloat(i[6]));
+                if (size != circle.getRadius()) {
+                    ScaleTransition scaleTransition = new ScaleTransition(new Duration(1000), circle);
+                    if (size > circle.getRadius()){
+                        scaleTransition.setFromX(circle.getRadius() / size);
+                        scaleTransition.setFromY(circle.getRadius() / size);
+                        scaleTransition.setToX(1);
+                        scaleTransition.setToY(1);
+                    } else {
+                        scaleTransition.setFromX(1);
+                        scaleTransition.setFromY(1);
+                        scaleTransition.setToX(size / circle.getRadius());
+                        scaleTransition.setToY(size / circle.getRadius());
+                    }
+                    scaleTransition.play();
+                    circle.setRadius(size);
+                }
+                continue;
             }
 
-            circle.setOnMouseClicked(
-                    event -> {
-                        if (event.getButton() == MouseButton.SECONDARY) {
-                            ContextMenu menu = new ContextMenu();
-                            MenuItem update = getUpdate(i);
-                            MenuItem remove = getRemove(i, circle);
-                            menu.getItems().addAll(update, remove);
-                            menu.setX(event.getScreenX());
-                            menu.setY(event.getScreenY());
-
-                            menu.show(owner);
-                        }
-                    }
-            );
-
-            ScaleTransition scale = new ScaleTransition(Duration.millis(3000), circle);
-            scale.setFromX(0.2);
-            scale.setToX(1);
-            scale.setFromY(0.2);
-            scale.setToY(1);
-            scale.play();
+            Circle circle = makeCircle(i, owner);
 
             root.getChildren().add(circle);
+            circles.put(Long.parseLong(i[0]), circle);
         }
+        Set<Long> removeSet = new HashSet<>();
+        for (Long key : circles.keySet()) {
+            if (!keys.contains(key)) {
+                Circle circle = circles.get(key);
+                ScaleTransition exit = new ScaleTransition(Duration.millis(3000), circle);
+                exit.setFromX(1);
+                exit.setToX(0);
+                exit.setFromY(1);
+                exit.setToY(0);
+                exit.play();
+                removeSet.add(key);
+            }
+        }
+        removeSet.forEach(circles::remove);
     }
 
-    private void drawGrid() {
-        root.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), Insets.EMPTY)));
+    private Circle makeCircle(String[] value, Stage owner) {
+        double size = 2 * Math.log(Float.parseFloat(value[6]));
+        long x = Math.floorMod((long) Float.parseFloat(value[3]) + width / 2, width);
+        long y = Math.floorMod(-Long.parseLong(value[4]) + width / 2, width);
+
+        Circle circle = new Circle();
+        circle.setCenterX(x);
+        circle.setCenterY(y);
+        circle.setRadius(size);
+
+        circle.setOnMouseClicked(
+                event -> {
+                    if (event.getButton() == MouseButton.SECONDARY) {
+                        ContextMenu menu = new ContextMenu();
+                        MenuItem update = getUpdate(value);
+                        MenuItem remove = getRemove(value);
+                        menu.getItems().addAll(update, remove);
+                        menu.setX(event.getScreenX());
+                        menu.setY(event.getScreenY());
+
+                        menu.show(owner);
+                    }
+                }
+        );
+
+        if (value[12].equals(login)) {
+            circle.setFill(Color.GREEN);
+        } else {
+            circle.setFill(new Color(Math.abs(value[12].hashCode()) % a / a, 0.1, Math.abs(value[12].hashCode()) % b / b, 1));
+        }
+
+        circle.setStroke(Color.BLACK);
+        circle.setStrokeWidth(1);
+
+        ScaleTransition scale = new ScaleTransition(Duration.millis(3000), circle);
+        scale.setFromX(0.2);
+        scale.setToX(1);
+        scale.setFromY(0.2);
+        scale.setToY(1);
+        scale.play();
+
+        return circle;
+    }
+
+    private Pane drawGrid() {
+        Pane background = new Pane();
+        background.setBackground(new Background(new BackgroundFill(Color.WHITE, new CornerRadii(5), Insets.EMPTY)));
 
         for (int x = 0; x <= width; x += cellSize) {
             Line line = new Line(x, 0, x, width);
             line.setStroke(Color.LIGHTGRAY);
             line.setStrokeWidth(1);
-            root.getChildren().add(line);
+            background.getChildren().add(line);
         }
 
         for (int y = 0; y <= width; y += cellSize) {
             Line line = new Line(0, y, width, y);
             line.setStroke(Color.LIGHTGRAY);
             line.setStrokeWidth(1);
-            root.getChildren().add(line);
+            background.getChildren().add(line);
         }
 
         // Оси
@@ -154,10 +199,12 @@ public class VisualizationArea {
         verticalAxis.setStroke(Color.GRAY);
         verticalAxis.setStrokeWidth(3);
 
-        root.getChildren().addAll(horizontalAxis, verticalAxis);
+        background.getChildren().addAll(horizontalAxis, verticalAxis);
+
+        return background;
     }
 
-    private MenuItem getRemove(String[] i, Circle circle) {
+    private MenuItem getRemove(String[] i) {
         MenuItem remove = new MenuItem("remove");
         remove.setOnAction(
                 event1 -> {
@@ -182,12 +229,6 @@ public class VisualizationArea {
                                 String answer = networkManager.sendAndReceive(request);
 
                                 if (answer.equals("Элемент успешно удален")) {
-                                    ScaleTransition exit = new ScaleTransition(Duration.millis(3000), circle);
-                                    exit.setFromX(1);
-                                    exit.setToX(0);
-                                    exit.setFromY(1);
-                                    exit.setToY(0);
-                                    exit.play();
                                     error.setText("Элемент успешно удален");
                                     LabelFactory.toResultLabel(error);
                                 } else if (answer.equals("[ERROR] Не достаточно прав для взаимодействия с данным элементом")) {
@@ -224,8 +265,8 @@ public class VisualizationArea {
             @Override
             protected Void call() throws Exception {
                 while (!isCancelled()) {
-                    updatePane(owner);
-                    Thread.sleep(50);
+                    Platform.runLater(() -> updatePane(owner));
+                    Thread.sleep(3000);
                 }
                 return null;
             }
