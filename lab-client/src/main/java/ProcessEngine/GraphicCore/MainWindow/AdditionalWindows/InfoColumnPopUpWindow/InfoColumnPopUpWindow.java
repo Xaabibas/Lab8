@@ -37,7 +37,7 @@ public class InfoColumnPopUpWindow {
                                 LabelFactory.getAdditionalLabel(GraphicRun.localizator.getDate(value[5])),
                                 LabelFactory.getAdditionalLabel(value[6]),
                                 LabelFactory.getAdditionalLabel(value[7]),
-                                LabelFactory.getAdditionalLabel(value[8]),
+                                LabelFactory.getAdditionalLabel(GraphicRun.localizator.getDate(value[8])),
                                 LabelFactory.getAdditionalLabel(value[9]),
                                 LabelFactory.getAdditionalLabel(value[10]),
                                 LabelFactory.getAdditionalLabel(value[11]),

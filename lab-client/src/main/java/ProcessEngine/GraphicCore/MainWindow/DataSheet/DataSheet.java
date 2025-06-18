@@ -265,7 +265,7 @@ public class DataSheet {
 
 
         TableColumn<String[], String> creationDateColumn = new TableColumn<>(null);
-        creationDateColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[5]));
+        creationDateColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(GraphicRun.localizator.getDate(s.getValue()[5])));
         table.getColumns().add(creationDateColumn);
         creationDateColumn.setPrefWidth(135);
         creationDateColumn.setResizable(false);
@@ -361,7 +361,7 @@ public class DataSheet {
 
 
         TableColumn<String[], String> birthdayColumn = new TableColumn<>(null);
-        birthdayColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[8].equals("null") ? null : s.getValue()[8]));
+        birthdayColumn.setCellValueFactory(s -> new ReadOnlyObjectWrapper<>(s.getValue()[8].equals("null") ? null : GraphicRun.localizator.getDate(s.getValue()[8])));
         table.getColumns().add(birthdayColumn);
         birthdayColumn.setPrefWidth(135);
         birthdayColumn.setResizable(false);

@@ -25,8 +25,8 @@ public class Localizator {
     }
 
     public String getDate(String value) {
-        if (value == null) {
-            return null;
+        if (value == null || value.trim().equals("null")) {
+            return "null";
         }
         LocalDateTime date = LocalDateTime.parse(value.replace("T", " "), formatter);
         DateTimeFormatter formatter1 = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL).withLocale(bundle.getLocale());
