@@ -5,6 +5,7 @@ import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.BoxFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.ButtonFactory;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFactory;
+import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.InfoColumnPopUpWindow.InfoColumnPopUpWindow;
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.ColumnSortFlag;
@@ -505,6 +506,9 @@ public class DataSheet {
                                     menu.setX(event.getScreenX());
                                     menu.setY(event.getScreenY());
                                     menu.show(stage);
+                                } else {
+                                    Stage subStage = InfoColumnPopUpWindow.InfoWindow(row.getItem());
+                                    subStage.show();
                                 }
                             }
                     );

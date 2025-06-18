@@ -9,12 +9,12 @@ import javafx.scene.paint.Color;
 
 public class BoxFactory {
 
-    public static HBox getBoxWithButtons(Button... buttons) {
+    public static HBox getBoxWithNodes(Node... nodes) {
         HBox box = new HBox();
         box.setSpacing(17);
         box.setAlignment(Pos.CENTER);
 
-        box.getChildren().addAll(buttons);
+        box.getChildren().addAll(nodes);
 
         return box;
     }
@@ -30,11 +30,12 @@ public class BoxFactory {
         return box;
     }
 
-    public static VBox getTextBox() {
+    public static VBox getTextBox(Node... es) {
         VBox textBox = new VBox();
-        textBox.setSpacing(12);
+        textBox.setSpacing(10);
         textBox.setAlignment(Pos.CENTER);
         textBox.setPadding(new Insets(15.0, 10.0, 15.0, 10.0));
+        textBox.getChildren().addAll(es);
 
         return textBox;
     }
