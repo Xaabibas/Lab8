@@ -8,6 +8,19 @@ import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.Factories.LabelFac
 import ProcessEngine.GraphicCore.MainWindow.AdditionalWindows.UpdatePopUpWindow.UpdatePopUpWindow;
 import ProcessEngine.ProcessCore.networkModule.NetworkManager;
 import ProcessEngine.GraphicCore.MainWindow.DataSheet.SorteByColumn.ColumnSortFlag;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnKeyFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnIdFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnNameFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnXFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnYFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnCreationDateFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnPriceFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnTypeFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnBirthdayFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnEyeFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnHairFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.ColumnCountryFilterAction;
+import ProcessEngine.GraphicCore.MainWindow.DataSheet.FilterByColumn.FilterActualCollectionElements;
 import moduls.Country;
 import moduls.EyeColor;
 import moduls.HairColor;
@@ -27,6 +40,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import java.util.TreeSet;
 
 public class DataSheet {
 
@@ -61,6 +75,19 @@ public class DataSheet {
     public static Button headerHairButton = new Button("⇅");
     public static Button headerCountryButton = new Button("⇅");
 
+    public static final TreeSet<String> filteredKeyElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredIdElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredNameElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredXElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredYElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredCreationDateElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredPriceElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredTypeElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredBirthdayElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredEyeElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredHairElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> filteredCountryElementsSet = new TreeSet<String>();
+
 
     public DataSheet(DataRun dataRun, NetworkManager networkManager, String login, String password) {
         this.dataRun = dataRun;
@@ -70,7 +97,7 @@ public class DataSheet {
     }
 
     public StackPane getDataSheet(Stage stage) {
-        ObservableList<String[]> tickets = FXCollections.observableArrayList(dataRun.getCollectionData());
+        ObservableList<String[]> tickets = FXCollections.observableArrayList(FilterActualCollectionElements.filterActualCollectionElements(dataRun.getCollectionData()));
         TableView<String[]> table = new TableView<>();
         table.setItems(tickets);
 
@@ -101,6 +128,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerKeyFilterButton = new Button("🔍");
+        headerKeyFilterButton.setOnAction(event -> {
+            ColumnKeyFilterAction.columnKeyFilterAction(headerKeyFilterButton, dataRun);
+        });
         headerKeyBox.getChildren().addAll(keyLabel, headerKeyButton, headerKeyFilterButton);
         keyColumn.setGraphic(headerKeyBox);
 
@@ -130,6 +160,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerIdFilterButton = new Button("🔍");
+        headerIdFilterButton.setOnAction(event -> {
+            ColumnIdFilterAction.columnIdFilterAction(headerIdFilterButton, dataRun);
+        });
         headerIdBox.getChildren().addAll(idLabel, headerIdButton, headerIdFilterButton);
         idColumn.setGraphic(headerIdBox);
 
@@ -159,6 +192,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerNameFilterButton = new Button("🔍");
+        headerNameFilterButton.setOnAction(event -> {
+            ColumnNameFilterAction.columnNameFilterAction(headerNameFilterButton, dataRun);
+        });
         headerNameBox.getChildren().addAll(nameLabel, headerNameButton, headerNameFilterButton);
         nameColumn.setGraphic(headerNameBox);
 
@@ -188,6 +224,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerXFilterButton = new Button("🔍");
+        headerXFilterButton.setOnAction(event -> {
+            ColumnXFilterAction.columnXFilterAction(headerXFilterButton, dataRun);
+        });
         headerXBox.getChildren().addAll(xLabel, headerXButton, headerXFilterButton);
         xColumn.setGraphic(headerXBox);
 
@@ -217,6 +256,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerYFilterButton = new Button("🔍");
+        headerYFilterButton.setOnAction(event -> {
+            ColumnYFilterAction.columnYFilterAction(headerYFilterButton, dataRun);
+        });
         headerYBox.getChildren().addAll(yLabel, headerYButton, headerYFilterButton);
         yColumn.setGraphic(headerYBox);
 
@@ -246,6 +288,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerCreationDateFilterButton = new Button("🔍");
+        headerCreationDateFilterButton.setOnAction(event -> {
+            ColumnCreationDateFilterAction.columnCreationDateFilterAction(headerCreationDateFilterButton, dataRun);
+        });
         headerCreationDateBox.getChildren().addAll(creationDateLabel, headerCreationDateButton, headerCreationDateFilterButton);
         creationDateColumn.setGraphic(headerCreationDateBox);
 
@@ -275,6 +320,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerPriceFilterButton = new Button("🔍");
+        headerPriceFilterButton.setOnAction(event -> {
+            ColumnPriceFilterAction.columnPriceFilterAction(headerPriceFilterButton, dataRun);
+        });
         headerPriceBox.getChildren().addAll(priceLabel, headerPriceButton, headerPriceFilterButton);
         priceColumn.setGraphic(headerPriceBox);
 
@@ -304,6 +352,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerTypeFilterButton = new Button("🔍");
+        headerTypeFilterButton.setOnAction(event -> {
+            ColumnTypeFilterAction.columnTypeFilterAction(headerTypeFilterButton, dataRun);
+        });
         headerTypeBox.getChildren().addAll(typeLabel, headerTypeButton, headerTypeFilterButton);
         typeColumn.setGraphic(headerTypeBox);
 
@@ -333,6 +384,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerBirthdayFilterButton = new Button("🔍");
+        headerBirthdayFilterButton.setOnAction(event -> {
+            ColumnBirthdayFilterAction.columnBirthdayFilterAction(headerBirthdayFilterButton, dataRun);
+        });
         headerBirthdayBox.getChildren().addAll(birthdayLabel, headerBirthdayButton, headerBirthdayFilterButton);
         birthdayColumn.setGraphic(headerBirthdayBox);
 
@@ -362,6 +416,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerEyeFilterButton = new Button("🔍");
+        headerEyeFilterButton.setOnAction(event -> {
+            ColumnEyeFilterAction.columnEyeFilterAction(headerEyeFilterButton, dataRun);
+        });
         headerEyeBox.getChildren().addAll(eyeLabel, headerEyeButton, headerEyeFilterButton);
         eyeColumn.setGraphic(headerEyeBox);
 
@@ -391,6 +448,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerHairFilterButton = new Button("🔍");
+        headerHairFilterButton.setOnAction(event -> {
+            ColumnHairFilterAction.columnHairFilterAction(headerHairFilterButton, dataRun);
+        });
         headerHairBox.getChildren().addAll(hairLabel, headerHairButton, headerHairFilterButton);
         hairColumn.setGraphic(headerHairBox);
 
@@ -420,6 +480,9 @@ public class DataSheet {
                 headerCountryButton
         ));
         Button headerCountryFilterButton = new Button("🔍");
+        headerCountryFilterButton.setOnAction(event -> {
+            ColumnCountryFilterAction.columnCountryFilterAction(headerCountryFilterButton, dataRun);
+        });
         headerCountryBox.getChildren().addAll(countryLabel, headerCountryButton, headerCountryFilterButton);
         countryColumn.setGraphic(headerCountryBox);
 
@@ -457,7 +520,7 @@ public class DataSheet {
             @Override
             protected Void call() throws Exception {
                 while (!isCancelled()) {
-                    ObservableList<String[]> tickets = FXCollections.observableArrayList(dataRun.getCollectionData());
+                    ObservableList<String[]> tickets = FXCollections.observableArrayList(FilterActualCollectionElements.filterActualCollectionElements(dataRun.getCollectionData()));
                     Platform.runLater(() -> table.setItems(tickets));
                     Thread.sleep(50);
                 }

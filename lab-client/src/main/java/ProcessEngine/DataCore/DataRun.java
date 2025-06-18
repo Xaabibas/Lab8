@@ -10,11 +10,25 @@ import network.Request;
 
 import java.util.Arrays;
 import java.util.Vector;
+import java.util.TreeSet;
 
 public class DataRun {
 
     protected NetworkManager networkManager;
     private final Vector<String[]> collectionVectorData = new Vector<>();
+
+    public static final TreeSet<String> uniqueKeyElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueIdElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueNameElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueXElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueYElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueCreationDateElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniquePriceElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueTypeElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueBirthdayElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueEyeElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueHairElementsSet = new TreeSet<String>();
+    public static final TreeSet<String> uniqueCountryElementsSet = new TreeSet<String>();
 
     private final ReentrantReadWriteLock readWriteLock = new ReentrantReadWriteLock();
     private final Lock readLock = readWriteLock.readLock();
@@ -129,6 +143,7 @@ public class DataRun {
                         collectionVectorData.addAll(collectionDataRun(login, password));
                     }
                 } finally {
+                    updateUniqueElementsSet();
                     writeLock.unlock();
                 }
 
@@ -160,6 +175,36 @@ public class DataRun {
             return collectionVectorData;
         } finally {
             readLock.unlock();
+        }
+    }
+
+    public void updateUniqueElementsSet() {
+        uniqueKeyElementsSet.clear();
+        uniqueIdElementsSet.clear();
+        uniqueNameElementsSet.clear();
+        uniqueXElementsSet.clear();
+        uniqueYElementsSet.clear();
+        uniqueCreationDateElementsSet.clear();
+        uniquePriceElementsSet.clear();
+        uniqueTypeElementsSet.clear();
+        uniqueBirthdayElementsSet.clear();
+        uniqueEyeElementsSet.clear();
+        uniqueHairElementsSet.clear();
+        uniqueCountryElementsSet.clear();
+
+        for (String[] element : collectionVectorData) {
+            uniqueKeyElementsSet.add(element[0]);
+            uniqueIdElementsSet.add(element[1]);
+            uniqueNameElementsSet.add(element[2]);
+            uniqueXElementsSet.add(element[3]);
+            uniqueYElementsSet.add(element[4]);
+            uniqueCreationDateElementsSet.add(element[5]);
+            uniquePriceElementsSet.add(element[6]);
+            uniqueTypeElementsSet.add(element[7]);
+            uniqueBirthdayElementsSet.add(element[8]);
+            uniqueEyeElementsSet.add(element[9]);
+            uniqueHairElementsSet.add(element[10]);
+            uniqueCountryElementsSet.add(element[11]);
         }
     }
 
