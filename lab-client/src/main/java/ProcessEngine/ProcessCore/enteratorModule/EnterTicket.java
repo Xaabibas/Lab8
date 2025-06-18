@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class EnterTicket implements ComplexEnterator<Ticket> {
     public Ticket enter(Scanner scanner) {
-        Ticket ticket = new Ticket();
+        Ticket ticket = new Ticket(scanner.nextLine());
         ticket.setName(new EnterName().enter(scanner, new NameValidator()));
         ticket.setCoordinates(new EnterCoordinates().enter(scanner));
         ticket.setPrice(new EnterPrice().enter(scanner, new PriceValidator()));

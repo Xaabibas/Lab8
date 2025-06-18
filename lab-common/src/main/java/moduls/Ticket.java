@@ -13,9 +13,11 @@ public class Ticket implements Comparable<Ticket>, Serializable {
     private float price;
     private TicketType type;
     private Person person;
+    private final String creator;
     
-    public Ticket() {
+    public Ticket(String creator) {
         this.creationDate = LocalDateTime.now();
+        this.creator = creator;
     }
 
     
@@ -33,7 +35,10 @@ public class Ticket implements Comparable<Ticket>, Serializable {
         return price;
     }
 
-    
+    public String getCreator() {
+        return creator;
+    }
+
     public void setPrice(float price) {
         this.price = price;
     }
@@ -104,7 +109,7 @@ public class Ticket implements Comparable<Ticket>, Serializable {
     
     @Override
     public String toString() {
-        return "Ticket{" + "id=" + id + ", name='" + name + '\'' + ", coordinates=" + coordinates.toString() + ", creationDate=" + creationDate.toString() + ", price=" + price + ", type=" + type + ", person=" + person + '}';
+        return id + ", " + name + ", " + coordinates.toString() + ", " + creationDate.toString() + ", " + price + ", " + type + ", " + person.toString() + ", " + creator;
     }
 
     

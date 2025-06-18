@@ -55,7 +55,7 @@ public class DataBaseManager {
             while (result.next()) {
                 DateTimeFormatter formatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd HH:mm:ss")
                         .appendPattern("[.SSSSSSSSS][.SSSSSSS][.SSSSSS][.SSSSS][.SSS][.SS][.S]").toFormatter();
-                Ticket ticket = new Ticket();
+                Ticket ticket = new Ticket(result.getString("client"));
                 ticket.setName(result.getString("name"));
                 ticket.setId(result.getLong("id"));
                 ticket.setCoordinates(new Coordinates(result.getFloat("x"), result.getLong("y")));
@@ -262,6 +262,25 @@ public class DataBaseManager {
                 }
             }
             return false;
+        }
+    }
+
+    public HashMap<Long, String> selectAll() {
+        try (Connection connection = connect()) {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT key, client FROM tickets"
+            );
+            ResultSet set = statement.executeQuery();
+            HashMap<Long, String> result = new HashMap<>();
+
+            while (set.next()) {
+                result.put(
+                        set.getLong("key"), set.getString("client")
+                );
+            }
+            return  result;
+        } catch (SQLException ignored) {
+            return new HashMap<>();
         }
     }
 }

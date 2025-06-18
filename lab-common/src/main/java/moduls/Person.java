@@ -73,6 +73,6 @@ public class Person implements Serializable {
 
     @Override
     public String toString() {
-        return "Person{" + "birthday=" + birthday + ", eyeColor=" + eyeColor + ", hairColor=" + hairColor + ", nationality=" + nationality + '}';
+        return birthday + ", " + eyeColor + ", " + hairColor + ", " + nationality;
     }
 }

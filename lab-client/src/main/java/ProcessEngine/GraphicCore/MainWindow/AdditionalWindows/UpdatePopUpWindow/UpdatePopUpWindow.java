@@ -135,7 +135,7 @@ public class UpdatePopUpWindow {
                         EyeColor eye = eyeField.getText().isEmpty() ? null : EyeColor.valueOf(eyeField.getText());
                         HairColor hair = hairField.getText().isEmpty() ? null : HairColor.valueOf(hairField.getText());
 
-                        Ticket ticket = new Ticket();
+                        Ticket ticket = new Ticket(login);
                         ticket.setName(name);
                         ticket.setCoordinates(coord);
                         ticket.setType(type);
