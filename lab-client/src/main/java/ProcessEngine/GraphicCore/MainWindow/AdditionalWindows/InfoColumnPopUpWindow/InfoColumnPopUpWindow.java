@@ -11,7 +11,7 @@ public class InfoColumnPopUpWindow {
     public static Stage InfoWindow(String[] value) {
         VBox box = BoxFactory.getPopUpBox();
         box.getChildren().addAll(
-                LabelFactory.getMainLabel("info"),
+                LabelFactory.getMainLabel(GraphicRun.localizator.getString("info")),
                 BoxFactory.getBoxWithNodes(
                         BoxFactory.getTextBox(
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("key") + ": "),
@@ -19,14 +19,14 @@ public class InfoColumnPopUpWindow {
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("name") + ": "),
                                 LabelFactory.getUsualLabel("y: "),
                                 LabelFactory.getUsualLabel("x: "),
-                                LabelFactory.getUsualLabel("creation: "),
+                                LabelFactory.getUsualLabel(GraphicRun.localizator.getString("creation date") + ": "),
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("price") + ": "),
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("type") + ": "),
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("birthday") + ": "),
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("eye color") + ": "),
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("hair color") + ": "),
                                 LabelFactory.getUsualLabel(GraphicRun.localizator.getString("country") + ": "),
-                                LabelFactory.getUsualLabel("owner")
+                                LabelFactory.getUsualLabel(GraphicRun.localizator.getString("owner") + ": ")
                                 ),
                         BoxFactory.getTextBox(
                                 LabelFactory.getAdditionalLabel(value[0]),
@@ -34,7 +34,7 @@ public class InfoColumnPopUpWindow {
                                 LabelFactory.getAdditionalLabel(value[2]),
                                 LabelFactory.getAdditionalLabel(value[3]),
                                 LabelFactory.getAdditionalLabel(value[4]),
-                                LabelFactory.getAdditionalLabel(value[5]),
+                                LabelFactory.getAdditionalLabel(GraphicRun.localizator.getDate(value[5])),
                                 LabelFactory.getAdditionalLabel(value[6]),
                                 LabelFactory.getAdditionalLabel(value[7]),
                                 LabelFactory.getAdditionalLabel(value[8]),
