@@ -17,8 +17,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import moduls.Coordinates;
-import moduls.Ticket;
 import network.Request;
 
 import java.util.Arrays;
@@ -28,10 +26,12 @@ public class VisualizationArea {
     protected DataRun dataRun;
     private final ScrollPane scrollPane;
     private final Pane root;
-    private final int width = 10_000;
+    private final int width = 1000;
     private final NetworkManager networkManager;
     private final String login;
     private final String password;
+    private final float a = 21341;
+    private final float b = 5454;
 
 
     public VisualizationArea(DataRun dataRun, NetworkManager networkManager, String login, String password) {
@@ -61,7 +61,7 @@ public class VisualizationArea {
             if (i[12].equals(login)) {
                 circle.setFill(Color.GREEN);
             } else {
-                circle.setFill(Color.RED);
+                circle.setFill(new Color(Math.abs(i[12].hashCode()) % a / a, 0.1, Math.abs(i[12].hashCode()) % b / b, 1));
             }
 
             ScaleTransition scale = new ScaleTransition(Duration.millis(3000), circle);
@@ -91,10 +91,11 @@ public class VisualizationArea {
             circle.setCenterX(x);
             circle.setCenterY(y);
             circle.setRadius(size);
-            if (login.equals(i[12])) {
+
+            if (i[12].equals(login)) {
                 circle.setFill(Color.GREEN);
             } else {
-                circle.setFill(Color.RED);
+                circle.setFill(new Color(Math.abs(i[12].hashCode()) % a / a, 0.1, Math.abs(i[12].hashCode()) % b / b, 1));
             }
 
             circle.setOnMouseClicked(
