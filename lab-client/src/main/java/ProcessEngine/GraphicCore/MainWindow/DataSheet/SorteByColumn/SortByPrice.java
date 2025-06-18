@@ -8,7 +8,7 @@ public class SortByPrice {
 
     public static Vector<String[]> sortByPriceAscendingOrder(Vector<String[]> arr) {
         arr = arr.stream()
-            .sorted((a, b) -> Float.compare(Float.parseFloat(a[6]), Float.parseFloat(b[6])))
+            .sorted((a, b) -> Double.compare(Double.parseDouble(a[6]), Double.parseDouble(b[6])))
             .collect(Collectors.toCollection(Vector::new));
         return arr;
     }

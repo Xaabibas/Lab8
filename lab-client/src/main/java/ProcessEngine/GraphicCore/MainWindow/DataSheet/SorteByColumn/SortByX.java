@@ -8,7 +8,7 @@ public class SortByX {
 
     public static Vector<String[]> sortByXAscendingOrder(Vector<String[]> arr) {
         arr = arr.stream()
-            .sorted((a, b) -> Float.compare(Float.parseFloat(a[3]), Float.parseFloat(b[3])))
+            .sorted((a, b) -> Double.compare(Double.parseDouble(a[3]), Double.parseDouble(b[3])))
             .collect(Collectors.toCollection(Vector::new));
         return arr;
     }
