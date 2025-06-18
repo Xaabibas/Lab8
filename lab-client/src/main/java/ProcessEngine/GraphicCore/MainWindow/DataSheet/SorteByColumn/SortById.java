@@ -8,7 +8,7 @@ public class SortById {
 
     public static Vector<String[]> sortByIdAscendingOrder(Vector<String[]> arr) {
         arr = arr.stream()
-            .sorted((a, b) -> Integer.compare(Integer.parseInt(a[1]), Integer.parseInt(b[1])))
+            .sorted((a, b) -> Long.compare(Long.parseLong(a[1]), Long.parseLong(b[1])))
             .collect(Collectors.toCollection(Vector::new));
         return arr;
     }

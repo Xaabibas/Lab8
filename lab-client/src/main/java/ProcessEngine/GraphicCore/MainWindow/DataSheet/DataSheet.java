@@ -532,9 +532,10 @@ public class DataSheet {
             }
         };
 
-        Thread newThread = new Thread(updateTask);
-        newThread.setDaemon(true);
-        newThread.start();
+        Thread thread = new Thread(updateTask);
+        thread.setDaemon(true);
+        thread.setPriority(10);
+        thread.start();
     }
 
     private MenuItem getUpdate(String[] i) {

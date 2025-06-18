@@ -278,6 +278,7 @@ public class VisualizationArea {
 
         Thread thread = new Thread(task);
         thread.setDaemon(true);
+        thread.setPriority(10);
         thread.start();
     }
 }

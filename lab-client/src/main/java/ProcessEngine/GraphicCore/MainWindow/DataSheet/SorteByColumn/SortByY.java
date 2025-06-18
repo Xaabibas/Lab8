@@ -8,7 +8,7 @@ public class SortByY {
 
     public static Vector<String[]> sortByYAscendingOrder(Vector<String[]> arr) {
         arr = arr.stream()
-            .sorted((a, b) -> Float.compare(Float.parseFloat(a[4]), Float.parseFloat(b[4])))
+            .sorted((a, b) -> Double.compare(Double.parseDouble(a[4]), Double.parseDouble(b[4])))
             .collect(Collectors.toCollection(Vector::new));
         return arr;
     }
