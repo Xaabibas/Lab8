@@ -1,5 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 
 public class NameValidator implements Validator {
@@ -12,6 +13,6 @@ public class NameValidator implements Validator {
     }
     @Override
     public String message() {
-        return "Значение поля не может быть null или пустой строкой";
+        return GraphicRun.localizator.getString("correct string");
     }
 }

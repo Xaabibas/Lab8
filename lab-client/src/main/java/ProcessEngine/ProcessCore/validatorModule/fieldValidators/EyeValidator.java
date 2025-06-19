@@ -1,5 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 import moduls.EyeColor;
 
@@ -24,9 +25,9 @@ public class EyeValidator implements Validator {
     @Override
     public String message() {
         StringBuilder message = new StringBuilder();
-        message.append("Корректные значения: ");
+        message.append(GraphicRun.localizator.getString("correct values"));
         Arrays.stream(EyeColor.values()).forEach(a -> message.append(a).append(" "));
-        message.append(". Может быть null");
+        message.append(GraphicRun.localizator.getString("can be null"));
         return message.toString();
     }
 }

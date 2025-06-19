@@ -1,5 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.ProcessCore.validatorModule.ValidationException;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 
@@ -21,6 +22,6 @@ public class XValidator implements Validator {
 
     @Override
     public String message() {
-        return "Значение поля должно быть числом типа Float, большее -626. Не может быть null";
+        return GraphicRun.localizator.getString("correct x") + GraphicRun.localizator.getString("can't be null");
     }
 }

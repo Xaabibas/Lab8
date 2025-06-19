@@ -1,5 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 
 public class YValidator implements Validator {
@@ -16,6 +17,6 @@ public class YValidator implements Validator {
 
     @Override
     public String message() {
-        return "Значение поля должно быть числом типа Long. Не может быть null";
+        return GraphicRun.localizator.getString("correct long") + GraphicRun.localizator.getString("can't be null");
     }
 }

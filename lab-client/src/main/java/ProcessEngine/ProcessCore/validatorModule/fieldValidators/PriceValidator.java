@@ -1,5 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.ProcessCore.validatorModule.ValidationException;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 
@@ -20,6 +21,6 @@ public class PriceValidator implements Validator {
     }
     @Override
     public String message() {
-        return "Значение поля должно быть положительное числом типа Float. Не может быть null";
+        return GraphicRun.localizator.getString("correct price") + GraphicRun.localizator.getString("can't be null");
     }
 }

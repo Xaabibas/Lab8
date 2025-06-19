@@ -1,5 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.ProcessCore.validatorModule.ValidationException;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 
@@ -44,6 +45,6 @@ public class DateValidator implements Validator {
 
     @Override
     public String message() {
-        return "Дата в формате year; month; day; hour; minute; second. Может быть null";
+        return GraphicRun.localizator.getString("correct date");
     }
 }

@@ -80,7 +80,17 @@ public class Resource_is extends ListResourceBundle {
                 {"russian", "Rússneska"},
                 {"island", "Íslenska"},
                 {"latish", "Lettneska"},
-                {"english", "Enska (Írland)"}
+                {"english", "Enska (Írland)"},
+
+                // Tooltips
+                {"correct values", "Rétt gildi: "},
+                {"can be null", "Má vera null"},
+                {"can't be null", "Má ekki vera null"},
+                {"correct date", "Dagsetning á formi year; month; day; hour; minute; second. Má vera null"},
+                {"correct long", "Gildið verður að vera tala af gerðinni Long. "},
+                {"correct string", "Gildið má ekki vera null eða tómt strengi"},
+                {"correct price", "Gildið verður að vera jákvæð tala af gerðinni Float. "},
+                {"correct x", "Gildið verður að vera tala af gerðinni Float, stærri en -626. "}
         };
     }
 }

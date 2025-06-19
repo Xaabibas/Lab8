@@ -80,7 +80,17 @@ public class Resource_ru extends ListResourceBundle {
                 {"russian", "Русский"},
                 {"island", "Исландский"},
                 {"latish", "Латышский"},
-                {"english", "Английский (Ирландия)"}
+                {"english", "Английский (Ирландия)"},
+
+                // Tooltips
+                {"correct values", "Корректные значения: "},
+                {"can be null", "Может быть null"},
+                {"can't be null", "Не может быть null"},
+                {"correct date", "Дата в формате year; month; day; hour; minute; second. Может быть null"},
+                {"correct long", "Значение поля должно быть числом типа Long. "},
+                {"correct string", "Значение поля не может быть null или пустой строкой"},
+                {"correct price", "Значение поля должно быть положительным числом типа Float. "},
+                {"correct x", "Значение поля должно быть числом типа Float, большее -626. "}
         };
     }
 }

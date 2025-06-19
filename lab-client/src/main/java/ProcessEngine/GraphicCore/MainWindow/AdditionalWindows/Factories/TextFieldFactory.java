@@ -14,8 +14,8 @@ public class TextFieldFactory {
         field.setPromptText(text);
         field.setPrefWidth(180);
         Tooltip tooltip = new Tooltip(validator.message());
-        tooltip.setFont(new Font(10));
-        tooltip.setShowDelay(new Duration(2));
+        tooltip.setFont(new Font(12));
+        tooltip.setShowDelay(new Duration(1000));
         field.setTooltip(tooltip);
 
         field.focusedProperty().addListener(
