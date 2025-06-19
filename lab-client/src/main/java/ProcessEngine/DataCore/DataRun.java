@@ -147,7 +147,7 @@ public class DataRun {
                     writeLock.unlock();
                 }
 
-                Thread.sleep(50);
+                Thread.sleep(100);
                 return null;
             }
         };
