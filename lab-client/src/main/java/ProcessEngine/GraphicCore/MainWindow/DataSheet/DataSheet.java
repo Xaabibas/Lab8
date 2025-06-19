@@ -33,7 +33,6 @@ import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -42,11 +41,15 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.TreeSet;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class DataSheet {
 
     protected DataRun dataRun;
     private static NetworkManager networkManager;
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private static String login;
     private static String password;
 
@@ -520,22 +523,12 @@ public class DataSheet {
     }
 
     protected void startAutoParallelUpdateDataSheet(TableView<String[]> table) {
-        Task<Void> updateTask = new Task<>() {
-            @Override
-            protected Void call() throws Exception {
-                while (!isCancelled()) {
-                    ObservableList<String[]> tickets = FXCollections.observableArrayList(FilterActualCollectionElements.filterActualCollectionElements(dataRun.getCollectionData()));
-                    Platform.runLater(() -> table.setItems(tickets));
-                    Thread.sleep(50);
-                }
-                return null;
-            }
-        };
-
-        Thread thread = new Thread(updateTask);
-        thread.setDaemon(true);
-        thread.setPriority(10);
-        thread.start();
+        scheduler.scheduleAtFixedRate(() -> {
+            ObservableList<String[]> tickets = FXCollections.observableArrayList(
+                FilterActualCollectionElements.filterActualCollectionElements(dataRun.getCollectionData())
+            );
+            Platform.runLater(() -> table.setItems(tickets));
+        }, 0, 100, TimeUnit.MILLISECONDS);
     }
 
     private MenuItem getUpdate(String[] i) {
