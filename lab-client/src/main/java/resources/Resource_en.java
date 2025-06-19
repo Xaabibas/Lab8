@@ -80,7 +80,17 @@ public class Resource_en extends ListResourceBundle {
                 {"russian", "Russian"},
                 {"island", "Icelandic"},
                 {"latish", "Latvian"},
-                {"english", "English (Ireland)"}
+                {"english", "English (Ireland)"},
+
+                // Tooltips
+                {"correct values", "Valid values: "},
+                {"can be null", "Can be null"},
+                {"can't be null", "Cannot be null"},
+                {"correct date", "Date in format year; month; day; hour; minute; second. Can be null"},
+                {"correct long", "The value must be a number of type Long. "},
+                {"correct string", "The value cannot be null or an empty string"},
+                {"correct price", "The value must be a positive number of type Float. "},
+                {"correct x", "The value must be a number of type Float, greater than -626. "}
         };
     }
 }

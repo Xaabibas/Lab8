@@ -80,7 +80,17 @@ public class Resource_lv extends ListResourceBundle {
                 {"russian", "Krievu"},
                 {"island", "Islandešu"},
                 {"latish", "Latviešu"},
-                {"english", "Angļu (Īrija)"}
+                {"english", "Angļu (Īrija)"},
+
+                // Tooltips
+                {"correct values", "Pareizās vērtības: "},
+                {"can be null", "Var būt null"},
+                {"can't be null", "Nedrīkst būt null"},
+                {"correct date", "Datums formātā year; month; day; hour; minute; second. Var būt null"},
+                {"correct long", "Vērtībai jābūt skaitlim ar tipu Long. "},
+                {"correct string", "Vērtība nedrīkst būt null vai tukša virkne"},
+                {"correct price", "Vērtībai jābūt pozitīvam skaitlim ar tipu Float. "},
+                {"correct x", "Vērtībai jābūt Float tipa skaitlim, lielākam par -626. "}
         };
     }
 }

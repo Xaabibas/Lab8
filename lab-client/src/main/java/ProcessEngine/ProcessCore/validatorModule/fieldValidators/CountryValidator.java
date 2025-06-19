@@ -1,5 +1,6 @@
 package ProcessEngine.ProcessCore.validatorModule.fieldValidators;
 
+import ProcessEngine.GraphicCore.GraphicRun;
 import ProcessEngine.ProcessCore.validatorModule.Validator;
 import moduls.Country;
 
@@ -23,9 +24,9 @@ public class CountryValidator implements Validator {
     @Override
     public String message() {
         StringBuilder message = new StringBuilder();
-        message.append("Корректные значения: ");
+        message.append(GraphicRun.localizator.getString("correct values"));
         Arrays.stream(Country.values()).forEach(a -> message.append(a.toString()).append(" "));
-        message.append(". Может быть null");
+        message.append(GraphicRun.localizator.getString("can be null"));
         return message.toString();
     }
 }
